@@ -877,6 +877,14 @@ function displayAchievementIcons() {
     const a = achievements[i];
     let div = document.createElement("div");
     div.classList.add("achievement");
+
+    if (a.notified) {
+      console.log("test");
+      div.classList.add("achievement-border");
+    } else {
+      div.classList.remove("achievement-border");
+    }
+
     div.innerHTML = `
       <span>${a.value >= a.levels[0].n || i === 0 && refactorLevel > 0 ? a.description : "?"}</span>
     `;
@@ -901,6 +909,7 @@ function increaseAchievement(i,n) {
     if (!l.unlocked && a.value >= l.n) {
       l.unlocked = true;
       l.func();
+      a.notified = true;
       a.step = Math.max(a.step,i+1);
     }
   }
@@ -912,6 +921,7 @@ function openAchievement(n) {
   achievementsPanel = n;
   achievementsContainer.style.display = "block";
   const a = achievements[n];
+  a.notified = false;
   const prevN = a.levels[a.step - 1] ? a.levels[a.step - 1].n : 0;
   const nOrMaxLevel = (a.levels[a.step] ? a.levels[a.step].n : a.maxLevel);
   const progress = Math.round(((a.step - 1) + (a.value - prevN) / (nOrMaxLevel - prevN)) / (a.levels.length - 1) * 100); // Math.round((a.step + (a.value - prevN) / (nOrMaxLevel - prevN)) / a.levels.length * 100)
@@ -1711,7 +1721,7 @@ function updateBuilding(e, i) {
   var b = buildata[i];
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   e.innerHTML = `
-    <button `+ ((b.hasbuilder!=-1) ? 'style="border: 4px solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
+    <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">` + b.name + ` (`+ b.built +` / `+ b.bought +`)</p>
     <div class="build-info-wrapper" onmouseenter="showToolTip(${i},0);" onmouseleave="hideToolTip();">?</div>
     <br>
@@ -1779,7 +1789,7 @@ function updateAllBuilders() {
     let b = builderData[i];
     let maxedOut = b.ownershipData.level - 1 === b.upgradesCurve.length;
     n.innerHTML = `
-      <p style="border-bottom: 4px solid ${b.color}; grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name} (${maxedOut ? `Max lvl` : `lvl ${b.ownershipData.level}`} / `+ round(b.cps + b.bonus, 0) +`cps)</p>
+      <p style="border-bottom: var(--border-width) solid ${b.color}; grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name} (${maxedOut ? `Max lvl` : `lvl ${b.ownershipData.level}`} / `+ round(b.cps + b.bonus, 0) +`cps)</p>
       <br>
       <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"></button>
       <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">×</button>

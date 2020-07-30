@@ -10,6 +10,7 @@
   --col-invalid: grey;
   --big-border-radius: 5px;
   --smol-border-radius: 5px;
+  --border-width: 5px;
   --font-family: "Courier Prime", monospace; /*  */ 
   --font-size-smol: 20px;
   --font-size-medium: 32px;
@@ -485,6 +486,12 @@ h1 {
   font-size: var(--font-size-smol);
 }
 
+.achievement-border {
+  border: var(--border-width) solid var(--col-progress);
+  width: calc(100px - var(--border-width) * 2);
+  height: calc(100px - var(--border-width) * 2);
+}
+
 #settings-container {
   display: none;
   position: absolute;
@@ -708,7 +715,7 @@ li {
 }
 
 .selected-option {
-  border: 5px solid black;
+  border: var(--border-width) solid black;
 }
 
 .check {
@@ -733,7 +740,7 @@ li {
 }
 
 .unlocked-permanent {
-  border: 5px solid black;
+  border: var(--border-width) solid black;
   right: 12px;
 }
 
