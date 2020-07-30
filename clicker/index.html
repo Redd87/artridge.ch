@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Clicker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Courier+Prime&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="header">
+        <div style="text-align: right; grid-area: btn; margin: 0; padding: 0;"><button onmousedown="increaseDeck();" class="hover-btn" id="setNumPurchases">Buy 1</button></div>
+        <h1 id="money" data-color="red"></h1>
+        <h3 id="mps"></h3>
+      </div>
+
+      <button onmousedown="openSettings();" id="settings" onmouseenter="showToolTip('Settings', 2);" onmouseleave="hideToolTip();">
+        <abbr>
+          <i class="fas fa-cog"></i>
+        </abbr>
+      </button>
+
+      <button onmousedown="openStats();" id="stats" onmouseenter="showToolTip('Stats', 2);" onmouseleave="hideToolTip();">
+        <abbr>
+          <i class="fas fa-list"></i> <!-- fa-chart-bar -->
+        </abbr>
+      </button>
+
+      <h1 id="bulidings-t" class="panel-title">Buildings</h1>
+      <div id="purchases-wrapper">
+        <div id="purchases"></div>
+      </div>
+
+      <h1 id="builders-t" class="panel-title">Robots</h1>
+      <div id="builders">
+        
+      </div>
+
+      <h1 id="achievements-t" class="panel-title">Mastery</h1>
+      <div id="achievements-wrapper">
+        <div id="achievements-container">
+
+        </div>
+      </div>
+    </div>
+
+    <div onmousedown="closeSettings();" id="settings-background"></div>
+    <div id="settings-container">
+      <h1>Settings</h1>
+      <input class="setting" type="checkbox" checked onchange="window.smoothMoneyIncome = !window.smoothMoneyIncome"><span>Smooth money income (may impact precision)</span><br>
+      <input class="setting" type="checkbox" checked onchange="window.shortenedValues = !window.shortenedValues; updateAllBuildings(); updateAllBuilders();"><span>Shortened number values</span><br>
+      <input class="setting" type="checkbox" onchange="window.combineMpsDisplay = !window.combineMpsDisplay;"><span>Combine MPS with multiplier</span><br><br>
+      <span class="setting">Purchase number deck: </span><input id="deckInput" onchange="updateBuyDeck(this)" type="text"><br><br>
+      <button class="setting hover-btn" onclick="saveGame();">Save Game</button>
+      <button class="setting hover-btn" onclick="resetGameSave();" style="margin-left: 0;">Reset Game Save</button>
+    </div>
+
+    <div onmousedown="closeStats();" id="stats-background"></div>
+    <div id="stats-container">
+      <h1>Stats</h1>
+      <div id="stats-button">
+        <div id="stats-btn-background"></div>
+        <button class="stats-btn" onmousedown="setStatsPanel(0)">This refactor</button>
+        <button class="stats-btn" onmousedown="setStatsPanel(1)">All time</button>
+      </div>
+      <div id="stats-refactor">
+        <ul>
+          <li>Time spent: <span data-end="s" id="totalTime"></span></li>
+          <li>Money earned: <span data-end="$" id="earnedMoney"></span></li>
+          <li>Money spent: <span data-end="$" id="totalMoneySpent"></span></li>
+          <li>Buildings built: <span data-end="" id="totalBuildingsBuilt"></span></li>
+          <li>Player clicks: <span data-end="" id="totalPlayerBuildClicks"></span></li>
+          <li>Total clicks: <span data-end="" id="totalBuildClicks"></span></li>
+        </ul>
+      </div>
+      <div id="stats-all" style="display: none;">
+        <ul>
+          <li>Time spent: <span></span></li>
+          <li>Money earned: <span></span></li>
+          <li>Money spent: <span></span></li>
+          <li>Buildings built: <span></span></li>
+          <li>Player clicks: <span></span></li>
+          <li>Total clicks: <span></span></li>
+        </ul>
+      </div>
+      <p id="n-refactors">Number of refactors: 0</p>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <div id="refactor-prompt-background"></div>
+    <div id="refactor-prompt">
+      <h1>Congratulations!</h1><br>
+      <h3>You have been granted a 20% money per second bonus. <span></span></h3><br><br>
+      <div id="refactor-options"></div><br><br><br>
+      <button class="hover-btn" style="margin-bottom: 20px;" onmousedown="confirmRefactorPrompt();">CONFIRM</button>
+    </div>
+
+    <canvas width="100" height="100"></canvas>
+
+    <div id="refactor-confirm-background"></div>
+    <div id="refactor-confirm">
+      <h1>Are you sure you want to refactor?</h1>
+      <p>By refactoring, you will lose all current buildings, builders, money and non-permanent achievements, but will in exchange gain a 20% $/s bonus.</p>
+      <button class="hover-btn" onmousedown="closeRefactorConfirm();">CANCEL</button>
+      <button class="hover-btn" onmousedown="confirmRefactor(); closeRefactorConfirm();">CONFIRM</button>
+    </div>
+
+    <div id="loading">
+      <p>Loading...</p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-database.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAbUbveOjn6VMB1QaAZHIR2hYxFfEbQ2Qo",
+        authDomain: "artridge-website.firebaseapp.com",
+        databaseURL: "https://artridge-website.firebaseio.com",
+        projectId: "artridge-website",
+        storageBucket: "artridge-website.appspot.com",
+        messagingSenderId: "554359864126",
+        appId: "1:554359864126:web:56901925bba81278fb0a6f",
+        measurementId: "G-0KJBNGLJL4"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
+    <script src="simple-canvas.js"></script>
+    <script src="game-behavior.js"></script>
+    <script src="https://kit.fontawesome.com/cbebc4ac70.js" crossorigin="anonymous"></script>
+  </body>
+</html>

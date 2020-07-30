@@ -1,0 +1,157 @@
+:root {
+  --width: 75%;
+}
+
+@media only screen and (max-width: 750px) {
+  :root {
+    --width: 98%;
+  }
+  #auth-container {
+    display: block !important;
+  }
+  .auth-method {
+    width: 90% !important;
+  }
+}
+
+body, html {
+  margin: 0;
+  background-color: black;
+  color: white;
+  font-family: "Courier Prime", monospace;
+}
+
+input, button {
+  font-family: "Courier Prime", monospace;
+  border: none;
+  margin: 4px;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #4b5466;
+}
+
+input::placeholder {
+  color: #979696
+}
+
+button {
+  cursor: pointer;
+}
+
+#nav button:focus {
+  outline: none;
+}
+
+header {
+  margin-top: 30px;
+  text-align: center;
+}
+
+header img {
+  width: var(--width);
+  image-rendering: pixelated;
+}
+
+#nav {
+  width: var(--width);
+  margin: 20px auto;
+}
+
+#nav button {
+  width: calc(33% - 10px);
+  margin: 0 5px;
+  padding: 0;
+  border: none;
+  font-size: 32px;
+  background-color: white;
+  color: black;
+  vertical-align: top;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+#games {
+  border-bottom: 10px solid #FF004D !important;
+}
+
+#about {
+  border-bottom: 10px solid #00E436 !important;
+}
+
+#account {
+  border-bottom: 10px solid #29ADFF !important;
+}
+
+#nav button:active {
+  border-bottom: none !important;
+  margin-top: 10px;
+}
+
+.page {
+  width: calc(var(--width) - 40px);
+  margin: 20px auto 4px;
+  padding: 20px;
+  color: white;
+  border-radius: 5px;
+  background: #2f3541;
+}
+
+.game {
+  width: 100%;
+}
+
+.game img {
+  width: 65%;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.game a:hover img {
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#auth-container {
+  text-align: center;
+  display: flex;
+}
+
+.auth-method {
+  display: inline-block;
+  width: calc(50% - 45px);
+  border-radius: 5px;
+  margin: 10px;
+  background-color: #4b5466;
+  vertical-align: top;
+  padding: 10px;
+  text-align: center;
+  flex: 1;
+}
+
+.auth-method input {
+  width: 75%;
+  background-color: #2f3541;
+  margin: 10px;
+}
+
+.auth-method button {
+  width: calc(75% + 20px);
+  cursor: pointer;
+  background-color: #2f3541;
+  margin: 10px;
+}
+
+.error-message {
+  color: red;
+}

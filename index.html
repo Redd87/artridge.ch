@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artridge</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <img src="images/artridge_icon_slim.png" alt="Artridge Logo">
+        <div id="nav">
+          <!--<button id="games" onmousedown="app.tab = 0;" style="float: left;">{{tabNames[0]}}</button>
+          <button id="about" onmousedown="app.tab = 1;">{{tabNames[1]}}</button>
+          <button id="account" onmousedown="app.tab = 2;">{{tabNames[2]}}</button>-->
+
+
+          <button v-for="(g, i) in tabNames" v-on:mousedown="tab = i" v-bind:id="g.toLowerCase()">{{g}}</button>
+        </div>
+      </header>
+      <div id="content">
+        <div v-if="tab === 0" class="page">
+          <div class="game">
+            <h1><a href="https://artridge.itch.io/dodge" target="_blank">Dodge</a></h1>
+            <a href="https://artridge.itch.io/dodge" target="_blank"><img src="images/dodge.png" alt="Dodge"></a><br>
+            Dodge is a fast paced reflex game. Survive as long as possible by avoiding enemies, patterns, and boost your score using various powerups to obtain the highest highscore.
+            <br><br><hr>
+            <h1><a href="/clicker/" target="_blank">Clicker</a></h1>
+            <a href="/clicker/" target="_blank"><img src="https://via.placeholder.com/200x200" alt="Click"></a><br>
+            The clicker (not permanent name) is a game we are currently working on.
+          </div>
+        </div>
+        <div v-if="tab === 1" class="page">
+          <h1>About Artridge</h1>
+          We are two amateur game developers based in Zürich creating small indie games. Follow our journey on:
+          <ul>
+            <li><a href="https://twitter.com/artridgegames">Twitter</a></li>
+            <li><a href="https://instagram.com/artridgegames">Instagram</a></li>
+          </ul>
+          Or contact us for anything at:
+          <ul>
+            <li><a href="mailto:eddy.rashed@artridge.ch">eddy.rashed@artridge.ch</a> (game designer)</li>
+            <li><a href="mailto:oskar.zanota@artridge.ch">oskar.zanota@artridge.ch</a> (programmer)</li>
+          </ul>
+        </div>
+        <div v-if="tab === 2" class="page">
+          <h1>Account</h1>
+          <p>An Artridge account lets you save your progress in any Artridge game.</p>
+          <div v-if="!isSignedIn" id="auth-container">
+            
+            <div class="auth-method">
+              <h2>Log in</h2>
+              <input type="text" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
+              <input type="password" placeholder="Password"><br>
+              <button onclick="login(this.parentNode);">Log in</button>
+              <p class="error-message"></p>
+            </div>
+
+            <div class="auth-method">
+              <h2>Sign up</h2>
+              <input type="text" placeholder="Username">
+              <input type="text" placeholder="Email">
+              <input type="password" placeholder="Password"><br>
+              <button onclick="signup(this.parentNode);">Sign up</button>
+              <p class="error-message"></p>
+            </div>
+
+          </div>
+
+          <div v-if="isSignedIn">
+            <input type="text" v-bind:value="usr().displayName" placeholder="Username">
+            <button onclick="changeUsername(this);">Change username</button><br>
+            <label></label><br>
+            
+            <input type="password" placeholder="Password">
+            <button onclick="changePassword(this);">Change password</button><br>
+            <label></label><br><br>
+            
+            <button onclick="firebase.auth().signOut();" style="background-color: #FFA300;">Sign out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-database.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAbUbveOjn6VMB1QaAZHIR2hYxFfEbQ2Qo",
+        authDomain: "artridge-website.firebaseapp.com",
+        databaseURL: "https://artridge-website.firebaseio.com",
+        projectId: "artridge-website",
+        storageBucket: "artridge-website.appspot.com",
+        messagingSenderId: "554359864126",
+        appId: "1:554359864126:web:56901925bba81278fb0a6f",
+        measurementId: "G-0KJBNGLJL4"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+
+    <script src="app.js"></script>
+  </body>
+</html>
