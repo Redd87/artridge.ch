@@ -13,7 +13,7 @@
 
 let refactorLevel = 0;
 let refactorPrice = 1e9;
-let specialBuildings = [9];
+let specialBuildings = [9,10,11,12];
 let builderNames = [
   "Robot-Y01",
   "Robot-C02",
@@ -968,7 +968,7 @@ const stats = {
 
 const statsAllTime = JSON.parse(JSON.stringify(stats));
 
-let shortenedValues = true;
+var shortenedValues = true;
 
 const updatePoorPeople = () => {
   let buildBtns = document.querySelectorAll(".build-buttons");
@@ -1066,56 +1066,56 @@ function init(saveData) {
       cost: 500,
       mps: 4,
       clicks: 17,
-      mpc: 500*0.90
+      mpc:450
     },
     {
       name:"City",
       cost:3000,
       mps:25,
       clicks:26,
-      mpc:3000*0.90
+      mpc:2700
     },
     {
       name:"Region",
       cost:12000,
       mps:95,
       clicks:37,
-      mpc:12000*0.90
+      mpc:10800
     },
     {
       name:"Country",
       cost:84000,
       mps:600,
       clicks:50,
-      mpc:84000*0.90
+      mpc:75600
     },
     {
       name:"Continent",
       cost:420000,
       mps:2800,
       clicks:65,
-      mpc:420000*0.90
+      mpc:378000
     },
     {
       name:"Planet",
       cost:3400000,
       mps:19600,
       clicks:82,
-      mpc:3400000*0.90
+      mpc:3060000
     },
     {
       name:"Solar System",
       cost:20000000,
       mps:98000,
       clicks:101,
-      mpc:20000000*0.90
+      mpc:18000000
     },
     {
       name:"Galaxy",
       cost:180000000,
       mps:750000,
       clicks:122,
-      mpc:180000000*0.90
+      mpc:162000000
     },
     {
       name:"Universal Bank",
@@ -1177,7 +1177,7 @@ function init(saveData) {
     },
     {
       name:"Optimization Center",
-      cost: 50000,
+      cost: 50001,
       clicks: 10,
       mps: 0,
       mpc: 0,
@@ -1204,7 +1204,7 @@ function init(saveData) {
     },
     {
       name:"Delivery Infratructure",
-      cost: 50000,
+      cost: 50002,
       clicks: 100,
       mps: 0,
       mpc: 0,
@@ -1232,7 +1232,7 @@ function init(saveData) {
     },
     {
       name:"Intergalactical Tax Haven",
-      cost: 50000,
+      cost: 50003,
       clicks: 100,
       mps: 0,
       mpc: 0,
@@ -1269,6 +1269,7 @@ function init(saveData) {
     b.hasbuilder = -1;
     b.level = 1;
     b.mpc2 = b.mpc/b.clicks;
+    b.originalCost = b.cost;
   }
 
   if (s) window.buildata = JSON.parse(saveData.buildata);
@@ -1434,37 +1435,31 @@ function init(saveData) {
   purchaseContainer.innerHTML = "";
 
   let nSpecialBuildings = 0;
-  // specialBuildings
-  for (let i=9; i<buildata.length; i++) {
-    let b = buildata[i];
+  let firstBuilding;
 
-    if (!b.specialData) break;
-    if (b.specialData.locked) continue;
-
-    nSpecialBuildings++;
-
-    // display in container
-    let div = document.createElement("div");
-    div.setAttribute("class", "building");
-    div.setAttribute("data-index", i);
-    purchaseContainer.appendChild(div);
-    updateBuilding(div, i);
+  let buildataCopy = JSON.parse(JSON.stringify(buildata));
+  for (let i = 0; i < buildataCopy.length; i++) {
+    buildataCopy[i].index = i;
   }
+  buildataCopy.sort((a,b) => a.cost - b.cost);
+  console.log(buildataCopy);
 
-  // setup buildings
-  for (let i=0; i<buildata.length; i++) {
-    let b = buildata[i];
+  // specialBuildings
+  for (let i=0; i<buildataCopy.length; i++) {
+    const index = buildataCopy[i].index;
+    const b = buildata[index];
 
-    if (b.specialData) break;
-
-    b.originalCost = b.cost;
+    if (b.specialData?.locked) continue;
+    if (b.specialData) nSpecialBuildings++;
 
     // display in container
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.setAttribute("class", "building");
-    div.setAttribute("data-index", i);
+    div.setAttribute("data-index", index);
+    
     purchaseContainer.appendChild(div);
-    updateBuilding(div, i);
+
+    updateBuilding(div, index);
   }
 
   // refactor button
@@ -1478,7 +1473,7 @@ function init(saveData) {
   `;
   
   purchaseContainer.scroll(0,0);
-  purchaseContainer.scrollBy(0, 131 * nSpecialBuildings);
+  //purchaseContainer.scrollBy(0, 131 * nSpecialBuildings);
 
   document.onkeyup = (e) => {
     if (!isNaN(e.key)) {
@@ -2017,15 +2012,17 @@ function setStatsPanel(n) {
 }
 
 function refactor() {
-  let container = document.querySelector("#refactor-confirm");
-  let background = document.querySelector("#refactor-confirm-background");
-  container.style.display = "block";
-  background.style.display = "block";
+  if (money >= refactorPrice) {
+    let container = document.querySelector("#refactor-confirm");
+    let background = document.querySelector("#refactor-confirm-background");
+    container.style.display = "block";
+    background.style.display = "block";
 
-  window.setTimeout(function() {
-    container.style.transform = "translate(-50%, -50%) scale(1)"
-    background.style.opacity = "1";
-  }, 10);
+    window.setTimeout(function() {
+      container.style.transform = "translate(-50%, -50%) scale(1)"
+      background.style.opacity = "1";
+    }, 10);
+  }
 }
 
 function closeRefactorConfirm() {
@@ -2041,71 +2038,69 @@ function closeRefactorConfirm() {
 }
 
 function confirmRefactor() {
-  if (money >= refactorPrice) {
-    let refactorTime = stats.totalTime;
-    let times = [1440,45,30,20,15,10];
-    let underTime = -1;
+  let refactorTime = stats.totalTime;
+  let times = [1440,45,30,20,15,10];
+  let underTime = -1;
 
-    statsAllTime.totalMoneySpent += refactorPrice;
+  statsAllTime.totalMoneySpent += refactorPrice;
 
-    for (let i = 0; i < times.length; i++) {
-      if (refactorTime / 60 <= times[i]) {
-        underTime = times[i];
-      }
+  for (let i = 0; i < times.length; i++) {
+    if (refactorTime / 60 <= times[i]) {
+      underTime = times[i];
     }
-
-    let level = times.indexOf(underTime) + 1;
-
-    while (achievements[0].value < level) {
-      increaseAchievement(0);
-    }
-    
-    refactorLevel++;
-    refactorPrice += 2000000000;
-
-    // update nbr of refactors stat
-    document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`
-
-    // reset current refactor stats
-    let keys = Object.keys(stats);
-    for (let i=0; i<keys.length; i++) {
-      stats[keys[i]] = 0;
-    }
-
-    // Congratulations prompt
-    let container = document.querySelector("#refactor-prompt");
-    let background = document.querySelector("#refactor-prompt-background");
-    let options = document.querySelector("#refactor-options");
-
-    if (specialBuildings.length >= 4) {
-      container.querySelector("span").innerHTML = ""
-    } else {
-      container.querySelector("span").innerHTML = "You can now choose a special building to unlock:"
-    }
-
-    options.innerHTML = "";
-
-    for (let i = 0; i < buildata.length; i++) {
-      let b = buildata[i];
-      if (!b.specialData) continue;
-      if (!b.specialData.locked) continue;
-      options.innerHTML += `
-        <div class="refactor-prompt-option">
-          <button class="hover-btn" onmousedown="setRefactorOption(${i},this)"></button>
-          <br><br><b>${b.name}</b><br><br>${b.specialData.description}
-        </div>
-      `;
-    }
-
-    // open refactor prompt
-    container.style.display = "block";
-    background.style.display = "block";
-
-    window.setTimeout(function() {
-      container.style.transform = "translate(-50%, -50%) scale(1)"
-      background.style.opacity = "1";
-    }, 10);
   }
+
+  let level = times.indexOf(underTime) + 1;
+
+  while (achievements[0].value < level) {
+    increaseAchievement(0);
+  }
+  
+  refactorLevel++;
+  refactorPrice += 2000000000;
+
+  // update nbr of refactors stat
+  document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`
+
+  // reset current refactor stats
+  let keys = Object.keys(stats);
+  for (let i=0; i<keys.length; i++) {
+    stats[keys[i]] = 0;
+  }
+
+  // Congratulations prompt
+  let container = document.querySelector("#refactor-prompt");
+  let background = document.querySelector("#refactor-prompt-background");
+  let options = document.querySelector("#refactor-options");
+
+  if (specialBuildings.length >= 4) {
+    container.querySelector("span").innerHTML = ""
+  } else {
+    container.querySelector("span").innerHTML = "You can now choose a special building to unlock:"
+  }
+
+  options.innerHTML = "";
+
+  for (let i = 0; i < buildata.length; i++) {
+    let b = buildata[i];
+    if (!b.specialData) continue;
+    if (!b.specialData.locked) continue;
+    options.innerHTML += `
+      <div class="refactor-prompt-option">
+        <button class="hover-btn" onmousedown="setRefactorOption(${i},this)"></button>
+        <br><br><b>${b.name}</b><br><br>${b.specialData.description}
+      </div>
+    `;
+  }
+
+  // open refactor prompt
+  container.style.display = "block";
+  background.style.display = "block";
+
+  window.setTimeout(function() {
+    container.style.transform = "translate(-50%, -50%) scale(1)"
+    background.style.opacity = "1";
+  }, 10);
 }
 
 let refactorOption = -1;
