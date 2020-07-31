@@ -1177,7 +1177,7 @@ function init(saveData) {
     },
     {
       name:"Optimization Center",
-      cost: 50001,
+      cost: 50000,
       clicks: 10,
       mps: 0,
       mpc: 0,
@@ -1204,7 +1204,7 @@ function init(saveData) {
     },
     {
       name:"Delivery Infratructure",
-      cost: 50002,
+      cost: 50000,
       clicks: 100,
       mps: 0,
       mpc: 0,
@@ -1232,7 +1232,7 @@ function init(saveData) {
     },
     {
       name:"Intergalactical Tax Haven",
-      cost: 50003,
+      cost: 50000,
       clicks: 100,
       mps: 0,
       mpc: 0,
