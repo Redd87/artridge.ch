@@ -2294,14 +2294,18 @@ function explode(x,y) {
 const usr = () => firebase.auth().currentUser;
 
 firebase.auth().onAuthStateChanged(function(user) {
+  let accountSettings = document.querySelector("#account-settings");
+  let loginStatus = document.querySelector("#login-status")
   if (user) {
-    console.log("Logged in");
+    accountSettings.innerHTML = `<button class="hover-btn" onclick="resetGameSave();">Reset Game Save</button>`;
+    loginStatus.innerHTML = `You are logged in as <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">${usr().displayName}</a>`
 
     firebase.database().ref(`users/${user.uid}/game-data/clicker`).once("value", (snap) => {
       if (!window.started) init(snap.val());
     });
   } else {
-    console.log("Not logged in");
+    accountSettings.innerHTML = ``;
+    loginStatus.innerHTML = `Please sign up or log in on <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">artridge.ch</a> to save your progress.`;
     if (!window.started) init();
   }
 });
@@ -2310,7 +2314,6 @@ function resetGameSave() {
   if (usr()) {
     firebase.database().ref(`users/${usr().uid}/game-data/clicker`).remove()
     .then(() => {
-      alert("Game save successfully reset");
       window.location.reload();
     })
     .catch((e) => {
