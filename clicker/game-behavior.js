@@ -12,8 +12,8 @@
 \*/
 
 let refactorLevel = 0;
-let refactorPrice = 1e9;
-let specialBuildings = [9,10,11,12];
+let refactorPrice = 10e9;
+let specialBuildings = [9];
 let builderNames = [
   "Robot-Y01",
   "Robot-C02",
@@ -879,7 +879,6 @@ function displayAchievementIcons() {
     div.classList.add("achievement");
 
     if (a.notified) {
-      console.log("test");
       div.classList.add("achievement-border");
     } else {
       div.classList.remove("achievement-border");
@@ -909,7 +908,7 @@ function increaseAchievement(i,n) {
     if (!l.unlocked && a.value >= l.n) {
       l.unlocked = true;
       l.func();
-      a.notified = true;
+      if (i !== 0) a.notified = true;
       a.step = Math.max(a.step,i+1);
     }
   }
@@ -1024,6 +1023,28 @@ window.onload = () => {
 function init(saveData) {
   let s = !window.started && saveData;
   document.querySelector("#loading").style.opacity = "0";
+
+  if (saveData) {
+    window.corpName = saveData.corpName;
+    
+    document.querySelector("#name-prompt").style.display = "none";
+
+    document.querySelector("#header p").innerHTML = corpName;
+    document.querySelector("#name-setting").value = corpName;
+
+    window.nameConfirmed = true;
+
+  } else {
+    let adjectives = ["Universal", "Tyranical"];
+    let a = adjectives[Math.floor(Math.random() * adjectives.length)]
+    
+    let names = ["Corporation", "Factory"];
+    let n = names[Math.floor(Math.random() * names.length)]
+    
+    let input = document.querySelector("#name-prompt input");
+
+    input.value = `${usr()?.displayName || 'Guest'}'s ${a} ${n}`
+  }
 
   if (s) {
     achievements = JSON.parse(saveData.achievements);
@@ -1442,7 +1463,6 @@ function init(saveData) {
     buildataCopy[i].index = i;
   }
   buildataCopy.sort((a,b) => a.cost - b.cost);
-  console.log(buildataCopy);
 
   // specialBuildings
   for (let i=0; i<buildataCopy.length; i++) {
@@ -2286,11 +2306,46 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
-function saveGame() {
+function resetGameSave() {
   if (usr()) {
+    firebase.database().ref(`users/${usr().uid}/game-data/clicker`).remove()
+    .then(() => {
+      alert("Game save successfully reset");
+      window.location.reload();
+    })
+    .catch((e) => {
+      alert("An error occurred. Please try again.");
+      console.error(e);
+    });
+  }
+}
+
+function confirmName(name) {
+  window.corpName = name.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  document.querySelector("#header p").innerHTML = corpName;
+  document.querySelector("#name-setting").value = corpName;
+
+  let prompt = document.querySelector("#name-prompt");
+  prompt.style.opacity = "0";
+  window.setTimeout(() => {
+    prompt.style.display = "none";
+  },500);
+
+  window.nameConfirmed = true;
+}
+
+document.querySelector("#name-setting").addEventListener('keyup', e => {
+  window.corpName = e.srcElement.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  document.querySelector("#header p").innerHTML = corpName;
+});
+
+window.setInterval(() => {
+  if (usr() && window.nameConfirmed) {
     firebase.database().ref(`users/${usr().uid}/game-data/clicker`).set({
       money: money,
       mps: mps,
+      corpName: window.corpName,
       refactorLevel: refactorLevel,
       specialBuildings: specialBuildings,
       mpsMultiplier: mpsMultiplier,
@@ -2305,27 +2360,9 @@ function saveGame() {
         return v;
       })
     }).then(() => {
-      alert("Progress saved!");
-    })
-    .catch((e) => {
-      alert("An error occurred. Please try again.");
+      console.log("Saved Successfully");
+    }).catch(e => {
       console.error(e);
-    });
-  } else {
-    alert("Please log in or sign up on artridge.ch to save your progress.");
+    })
   }
-}
-
-function resetGameSave() {
-  if (usr()) {
-    firebase.database().ref(`users/${usr().uid}/game-data/clicker`).remove()
-      .then(() => {
-        alert("Game save successfully reset");
-        window.location.reload();
-      })
-      .catch((e) => {
-        alert("An error occurred. Please try again.");
-        console.error(e);
-      });
-  }
-}
+}, 2000);

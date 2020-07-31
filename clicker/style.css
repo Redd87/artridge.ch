@@ -103,13 +103,19 @@ body {
   border-radius: var(--big-border-radius);
   padding: 10px;
   display: grid;
-  grid-template-areas: "money money a btn  "
-                       "mps   mps   a d"
-                       "b     b     a d  ";
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 33% 33% 33%;
+  grid-template-areas: "money name btn"
+                       "mps   name d";
+  grid-template-columns: 1.5fr 2fr 1.5fr;
+  grid-template-rows: 33% 33%;
   /*grid-column-start: settings;
   grid-column-end: stats;*/
+}
+
+#header p {
+  grid-area: name;
+  text-align: center;
+  font-size: var(--font-size-medium);
+  font-weight: bold;
 }
 
 #money, #mps, #setNumPurchases {
@@ -517,6 +523,12 @@ h1 {
   font-family: var(--font-family);
 }
 
+input {
+  border-radius: var(--smol-border-radius);
+  border: none;
+  padding: 5px;
+}
+
 #settings-background {
   display: none;
   background-color: #00000077;
@@ -783,6 +795,7 @@ canvas {
   left: 0;
   background-color: var(--col-background);
   pointer-events: none;
+  z-index: 10;
   transition: all 0.5s;
 }
 
@@ -793,4 +806,42 @@ canvas {
   transform: translate(-50%, -50%);
   opacity: 1;
   color: var(--col-text-nobg);
+}
+
+#name-prompt {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: var(--col-background);
+  z-index: 9;
+  transition: opacity 0.5s;
+}
+
+#name-prompt div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#name-prompt h3 {
+  font-size: var(--font-size-big);
+  white-space: nowrap;
+}
+
+#name-prompt input {
+  border: none;
+  padding: 10px;
+  border-radius: var(--smol-border-radius);
+  font-size: var(--font-size-medium);
+  background-color: white;
+  font-family: var(--font-family);
+  width: calc(100% - 200px);
+}
+
+#name-prompt button {
+  font-size: var(--font-size-medium);
 }
