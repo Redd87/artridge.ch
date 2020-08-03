@@ -21,6 +21,14 @@ let app = new Vue({
         inputs[j].setAttribute("onkeyup", `if (event.key === "Enter") ${functions[i]}(this.parentNode);`);
       }
     }
+
+    (() => {
+      let images = document.querySelectorAll("img");
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+        img.setAttribute("draggable", "false");
+      }
+    })();
   }
 });
 

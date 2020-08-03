@@ -1,15 +1,14 @@
 "use strict";
 
-/*\
-|*| 
-|*| -~-~-~-~-~-~-~-~- CLICKER BY ARTRIDGE -~-~-~-~-~-~-~-~-
-|*| 
-|*| To do list:
-|*|   - game settings and game stats
-|*|   - mobile version
-|*|   - more achievements
-|*| 
-\*/
+/*\\*                                                     *//*\
+|*|                                                         |*|
+|*| -~-~-~-~-~-~-~-~- CLICKER BY ARTRIDGE -~-~-~-~-~-~-~-~- |*|
+|*|                                                         |*|
+|*| Game Designer: Eddy Rashed      eddy.rashed@artridge.ch |*|
+|*| Programmer: Oskar Zanota       oskar.zanota@artridge.ch |*|
+|*|                                                         |*|
+|*|                                                         |*|
+\*//*                                                     *\\*/
 
 let refactorLevel = 0;
 let refactorPrice = 10e9;
@@ -956,7 +955,7 @@ function closeAchievements() {
 
 displayAchievementIcons();
 
-const stats = {
+let stats = {
   totalTime: 0,
   earnedMoney: 0,
   totalMoneySpent: 0,
@@ -965,7 +964,7 @@ const stats = {
   totalBuildClicks: 0
 }
 
-const statsAllTime = JSON.parse(JSON.stringify(stats));
+let statsAllTime = JSON.parse(JSON.stringify(stats));
 
 var shortenedValues = true;
 
@@ -1034,6 +1033,8 @@ function init(saveData) {
 
     window.nameConfirmed = true;
 
+    stats = JSON.parse(saveData.stats);
+    statsAllTime = JSON.parse(saveData.statsAllTime);
   } else {
     let adjectives = ["Universal", "Tyranical"];
     let a = adjectives[Math.floor(Math.random() * adjectives.length)]
@@ -1291,6 +1292,7 @@ function init(saveData) {
     b.level = 1;
     b.mpc2 = b.mpc/b.clicks;
     b.originalCost = b.cost;
+    b.infoOpen = false;
   }
 
   if (s) window.buildata = JSON.parse(saveData.buildata);
@@ -1451,49 +1453,46 @@ function init(saveData) {
   document.getElementById("builders").innerHTML += `
     <button style="color: var(--col-invalid);" id="buyBuilder" class="hover-btn" onmousedown="buyBuilder();">Buy Robot - ${formatNumber(builderData[builderIndex].cost)}$</button>
   `
-
-  var purchaseContainer = document.getElementById("purchases");
-  purchaseContainer.innerHTML = "";
-
-  let nSpecialBuildings = 0;
-  let firstBuilding;
-
-  let buildataCopy = JSON.parse(JSON.stringify(buildata));
-  for (let i = 0; i < buildataCopy.length; i++) {
-    buildataCopy[i].index = i;
-  }
-  buildataCopy.sort((a,b) => a.cost - b.cost);
-
-  // specialBuildings
-  for (let i=0; i<buildataCopy.length; i++) {
-    const index = buildataCopy[i].index;
-    const b = buildata[index];
-
-    if (b.specialData?.locked) continue;
-    if (b.specialData) nSpecialBuildings++;
-
-    // display in container
-    const div = document.createElement("div");
-    div.setAttribute("class", "building");
-    div.setAttribute("data-index", index);
+  let purchaseContainer = document.getElementById("purchases");
+  window.resetBuildingsContainer = () => {
+    purchaseContainer.innerHTML = "";
     
-    purchaseContainer.appendChild(div);
+    let buildataCopy = JSON.parse(JSON.stringify(buildata));
+    for (let i = 0; i < buildataCopy.length; i++) {
+      buildataCopy[i].index = i;
+    }
+    buildataCopy.sort((a,b) => a.cost - b.cost);
 
-    updateBuilding(div, index);
+    // specialBuildings
+    for (let i=0; i<buildataCopy.length; i++) {
+      const index = buildataCopy[i].index;
+      const b = buildata[index];
+
+      if (b.specialData?.locked) continue;
+
+      // display in container
+      const div = document.createElement("div");
+      div.setAttribute("class", "building");
+      div.setAttribute("data-index", index);
+      
+      purchaseContainer.appendChild(div);
+
+      updateBuilding(div, index);
+    }
+
+    // refactor button
+    purchaseContainer.innerHTML += `
+      <div style="height: 60px;" id="refactor-container">
+        <button onmousedown="refactor();" class="action hover-btn" id="refactor">
+          <span class="text">Refactor</span>
+          <span class="data">${numberWithSpaces(refactorPrice)}$</span>
+        </button>
+      </div>
+    `;
   }
-
-  // refactor button
-  purchaseContainer.innerHTML += `
-    <div style="height: 60px;" id="refactor-container">
-      <button onmousedown="refactor();" class="action hover-btn" id="refactor">
-        <span class="text">Refactor</span>
-        <span class="data">${numberWithSpaces(refactorPrice)}$</span>
-      </button>
-    </div>
-  `;
+  resetBuildingsContainer();
   
   purchaseContainer.scroll(0,0);
-  //purchaseContainer.scrollBy(0, 131 * nSpecialBuildings);
 
   document.onkeyup = (e) => {
     if (!isNaN(e.key)) {
@@ -1688,8 +1687,9 @@ function buyBuilding(i, e) {
       if (newCost) {
         b.cost = newCost.cost;
       } else {
-        e.parentNode.setAttribute("data-disable-buy", "true");
+        b.specialData.disableBuy = true;
       }
+      resetBuildingsContainer();
     }
     updateBuilding(e.parentNode, i);
   }
@@ -1738,14 +1738,38 @@ function updateBuilding(e, i) {
   e.innerHTML = `
     <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">` + b.name + ` (`+ b.built +` / `+ b.bought +`)</p>
-    <div class="build-info-wrapper" onmouseenter="showToolTip(${i},0);" onmouseleave="hideToolTip();">?</div>
-    <br>
-    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${e.getAttribute("data-disable-buy") === "true" ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
-      Buy ${e.getAttribute("data-disable-buy") === "true" ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
+    <div class="build-info-button" onmousedown="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
+    <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
+      <table>
+        <tr>
+          <td>$/s: ${formatNumber(b.mps)}</td>
+          <td>$/click: ${formatNumber(round(b.mpc2,1))}</td>
+        </tr>
+        <tr>
+          <td>Clicks: ${formatNumber(b.clicks)}</td>
+          <td>Build profit: ${formatNumber(b.mpc)}</td>
+        </tr>
+      </table>
+    </div>
+    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${b.specialData?.disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
+      Buy ${b.specialData?.disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
     </button><br>
     <p class="build-perc-counter">`+ Math.round(b.current) +`%</p>
     <progress class="build-perc" value="`+ b.current / 100 +`"></progress>
   `;
+}
+
+function openBuildInfo(e, i) {
+  let wrapper = e.nextElementSibling;
+  let b = buildata[i];
+  b.infoOpen = !b.infoOpen;
+  if (b.infoOpen) {
+    e.innerHTML = "×";
+    wrapper.classList.add("open-build-info-wrapper");
+  } else {
+    e.innerHTML = "?";
+    wrapper.classList.remove("open-build-info-wrapper");
+  }
 }
 
 function updateAllBuildings() {
@@ -2148,6 +2172,7 @@ function confirmRefactorPrompt() {
       const a = achievements[i];
       a.value = 0;
       a.step = 0;
+      if (i !== 0) a.notified = false;
       for (let j = 0; j < a.levels.length; j++) {
         let l = a.levels[j];
 
@@ -2361,7 +2386,9 @@ window.setInterval(() => {
           return v.toString();
         }
         return v;
-      })
+      }),
+      stats: JSON.stringify(stats),
+      statsAllTime: JSON.stringify(statsAllTime)
     }).then(() => {
       console.log("Saved Successfully");
     }).catch(e => {
