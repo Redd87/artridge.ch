@@ -911,9 +911,11 @@ function increaseAchievement(i,n) {
       a.step = Math.max(a.step,i+1);
     }
   }
-
-  achievementsPanel === -1 ? closeAchievements() : openAchievement(achievementsPanel);
 }
+
+window.setInterval(() => {
+  achievementsPanel === -1 ? closeAchievements() : openAchievement(achievementsPanel);
+}, 1000);
 
 function openAchievement(n) {
   achievementsPanel = n;
@@ -1020,6 +1022,9 @@ window.onload = () => {
 
 /*** BIG INIT FUNCTION ***/
 function init(saveData) {
+
+  achievementsPanel = -1;
+
   let s = !window.started && saveData;
   document.querySelector("#loading").style.opacity = "0";
 
@@ -1562,7 +1567,7 @@ window.setInterval(function() {
         b.ownershipData.counter += 1;
         if (b.ownershipData.counter >= 100 / (b.cps + b.bonus)) {
           b.ownershipData.counter = 0;
-          increaseBuild(b.ownershipData.building, b.ownershipData.node.children[0], true);
+          increaseBuild(b.ownershipData.building, getBuildingNode(b.ownershipData.building).children[0], true);
         }
       } else {
         b.counter = 0;
@@ -1623,10 +1628,8 @@ function build(i, e) {
       if (b.ownershipData.building === -1) { // and the builder you are placing is not on another building
 
         other.ownershipData.building = -1; // remove other builder
-        other.ownershipData.node = undefined;
 
         b.ownershipData.building = i; // place new builder
-        b.ownershipData.node = e.parentNode;
         buildata[i].hasbuilder = currentPlacingBuilderIndex;
         currentPlacingBuilderIndex = -1;
         currentPlacingBuilderPlaceButton.classList.remove("pulse");
@@ -1635,11 +1638,9 @@ function build(i, e) {
       } else { // the building has a builder and the builder you are placing is on another building: swap
         if (other !== b) { // and it isn't the same one
           other.ownershipData.building = b.ownershipData.building;
-          other.ownershipData.node = b.ownershipData.node;
           buildata[other.ownershipData.building].hasbuilder = builderData.indexOf(other);
           
           b.ownershipData.building = i;
-          b.ownershipData.node = e.parentNode;
           buildata[i].hasbuilder = currentPlacingBuilderIndex;
           
           currentPlacingBuilderIndex = -1;
@@ -1653,14 +1654,13 @@ function build(i, e) {
       isPlacingBuilder = false;
       var b = builderData[currentPlacingBuilderIndex];
       var index = b.ownershipData.building;
-      var node = b.ownershipData.node;
+      var node = getBuildingNode(index);
       var hadBuilding = false;
       if (b.ownershipData.building != -1) {
         buildata[b.ownershipData.building].hasbuilder = -1; // remove on previous building
         hadBuilding = true;
       }
       b.ownershipData.building = i; // set builderdata building index to this building
-      b.ownershipData.node = e.parentNode; // set builderdata node to this building
       buildata[i].hasbuilder = currentPlacingBuilderIndex; // set buildingdata builder to this builder
       currentPlacingBuilderIndex = -1; // no builder is being placed
       currentPlacingBuilderPlaceButton.classList.remove("pulse"); // remove pulse animation from builder button
@@ -1805,7 +1805,8 @@ function showToolTip(i, type) {
       break;
   
     case 1:
-      tooltip.innerHTML = `${i[2] ? formatNumber(i[0]) : i[0]} / ${i[2] ? formatNumber(i[1]) : i[1]}`;
+      console.log("test");
+      tooltip.innerHTML = `${i[2] ? formatNumber(Math.round(i[0])) : i[0]} / ${i[2] ? formatNumber(i[1]) : i[1]}`;
       break;
 
     case 2:
@@ -1861,8 +1862,7 @@ function buyBuilder() {
       building: -1,
       name: builderNames[builderIndex],
       counter: 0,
-      level: 1,
-      node: undefined
+      level: 1
     }
 
     document.getElementById("builders-container").innerHTML += `
@@ -1878,6 +1878,17 @@ function buyBuilder() {
     `
     builderIndex += 1;
   }
+}
+
+function getBuildingNode(n) {
+  let buildings = document.querySelectorAll(".building");
+  for (let i = 0; i < buildings.length; i++) {
+    const b = buildings[i];
+    if (n === parseInt(b.getAttribute("data-index"))) {
+      return b;
+    }
+  }
+  return undefined;
 }
 
 // handle builder placement on buildings
@@ -1898,9 +1909,9 @@ function placeBuilder(i, e) {
 
 // remove builder from the building it is currently placed on
 function removeBuilder(i) {
-  if (builderData[i].ownershipData.building != -1) {
+  if (builderData[i].ownershipData.building !== -1) {
     buildata[builderData[i].ownershipData.building].hasbuilder = -1;
-    updateBuilding(builderData[i].ownershipData.node, builderData[i].ownershipData.building);
+    updateBuilding(getBuildingNode(builderData[i].ownershipData.building), builderData[i].ownershipData.building);
     builderData[i].ownershipData.building = -1;
   }
 }

@@ -435,6 +435,7 @@ button:focus {
   top: 0px;
   padding: 10px;
   border-radius: var(--smol-border-radius);
+  z-index: 5;
 }
 
 h3 {
