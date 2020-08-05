@@ -1065,6 +1065,7 @@ function init(saveData) {
 
     specialBuildings = saveData.specialBuildings;
     refactorLevel = saveData.refactorLevel;
+    document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`;
 
     refactorPrice = 10e9 + refactorLevel * 2e9;
   }

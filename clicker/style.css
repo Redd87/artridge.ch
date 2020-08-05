@@ -325,6 +325,7 @@ p {
   justify-content: center;
   align-items: center;
   z-index: 1;
+  cursor: pointer;
 }
 
 .build-info-wrapper {
@@ -337,7 +338,7 @@ p {
   margin-bottom: auto;
   margin-left: auto;
   opacity: 0;
-  cursor: pointer;
+  overflow: hidden;
   transition: width 0.2s, height 0.2s, opacity 0.2s;
 }
 
