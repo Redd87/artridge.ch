@@ -21,7 +21,7 @@ let builderNames = [
   "Robot-P05",
   "Robot-B06",
   "Robot-R07",
-  "Robot-D07",
+  "Robot-D08",
 ];
 
 /*** ACHIEVEMENTS ***/
@@ -45,35 +45,35 @@ let achievements = [
         unlocked: false,
         permanent: true,
         func: () => {},
-        description: "MPS + 10%"
+        description: "+10% $/s"
       },
       {
         n: 3, // 30min
         unlocked: false,
         permanent: true,
         func: () => {},
-        description: "MPS + 10%"
+        description: "+10% $/s"
       },
       {
         n: 4, // 20min
         unlocked: false,
         permanent: true,
         func: () => {},
-        description: "MPS + 10%"
+        description: "+10% $/s"
       },
       {
         n: 5, // 15min
         unlocked: false,
         permanent: true,
         func: () => {},
-        description: "MPS + 10%"
+        description: "+10% $/s"
       },
       {
         n: 6, // 10min
         unlocked: false,
         permanent: true,
         func: () => {},
-        description: "Unlock cheats"
+        description: "Unlock cheats (coming soon)"
       }
     ]
   },
@@ -95,56 +95,56 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
         n: 10000,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
         n: 100000,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
         n: 10000000,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
        n: 100000000,
        unlocked: false,
        permanent: false,
        func: () => { mpsMultiplier += 0.01 },
-       description: "Increases mps by 1%"
+       description: "+1% $/s"
      },
       {
         n: 1000000000,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
         n: 100000000000,
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
       {
         n: 10000000000000,
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.01 },
-        description: "Increases mps by 1%"
+        description: "+1% $/s"
       },
     ],
   },
@@ -166,21 +166,21 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { clickStrength++; },
-        description: "Increases Your Click’s Strength By 1"
+        description: "+1 Click Power"
       },
       {
         n: 1000,
         unlocked: false,
         permanent: false,
         func: () => { clickStrength++; },
-        description: "Increases Your Click’s Strength By 1"
+        description: "+1 Click Power"
       },
       {
         n: 2000,
         unlocked: false,
         permanent: true,
         func: () => { clickStrength++; },
-        description: "Increases Your Click’s Strength By 1"
+        description: "+1 Click Power"
       }
     ]
   },
@@ -201,35 +201,35 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[0].mps += 1 }, // buildata[0].cost -= 10;
-        description: "MPS +1"
+        description: "+1$/s per House"
       },
       {
         n: 15, // 15
         unlocked: false,
         permanent: false,
         func: () => { buildata[0].mpc += 10 },
-        description: "Increases mpc by 10"
+        description: "+10$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[0].cost -= 10 },
-        description: "Lower price by 10"
+        description: "-10$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[0].clicks -= 1 },
-        description: "Lower clicks required<br>to build by 1"
+        description: "-1 Click"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[0].mps += 1 },
-        description: "MPS +1"
+        description: "+1$/s per House"
       },
     ],
   },
@@ -250,28 +250,28 @@ let achievements = [
         unlocked: false,
         permanent: true,
         func: () => { buildata[1].mpc += 40 },
-        description: "MPC +40"
+        description: "+40$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[1].cost -= 50 },
-        description: "Price -50"
+        description: "-50$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[1].clicks -= 2 },
-        description: "Lower clicks required<br>to build by 2"
+        description: "-2 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[1].mps += 2 },
-        description: "MPS +2"
+        description: "+2$/s per Village"
       },
     ],
   },
@@ -292,28 +292,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[2].mpc += 150 },
-        description: "MPC +150"
+        description: "+150$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[2].cost -= 300 },
-        description: "Price -300"
+        description: "-300$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[2].clicks -= 3 },
-        description: "Lower clicks required<br>to build by 3"
+        description: "-3 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[2].mps += 12 },
-        description: "MPS +12"
+        description: "+12$/s per City"
       },
     ],
   },
@@ -334,28 +334,28 @@ let achievements = [
         unlocked: false,
         permanent: true,
         func: () => { buildata[3].mpc += 960 },
-        description: "MPC +960"
+        description: "+960$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[3].cost -= 1200 },
-        description: "Price -1200"
+        description: "-1200$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[3].clicks -= 4 },
-        description: "Lower clicks required<br>to build by 4"
+        description: "-4 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[3].mps += 47 },
-        description: "MPS +47"
+        description: "+47$/s per Region"
       },
     ],
   },
@@ -376,28 +376,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[4].mpc += 4200 },
-        description: "MPC +4200"
+        description: "+4200$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[4].cost -= 8400 },
-        description: "Price -8400"
+        description: "-8400$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[4].clicks -= 5 },
-        description: "Lower clicks required<br>to build by 5"
+        description: "-5 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[4].mps += 300 },
-        description: "MPS +300"
+        description: "300$/s per Country"
       },
     ],
   },
@@ -418,28 +418,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[5].mpc += 33600 },
-        description: "MPC +33600"
+        description: "+33600$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[5].cost -= 42000 },
-        description: "Price -42000"
+        description: "-42000$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[5].clicks -= 6 },
-        description: "Lower clicks required<br>to build by 6"
+        description: "-6 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[5].mps += 1400 },
-        description: "MPS +1400"
+        description: "+1400$/s per Continent"
       },
     ],
   },
@@ -460,28 +460,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[6].mpc += 272000 },
-        description: "MPC +272000"
+        description: "+272000$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[6].cost -= 340000 },
-        description: "Price -340000"
+        description: "-340000$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[6].clicks -= 7 },
-        description: "Lower clicks required<br>to build by 7"
+        description: "-7 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[6].mps += 9800 },
-        description: "MPS +9800"
+        description: "+9800$/s per Planet"
       },
     ],
   },
@@ -502,28 +502,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[7].mpc += 1600000 },
-        description: "MPC +1600000"
+        description: "+1600000$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[7].cost -= 2000000 },
-        description: "Price -2000000"
+        description: "-2000000$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[7].clicks -= 8 },
-        description: "Lower clicks required<br>to build by 8"
+        description: "-8 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[7].mps += 49000 },
-        description: "MPS +49000"
+        description: "+49000$/s per Solar System"
       },
     ],
   },
@@ -544,28 +544,28 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { buildata[8].mpc += 14400000 },
-        description: "MPC +14400000"
+        description: "+14400000$ Build Profit"
       },
       {
         n: 25, // 25
         unlocked: false,
         permanent: false,
         func: () => { buildata[8].cost -= 18000000 },
-        description: "Price -18000000"
+        description: "-18000000$ Price"
       },
       {
         n: 50, // 50
         unlocked: false,
         permanent: false,
         func: () => { buildata[8].clicks -= 9 },
-        description: "Lower clicks required<br>to build by 9"
+        description: "-9 Clicks"
       },
       {
         n: 100, // 100
         unlocked: false,
         permanent: false,
         func: () => { buildata[8].mps += 375000 },
-        description: "MPS +375000"
+        description: "+375000$/s per Galaxy"
       },
     ],
   },
@@ -587,7 +587,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -609,7 +609,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -631,7 +631,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -653,7 +653,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -675,7 +675,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -697,7 +697,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -719,7 +719,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -741,7 +741,7 @@ let achievements = [
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.03 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -763,14 +763,14 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => {},
-        description: "Special Buildings Now Increase MPS By 2%"
+        description: "Now +2% $/s per Universal Bank"
       },
       {
         n: 40,
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.3 },
-        description: "Increases mps by 3%"
+        description: "+3% $/s"
       }
     ]
   },
@@ -788,18 +788,11 @@ let achievements = [
         description: "<b>Optimization Center Mastery</b>"
       },
       {
-        n: 30,
+        n: 10,
         unlocked: false,
         permanent: false,
-        func: () => {},
-        description: "Increases Your Click’s Strength By 1"
-      },
-      {
-        n: 40,
-        unlocked: false,
-        permanent: false,
-        func: () => {},
-        description: "Special Buildings Now Increase MPS By 2%"
+        func: () => { mpsMultiplier += 0.03; },
+        description: "+3% $/s"
       }
     ]
   },
@@ -817,18 +810,11 @@ let achievements = [
         description: "<b>Delivery Infrastructure Mastery</b>"
       },
       {
-        n: 30,
+        n: 10,
         unlocked: false,
         permanent: false,
-        func: () => {},
-        description: "Increases Your Click’s Strength By 1"
-      },
-      {
-        n: 40,
-        unlocked: false,
-        permanent: false,
-        func: () => {},
-        description: "Special Buildings Now Increase MPS By 2%"
+        func: () => { mpsMultiplier += 0.03; },
+        description: "+3% $/s"
       }
     ]
   },
@@ -846,18 +832,11 @@ let achievements = [
         description: "<b>Intergalactic Tax Haven Mastery</b>"
       },
       {
-        n: 30,
+        n: 10,
         unlocked: false,
         permanent: false,
-        func: () => {},
-        description: "Increases Your Click’s Strength By 1"
-      },
-      {
-        n: 40,
-        unlocked: false,
-        permanent: false,
-        func: () => {},
-        description: "Special Buildings Now Increase MPS By 2%"
+        func: () => { mpsMultiplier += 0.03; },
+        description: "+3% $/s"
       }
     ]
   }
@@ -911,6 +890,7 @@ function increaseAchievement(i,n) {
       a.step = Math.max(a.step,i+1);
     }
   }
+  updateBuildingMpc2();
 }
 
 window.setInterval(() => {
@@ -922,6 +902,7 @@ function openAchievement(n) {
   achievementsContainer.style.display = "block";
   const a = achievements[n];
   a.notified = false;
+  const maxedOut = a.value >= a.maxLevel;
   const prevN = a.levels[a.step - 1] ? a.levels[a.step - 1].n : 0;
   const nOrMaxLevel = (a.levels[a.step] ? a.levels[a.step].n : a.maxLevel);
   const progress = Math.round(((a.step - 1) + (a.value - prevN) / (nOrMaxLevel - prevN)) / (a.levels.length - 1) * 100); // Math.round((a.step + (a.value - prevN) / (nOrMaxLevel - prevN)) / a.levels.length * 100)
@@ -931,7 +912,7 @@ function openAchievement(n) {
     const l = a.levels[i];
     const topPos = `calc((100% - 100px) * ${i / (a.levels.length - 1)} + 25px)`
     labels += `<p style="pointer-events: none; text-align: left; position: absolute; top: ${topPos}; left: 0px;">${n === 0 && refactorLevel > 0 ||a.value >= l.n ? `${l.description}` : `?`}</p>`
-    checkpoints += `<div style="top: ${topPos};" class="check ${i === 0 ? "first" : l.unlocked ? (l.permanent ? "unlocked-permanent" : "unlocked-notpermanent") : (l.permanent ? "notunlocked-permanent" : "notunlocked-notpermanent")}">
+    checkpoints += `<div style="top: ${topPos};" class="${maxedOut ? "maxed-out" : ''} check ${i === 0 ? "first" : l.unlocked ? (l.permanent ? "unlocked-permanent" : "unlocked-notpermanent") : (l.permanent ? "notunlocked-permanent" : "notunlocked-notpermanent")}">
       <span class="check-label">${!!a.specialNames ? a.specialNames[i] : `${i === 0 ? "" : `${a.formatNumbers ? formatNumber(Math.round(l.n)) : l.n}`}`}</span>
     </div>`;
   }
@@ -939,7 +920,7 @@ function openAchievement(n) {
   achievementsContainer.innerHTML = `
     <button class="hover-btn building-action-btn" style="width: 30px; height: 30px;" onmousedown="closeAchievements()">×</button>
     <div class="achievement-progress-background" ${!!a.specialNames ? "" : `onmouseenter="showToolTip([${a.value}, ${a.maxLevel}, ${a.formatNumbers}],1);"`} onmouseleave="hideToolTip();"></div>
-    <div class="achievement-progress" data-height="${progress !== 0 && !progress ? 100 : progress}"></div>
+    <div ${maxedOut ? `style="background-color: var(--col-success);"`: ""} class="achievement-progress" data-height="${progress !== 0 && !progress ? 100 : progress}"></div>
     <!--<div style="height: calc((100% - 100px) * ${1 / a.levels.length});" class="achievement-progress-hider"></div>-->
     <div class="achievement-labels">
       ${labels}
@@ -1041,15 +1022,18 @@ function init(saveData) {
     stats = JSON.parse(saveData.stats);
     statsAllTime = JSON.parse(saveData.statsAllTime);
   } else {
-    let adjectives = ["Universal", "Tyranical"];
+    let adjectives = ["Universal", "Tyranical", "Shady", "Questionable", "Cool", "Insane", "Exciting", "Honorable", "Innovative", "Unethical", "Greedy"];
     let a = adjectives[Math.floor(Math.random() * adjectives.length)]
     
-    let names = ["Corporation", "Factory"];
+    let names = ["Corporation", "Factory", "Empire", "Organization", "Business", "Firm", "Club", "Association", "Agency", "Realm", "Supremacy"];
     let n = names[Math.floor(Math.random() * names.length)]
     
     let input = document.querySelector("#name-prompt input");
 
-    input.value = `${usr()?.displayName || 'Guest'}'s ${a} ${n}`
+    let username = usr()?.displayName || 'Guest';
+    let lastChar = username[username.length - 1];
+
+    input.value = `${username}'${lastChar === "s" ? "" : "s"} ${a} ${n}`
   }
 
   if (s) {
@@ -1071,7 +1055,7 @@ function init(saveData) {
   }
 
   /* MONEY */
-  window.money = s ? saveData.money : 125; // starting money
+  window.money = s ? saveData.money : 125e9; // starting money
   window.mps = 0; // starting money per second
   window.mpsMultiplier = s ? saveData.mpsMultiplier : (refactorLevel / 100) * 20 + 1; // for bonuses
   window.numPurchases = 1; // how many buildings to buy
@@ -1671,6 +1655,13 @@ function build(i, e) {
   }
 }
 
+function updateBuildingMpc2() {
+  for (let i = 0; i < buildata.length; i++) {
+    const b = buildata[i];
+    b.mpc2 = b.mpc / b.clicks;
+  }
+}
+
 // handle money when buying a building
 function buyBuilding(i, e) {
   var b = buildata[i];
@@ -1748,7 +1739,7 @@ function updateBuilding(e, i) {
         </tr>
         <tr>
           <td>Clicks: ${formatNumber(b.clicks)}</td>
-          <td>Build profit: ${formatNumber(b.mpc)}</td>
+          <td>Build Profit: ${formatNumber(b.mpc)}</td>
         </tr>
       </table>
     </div>
@@ -1806,7 +1797,6 @@ function showToolTip(i, type) {
       break;
   
     case 1:
-      console.log("test");
       tooltip.innerHTML = `${i[2] ? formatNumber(Math.round(i[0])) : i[0]} / ${i[2] ? formatNumber(i[1]) : i[1]}`;
       break;
 
@@ -2401,8 +2391,6 @@ window.setInterval(() => {
       }),
       stats: JSON.stringify(stats),
       statsAllTime: JSON.stringify(statsAllTime)
-    }).then(() => {
-      console.log("Saved Successfully");
     }).catch(e => {
       console.error(e);
     })

@@ -1,8 +1,4 @@
 :root {
-  /*--col-background: #3b3b3b;
-  --col-panel: #6b6b6b;
-  --col-card: #8b8b8b;
-  --col-primary: white;*/
   --col-background: #1e2022;
   --col-panel: #48565f;
   --col-card: #6a7781;
@@ -66,6 +62,9 @@ body {
 ::-moz-focus-inner {
   border: 0;
 }
+
+a { color: var(--col-progress); }
+a:visited { color: var(--col-success); }
 
 #main-container {
   display: grid;
@@ -451,6 +450,7 @@ button:focus {
   top: 0px;
   padding: 10px;
   border-radius: var(--smol-border-radius);
+  white-space: nowrap;
   z-index: 5;
 }
 
@@ -799,6 +799,10 @@ li {
   pointer-events: none;
 }
 
+.maxed-out {
+  border-color: var(--col-success) !important;
+}
+
 .first {
   width: 55px;
   height: 55px;
@@ -807,30 +811,40 @@ li {
 }
 
 .unlocked-notpermanent {
-  width: 45px;
-  height: 45px;
-  border-radius: var(--big-border-radius);
-}
-
-.unlocked-permanent {
-  border: var(--border-width) solid black;
+  border: var(--border-width) solid var(--col-progress);
   right: 12px;
   border-radius: var(--big-border-radius);
 }
 
 .notunlocked-notpermanent {
-  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  border-radius: var(--big-border-radius);
 }
 
-.notunlocked-permanent {
-  background-image: url(star.png);
+.notunlocked-permanent, .unlocked-permanent {
   background-size: 100%;
   background-position: 50% 50%;
   background-color: transparent;
   background-repeat: no-repeat;
-  width: 55px;
-  height: 55px;
-  right: 12px;
+}
+
+.unlocked-permanent.maxed-out, .notunlocked-permanent.maxed-out {
+  background-image: url(images/star-max.png) !important;
+}
+
+.notunlocked-permanent {
+  background-image: url(images/star.png);
+  width: 70px;
+  height: 70px;
+  right: 5px;
+}
+
+.unlocked-permanent {
+  background-image: url(images/star-border.png);
+  width: 75px;
+  height: 75px;
+  right: 4px;
 }
 
 .check-label {
