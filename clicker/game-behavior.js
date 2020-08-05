@@ -1738,7 +1738,7 @@ function updateBuilding(e, i) {
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   e.innerHTML = `
     <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
-    <p class="building-name">` + b.name + ` (`+ b.built +` / `+ b.bought +`)</p>
+    <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
     <div class="build-info-button" onmousedown="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
       <table>
