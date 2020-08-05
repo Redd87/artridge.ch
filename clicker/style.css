@@ -1,12 +1,16 @@
 :root {
-  --col-background: #3b3b3b;
+  /*--col-background: #3b3b3b;
   --col-panel: #6b6b6b;
   --col-card: #8b8b8b;
-  --col-primary: white;
-  --col-text-nobg: white;
-  --col-text-bg: black;
-  --col-progress: red;
-  --col-success: gold;
+  --col-primary: white;*/
+  --col-background: #1e2022;
+  --col-panel: #48565f;
+  --col-card: #6a7781;
+  --col-primary: #f0f5f9;
+  --col-text-nobg: #f0f5f9;
+  --col-text-bg: #1e2022;
+  --col-progress: #da5252; /* #d66363 */
+  --col-success: #f0e878;
   --col-invalid: grey;
   --big-border-radius: 5px;
   --smol-border-radius: 5px;
@@ -16,6 +20,11 @@
   --font-size-medium: 32px;
   --font-size-big: 56px;
 }
+
+/* POSSIBLE COLOR PALETTES
+  https://colorhunt.co/palette/62193
+  https://colorhunt.co/palette/1649
+*/
 
 @font-face {
   font-family: Pixel;
@@ -315,7 +324,7 @@ p {
 
 .build-info-button {
   border-radius: 50%;
-  background-color: #222;
+  background-color: var(--col-background);
   width: 30px;
   height: 30px;
   font-size: var(--font-size-smol);
@@ -428,7 +437,7 @@ button:focus {
 
 .tooltip {
   display: none;
-  background-color: black;
+  background-color: var(--col-background);
   color: var(--col-text-nobg);
   font-size: var(--font-size-smol);
   position: absolute;
@@ -450,9 +459,9 @@ h1 {
 
 #settings, #stats {
   font-size: 110px;
-  background-color: #00000000;
+  background-color: transparent;
   border: none;
-  color: var(--col-text-nobg);
+  color: var(--col-primary);
   line-height: 50%;
 }
 
@@ -565,6 +574,7 @@ h1 {
 }
 
 input {
+  background-color: var(--col-primary);
   border-radius: var(--smol-border-radius);
   border: none;
   padding: 5px;
@@ -633,7 +643,7 @@ input {
   position: absolute;
   width: calc(48% - 30px);
   height: 38px;
-  background-color: grey;
+  background-color: var(--col-background);
   border-radius: var(--smol-border-radius);
   z-index: -1;
   left: 30px;
@@ -654,7 +664,8 @@ li {
 }
 
 #refactor {
-  background: radial-gradient(circle, var(--col-success) 0%, white 100%);
+  /* background: radial-gradient(circle, var(--col-success) 0%, var(--col-primary) 100%); */
+  background-color: var(--col-success);
   width: 100%;
   height: 100%;
   border: none;
@@ -786,16 +797,19 @@ li {
   width: 55px;
   height: 55px;
   right: 12px;
+  border-radius: var(--big-border-radius);
 }
 
 .unlocked-notpermanent {
   width: 45px;
   height: 45px;
+  border-radius: var(--big-border-radius);
 }
 
 .unlocked-permanent {
   border: var(--border-width) solid black;
   right: 12px;
+  border-radius: var(--big-border-radius);
 }
 
 .notunlocked-notpermanent {

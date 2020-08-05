@@ -11,7 +11,7 @@
 \*//*                                                     *\\*/
 
 let refactorLevel = 0;
-let refactorPrice = 10e9;
+let refactorPrice = 8e9;
 let specialBuildings = [9];
 let builderNames = [
   "Robot-Y01",
@@ -1067,7 +1067,7 @@ function init(saveData) {
     refactorLevel = saveData.refactorLevel;
     document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`;
 
-    refactorPrice = 10e9 + refactorLevel * 2e9;
+    refactorPrice = 8e9 + refactorLevel * 2e9;
   }
 
   /* MONEY */
