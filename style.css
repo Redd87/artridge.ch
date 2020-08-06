@@ -2,6 +2,8 @@
   --width: 75%;
 }
 
+* {box-sizing: border-box;}
+
 @media only screen and (max-width: 750px) {
   :root {
     --width: 98%;
@@ -95,14 +97,25 @@ header img {
   color: white;
   border-radius: 5px;
   background: #2f3541;
+  overflow-x: hidden;
+}
+
+#game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-gap: 10px;
 }
 
 .game {
   width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #4b5466;
+  overflow: hidden;
 }
 
 .game img {
-  width: 65%;
+  width: 100%;
 }
 
 a {

@@ -22,29 +22,37 @@
       </header>
       <div id="content">
         <div v-if="tab === 0" class="page">
-          <div class="game">
-            <h1><a href="https://artridge.itch.io/dodge" target="_blank">Dodge</a></h1>
-            <a href="https://artridge.itch.io/dodge" target="_blank"><img src="images/dodge.png" alt="Dodge"></a><br>
-            Dodge is a fast paced reflex game. Survive as long as possible by avoiding enemies, patterns, and boost your score using various powerups to obtain the highest highscore.
-            <br><br><hr>
-            <h1><a href="./clicker/" target="_blank">Clicker</a></h1>
-            <a href="./clicker/" target="_blank"><img src="https://via.placeholder.com/200x200" alt="Click"></a><br>
-            The clicker (not permanent name) is a game we are currently working on.
+
+          <div id="game-grid">
+            <div class="game">
+              <a href="https://artridge.itch.io/dodge" target="_blank"><img src="images/dodge.png" alt="Dodge"></a><br>
+              Dodge is a fast paced reflex game. Survive as long as possible by avoiding enemies, patterns, and boost your score using various powerups to obtain the highest highscore.
+            </div>
+            
+            <div class="game">
+              <a href="./clicker/" target="_blank"><img src="https://via.placeholder.com/655x520" alt="Click"></a><br>
+              The clicker (not permanent name) is a game we are currently working on.
+            </div>
           </div>
+        
         </div>
+        
         <div v-if="tab === 1" class="page">
           <h1>About Artridge</h1>
+          
           We are two amateur game developers based in Zürich creating small indie games. Follow our journey on:
           <ul>
             <li><a href="https://twitter.com/artridgegames">Twitter</a></li>
             <li><a href="https://instagram.com/artridgegames">Instagram</a></li>
           </ul>
+          
           Or contact us for anything at:
           <ul>
             <li><a href="mailto:eddy.rashed@artridge.ch">eddy.rashed@artridge.ch</a> (game designer)</li>
             <li><a href="mailto:oskar.zanota@artridge.ch">oskar.zanota@artridge.ch</a> (programmer)</li>
           </ul>
         </div>
+        
         <div v-if="tab === 2" class="page">
           <h1>Account</h1>
           <p>An Artridge account lets you save your progress in any Artridge game.</p>
