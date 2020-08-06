@@ -11,8 +11,8 @@
 \*//*                                                     *\\*/
 
 let refactorLevel = 0;
-let refactorPrice = 8e9;
-let specialBuildings = [9];
+let refactorPrice = 7.5e9;
+let specialBuildings = [9,10];
 let builderNames = [
   "Robot-Y01",
   "Robot-C02",
@@ -96,56 +96,56 @@ let achievements = [
         description: "<b>Money Mastery</b>"
       },
       {
-        n: 1000,
+        n: 1e3,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-        n: 10000,
+        n: 1e4,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-        n: 100000,
+        n: 1e5,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-        n: 10000000,
+        n: 1e6,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-       n: 100000000,
+       n: 1e7,
        unlocked: false,
        permanent: false,
        func: () => { mpsMultiplier += 0.01 },
        description: "+1% $/s"
      },
       {
-        n: 1000000000,
+        n: 1e8,
         unlocked: false,
         permanent: false,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-        n: 100000000000,
+        n: 1e9,
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.01 },
         description: "+1% $/s"
       },
       {
-        n: 10000000000000,
+        n: 1e11,
         unlocked: false,
         permanent: true,
         func: () => { mpsMultiplier += 0.01 },
@@ -253,7 +253,7 @@ let achievements = [
       {
         n: 10, // 10
         unlocked: false,
-        permanent: true,
+        permanent: false,
         func: () => { buildata[1].mpc += 40 },
         description: "+40$ Build Profit"
       },
@@ -337,7 +337,7 @@ let achievements = [
       {
         n: 15, // 15
         unlocked: false,
-        permanent: true,
+        permanent: false,
         func: () => { buildata[3].mpc += 960 },
         description: "+960$ Build Profit"
       },
@@ -1062,11 +1062,11 @@ function init(saveData) {
     refactorLevel = saveData.refactorLevel;
     document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`;
 
-    refactorPrice = 8e9 + refactorLevel * 2e9;
+    refactorPrice = 7.5e9 + refactorLevel * 2.5e9;
   }
 
   /* MONEY */
-  window.money = s ? saveData.money : 125; // starting money
+  window.money = s ? saveData.money : 125e9; // starting money
   window.mps = 0; // starting money per second
   window.mpsMultiplier = s ? saveData.mpsMultiplier : (refactorLevel / 100) * 20 + 1; // for bonuses
   window.numPurchases = 1; // how many buildings to buy
@@ -1713,8 +1713,8 @@ function increaseBuild(i, e, fromBuilder, bi) {
     stats.earnedMoney += b.mpc2 * (fromBuilder ? 1 : clickStrength);
     statsAllTime.earnedMoney += b.mpc2 / (fromBuilder ? 1 : clickStrength);
     if (!fromBuilder) {
-      stats.totalPlayerBuildClicks += clickStrength;
-      statsAllTime.totalPlayerBuildClicks += clickStrength;
+      stats.totalPlayerBuildClicks++;
+      statsAllTime.totalPlayerBuildClicks++;
       increaseAchievement(2);
     } else {
       stats[`Builder${bi}Clicks`]++;
@@ -1774,7 +1774,7 @@ function updateBuilding(e, i) {
       </table>
     </div>
     <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${b.specialData?.disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
-      Buy ${b.specialData?.disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
+      ${b.specialData?.disableBuy ? 'Max' : 'Buy'} ${b.specialData?.disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
     </button><br>
     <p class="build-perc-counter">`+ Math.round(b.current) +`%</p>
     <progress class="build-perc" value="`+ b.current / 100 +`"></progress>
@@ -1854,8 +1854,8 @@ function updateAllBuilders() {
       <br>
       <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
       <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">Remove</button>
-      <div class="builder-info"><span>${b.cps}</span> clicks/s</div>
-      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Upgrade"}</button>
+      <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
+      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Max"}</button>
     `
   }
   let el = document.getElementById("buyBuilder");
@@ -1893,7 +1893,7 @@ function buyBuilder() {
         <br>
         <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
         <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(`+ builderIndex +`)">Remove</button>
-        <div class="builder-info"><span>${b.cps}</span> clicks/s</div>
+        <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
         <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(`+ builderIndex +`, this)">
           Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
         </button>
@@ -1964,7 +1964,7 @@ function upgradeBuilder(i, e) {
       money -= b.upgradesCurve[b.ownershipData.level - 1].cost;
       stats.totalMoneySpent += b.cost;
       statsAllTime.totalMoneySpent += b.cost;
-      b.cps = b.upgradesCurve[b.ownershipData.level - 1].value + b.bonus;
+      b.cps = b.upgradesCurve[b.ownershipData.level - 1].value;
       didUpgrade = true;
 
       if (b.ownershipData.level === b.upgradesCurve.length) {
@@ -1978,13 +1978,13 @@ function upgradeBuilder(i, e) {
   if (didUpgrade) {
     increaseAchievement(12 + i);
     b.ownershipData.level++;
-    e.parentNode.children[4].children[0].innerHTML = b.cps;
+    e.parentNode.children[4].children[0].innerHTML = b.cps + b.bonus;
     if (maxLevel) {
       //e.parentNode.children[0].innerHTML = builderNames[i] +" (Max lvl / "+ round(b.cps, 0) +"cps)";
       e.parentNode.children[0].innerHTML = `${b.ownershipData.name}.${b.ownershipData.level}`;
       e.disabled = true;
       e.classList.remove("action");
-      e.innerHTML = "Upgrade";
+      e.innerHTML = "Max";
     } else {
       // e.parentNode.children[0].innerHTML = builderNames[i] +" (lvl "+ b.ownershipData.level +" / "+ round(b.cps, 0) +"cps)";
       e.parentNode.children[0].innerHTML = `${b.ownershipData.name}.${b.ownershipData.level}`;
@@ -2152,7 +2152,7 @@ function confirmRefactor() {
   }
   
   refactorLevel++;
-  refactorPrice += 2000000000;
+  refactorPrice += 2.5e9;
 
   // update nbr of refactors stat
   document.getElementById("n-refactors").innerHTML = `Number of refactors: ${refactorLevel}`
@@ -2318,6 +2318,7 @@ function round(value, precision) {
 })();
 
 /*** PARTICLES ***/
+var enableParticles = true;
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 setupCanvas(ctx);
@@ -2338,7 +2339,7 @@ function update() {
     p.x += p.dx;
     p.y += p.dy;
 
-    rectfill(p.x, p.y, 3, 3, getComputedStyle(document.documentElement).getPropertyValue('--col-success'));
+    if (window.enableParticles) rectfill(p.x, p.y, 3, 3, getComputedStyle(document.documentElement).getPropertyValue('--col-success'));
 
     if (p.x > window.innerWidth || p.x < 0 || p.y > window.innerHeight || p.y < 0) particles.splice(i, 1);
   }
@@ -2367,7 +2368,7 @@ function explode(x,y) {
 }
 
 function resetSettings() {
-  let defaultSettings = [true, true, false];
+  let defaultSettings = [true, true, false, true];
   let checkBoxes = document.getElementById("settings-container").querySelectorAll("input[type=checkbox]");
   for (let i=0; i<checkBoxes.length; i++) {
     const d = defaultSettings[i];

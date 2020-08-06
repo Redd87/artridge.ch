@@ -238,6 +238,7 @@ a:visited { color: var(--col-success); }
   background-color: var(--col-panel);
   border-radius: var(--smol-border-radius);
   padding: 5px;
+  text-align: center;
   font-size: var(--font-size-veri-smol);
 }
 
@@ -470,7 +471,7 @@ button {
 }
 
 button:disabled {
-  color: var(--col-success) !important;
+  color: var(--col-invalid) !important;
 }
 
 button:focus {

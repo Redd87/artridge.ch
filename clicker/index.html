@@ -50,7 +50,8 @@
       <h1>Settings</h1>
       <input class="setting" type="checkbox" checked onchange="window.smoothMoneyIncome = !window.smoothMoneyIncome;"><span>Smooth money income (may impact precision)</span><br>
       <input class="setting" type="checkbox" checked onchange="window.shortenedValues = !window.shortenedValues; updateAllBuildings(); updateAllBuilders();"><span>Shortened number values</span><br>
-      <input class="setting" type="checkbox" onchange="window.combineMpsDisplay = !window.combineMpsDisplay;"><span>Combine MPS with multiplier</span><br><br>
+      <input class="setting" type="checkbox" onchange="window.combineMpsDisplay = !window.combineMpsDisplay;"><span>Combine MPS with multiplier</span><br>
+      <input class="setting" type="checkbox" checked onchange="window.enableParticles = !window.enableParticles;"><span>Enable Particles</span><br><br>
       <span class="setting">Purchase number deck: </span><input id="deckInput" onchange="updateBuyDeck(this)" type="text"><br><br>
       <span class="setting">Change Name: </span><input type="text" id="name-setting" maxlength="35"><button onclick="randomizeName(this);" class="hover-btn" id="randomize-name"><i class="fas fa-dice"></i></button><br><br>
       <div id="main-settings">
