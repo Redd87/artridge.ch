@@ -515,12 +515,13 @@ h1 {
   margin-left: 30px;
 }
 
-#login-status {
+#main-settings {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
+  text-align: center;
 }
 
 #achievements-wrapper {
@@ -614,6 +615,22 @@ h1 {
 
 #name-setting {
   width: 425px;
+}
+
+#randomize-name {
+  position: relative;
+  height: 33px;
+  width: 33px;
+  margin-left: 5px;
+  padding: 0;
+  vertical-align: middle;
+}
+
+#randomize-name i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 input {

@@ -24,6 +24,11 @@ let builderNames = [
   "Robot-D08",
 ];
 
+for (let i=0; i<builderNames.length; i++) {
+  document.getElementById("stats-refactor").children[0].innerHTML += `<li>${builderNames[i]} Clicks: <span data-end="" id="Builder${i}Clicks"></span></li>`;
+  document.getElementById("stats-all").children[0].innerHTML += `<li>${builderNames[i]} Clicks: <span></span></li>`;
+}
+
 /*** ACHIEVEMENTS ***/
 let achievements = [
   {
@@ -928,7 +933,7 @@ function openAchievement(n) {
     <div>
       ${checkpoints}
     </div>
-  `
+  `;
 }
 
 function closeAchievements() {
@@ -945,6 +950,10 @@ let stats = {
   totalBuildingsBuilt: 0,
   totalPlayerBuildClicks: 0,
   totalBuildClicks: 0
+}
+
+for (let i = 0; i<8; i++) {
+  stats[`Builder${i}Clicks`] = 0;
 }
 
 let statsAllTime = JSON.parse(JSON.stringify(stats));
@@ -1001,6 +1010,19 @@ window.onload = () => {
   updatePoorPeople();
 }
 
+const randomName = () => {
+  let adjectives = ["Universal", "Tyranical", "Shady", "Questionable", "Cool", "Insane", "Exciting", "Honorable", "Innovative", "Unethical", "Greedy"];
+  let a = adjectives[Math.floor(Math.random() * adjectives.length)]
+  
+  let names = ["Corporation", "Factory", "Empire", "Organization", "Business", "Firm", "Club", "Association", "Agency", "Realm", "Supremacy"];
+  let n = names[Math.floor(Math.random() * names.length)]
+
+  let username = usr()?.displayName || 'Guest';
+  let lastChar = username[username.length - 1];
+
+  return `${username}'${lastChar === "s" ? "" : "s"} ${a} ${n}`
+}
+
 /*** BIG INIT FUNCTION ***/
 function init(saveData) {
 
@@ -1022,18 +1044,7 @@ function init(saveData) {
     stats = JSON.parse(saveData.stats);
     statsAllTime = JSON.parse(saveData.statsAllTime);
   } else {
-    let adjectives = ["Universal", "Tyranical", "Shady", "Questionable", "Cool", "Insane", "Exciting", "Honorable", "Innovative", "Unethical", "Greedy"];
-    let a = adjectives[Math.floor(Math.random() * adjectives.length)]
-    
-    let names = ["Corporation", "Factory", "Empire", "Organization", "Business", "Firm", "Club", "Association", "Agency", "Realm", "Supremacy"];
-    let n = names[Math.floor(Math.random() * names.length)]
-    
-    let input = document.querySelector("#name-prompt input");
-
-    let username = usr()?.displayName || 'Guest';
-    let lastChar = username[username.length - 1];
-
-    input.value = `${username}'${lastChar === "s" ? "" : "s"} ${a} ${n}`
+    document.querySelector("#name-prompt input").value = randomName();
   }
 
   if (s) {
@@ -1055,7 +1066,7 @@ function init(saveData) {
   }
 
   /* MONEY */
-  window.money = s ? saveData.money : 125e9; // starting money
+  window.money = s ? saveData.money : 125; // starting money
   window.mps = 0; // starting money per second
   window.mpsMultiplier = s ? saveData.mpsMultiplier : (refactorLevel / 100) * 20 + 1; // for bonuses
   window.numPurchases = 1; // how many buildings to buy
@@ -1556,7 +1567,7 @@ window.setInterval(function() {
         b.ownershipData.counter += 1;
         if (b.ownershipData.counter >= 100 / (b.cps + b.bonus)) {
           b.ownershipData.counter = 0;
-          increaseBuild(b.ownershipData.building, getBuildingNode(b.ownershipData.building).children[0], true);
+          increaseBuild(b.ownershipData.building, getBuildingNode(b.ownershipData.building).children[0], true, i);
         }
       } else {
         b.counter = 0;
@@ -1692,11 +1703,12 @@ function buyBuilding(i, e) {
 }
 
 // handle money, building build percent, and UI changes when clicking to build
-function increaseBuild(i, e, fromBuilder) {
+function increaseBuild(i, e, fromBuilder, bi) {
   var b = buildata[i];
   if (b.bought > 0) {
     b.current += 100 / b.clicks * (fromBuilder ? 1 : clickStrength);
     b.current = clamp(0,b.current,100);
+    if (b.current > 99.5) b.current = Math.ceil(b.current);
     money += b.mpc2 * (fromBuilder ? 1 : clickStrength);
     stats.earnedMoney += b.mpc2 * (fromBuilder ? 1 : clickStrength);
     statsAllTime.earnedMoney += b.mpc2 / (fromBuilder ? 1 : clickStrength);
@@ -1704,6 +1716,9 @@ function increaseBuild(i, e, fromBuilder) {
       stats.totalPlayerBuildClicks += clickStrength;
       statsAllTime.totalPlayerBuildClicks += clickStrength;
       increaseAchievement(2);
+    } else {
+      stats[`Builder${bi}Clicks`]++;
+      statsAllTime[`Builder${bi}Clicks`]++;
     }
     stats.totalBuildClicks += (fromBuilder ? 1 : clickStrength);
     statsAllTime.totalBuildClicks += (fromBuilder ? 1 : clickStrength);
@@ -2351,22 +2366,42 @@ function explode(x,y) {
   }
 }
 
+function resetSettings() {
+  let defaultSettings = [true, true, false];
+  let checkBoxes = document.getElementById("settings-container").querySelectorAll("input[type=checkbox]");
+  for (let i=0; i<checkBoxes.length; i++) {
+    const d = defaultSettings[i];
+    const c = checkBoxes[i];
+    if (c.checked !== d) c.dispatchEvent(new Event("change"));
+    c.checked = d;
+  }
+
+  let deckInput = document.getElementById("deckInput");
+  deckInput.value = "1, 10, 100";
+  deckInput.dispatchEvent(new Event("change"));
+}
+
 /*** FIREBASE AUTH ***/
 const usr = () => firebase.auth().currentUser;
 
 firebase.auth().onAuthStateChanged(function(user) {
-  let accountSettings = document.querySelector("#account-settings");
-  let loginStatus = document.querySelector("#login-status")
+  let mainSettings = document.querySelector("#main-settings");
   if (user) {
-    accountSettings.innerHTML = `<button class="hover-btn" onclick="resetGameSave();">Reset Game Save</button>`;
-    loginStatus.innerHTML = `You are logged in as <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">${usr().displayName}</a>`
+
+    mainSettings.innerHTML = `
+      <button class="hover-btn" onclick="resetSettings();">Reset Settings to Default</button>
+      <button class="hover-btn" onclick="resetGameSave();">Reset Game Save</button><br>
+      <p>You are logged in as <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">${usr().displayName}</a>.</p>
+    `;
 
     firebase.database().ref(`users/${user.uid}/game-data/clicker`).once("value", (snap) => {
       if (!window.started) init(snap.val());
     });
   } else {
-    accountSettings.innerHTML = ``;
-    loginStatus.innerHTML = `Please sign up or log in on <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">artridge.ch</a> to save your progress.`;
+    mainSettings.innerHTML = `
+      <button class="hover-btn" onclick="resetSettings();">Reset Default Settings</button><br>
+      <p>Please sign up or log in on <a target="_blank" href="https://artridgegames.github.io/artridge.ch#Account">artridge.ch</a> to save your progress.</p>
+    `;
     if (!window.started) init();
   }
 });
@@ -2397,6 +2432,12 @@ function confirmName(name) {
   },500);
 
   window.nameConfirmed = true;
+}
+
+function randomizeName(e) {
+  let input = e.previousElementSibling;
+  input.value = randomName();
+  input.dispatchEvent(new Event("keyup"));
 }
 
 document.querySelector("#name-setting").addEventListener('keyup', e => {
