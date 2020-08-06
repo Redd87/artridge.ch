@@ -156,13 +156,13 @@ a:hover {
 }
 
 .auth-method input {
-  width: 75%;
+  width: 80%;
   background-color: #2f3541;
   margin: 10px;
 }
 
 .auth-method button {
-  width: calc(75% + 20px);
+  width: 80%;
   cursor: pointer;
   background-color: #2f3541;
   margin: 10px;
