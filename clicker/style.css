@@ -44,6 +44,7 @@ body {
   color: var(--col-text-nobg);
   overflow-x: hidden;
   overflow-y: hidden;
+  margin: 0;
 }
 
 * {
@@ -75,6 +76,8 @@ a:visited { color: var(--col-success); }
   grid-template-columns: 1fr 2fr 5fr 2fr 1fr;
   grid-template-rows: 150px 50px calc(100vh - 280px);
   grid-gap: 20px;
+  height: calc(100vh - 40px);
+  margin: 20px;
 }
 
 .panel-title {
@@ -163,9 +166,10 @@ a:visited { color: var(--col-success); }
 
 #buyBuilder {
   width: 100%;
+  height: 35px;
   border: none;
   border-radius: var(--smol-border-radius);
-  padding: 10px;
+  padding: 0;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -182,17 +186,37 @@ a:visited { color: var(--col-success); }
     "place upgrade upgrade"
   ;
   grid-template-columns: 100px 35px 1fr;
-  grid-template-rows: 33px 20px 33px;
-  grid-gap: 7px;
+  grid-template-rows: 26px 27px 27px;
+  grid-gap: 10px;
 }
 
 .builder-place-btn {
   grid-area: place;
   width: 100% !important;
   height: 100%;
-  background-image: url("https://devshift.biz/wp-content/uploads/2017/04/profile-icon-png-898.png");
-  background-size: cover;
-  background-position: 50% 50%;
+  font-size: 65px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.builder-place-btn div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(10px);
+  width: 50px;
+  height: 30px;
+  z-index: 3;
+}
+
+.builder-place-btn i {
+  z-index: 5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(-10px);
+  color: var(--col-background);
+  transition: color 0.2s;
 }
 
 .builder-remove-btn {
@@ -348,7 +372,7 @@ p {
   width: 0%;
   height: 0%;
   border-radius: var(--smol-border-radius);
-  border-top-right-radius: 15px;
+  border-top-right-radius: 17px;
   margin-bottom: auto;
   margin-left: auto;
   opacity: 0;
@@ -401,8 +425,11 @@ p {
   background-color: var(--col-primary);
 }
 
+.pulse i {
+  color: var(--col-card);
+}
 .pulse {
-  animation: pulseAnim 1s infinite;
+  background-color: var(--col-background);
 }
 
 @keyframes pulseAnim {
@@ -732,6 +759,11 @@ li {
   margin: 4px;
 }
 
+#refactor-prompt button, #refactor-confirm button {
+  height: 35px;
+  padding: 0 10px;
+}
+
 #refactor-prompt {
   display: none;
   position: absolute;
@@ -779,7 +811,7 @@ li {
 
 .refactor-prompt-option button {
   width: 100px;
-  height: 100px;
+  height: 100px !important;
   border-radius: var(--smol-border-radius);
   background-color: var(--col-primary);
   font-size: var(--font-size-smol);

@@ -797,7 +797,7 @@ let achievements = [
     ]
   },
   {
-    description: "Delivery Infrastructure Mastery", // 22
+    description: "Blueprint Storage Mastery", // 22
     value: 0,
     step: 0,
     formatNumbers: false,
@@ -807,7 +807,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => {},
-        description: "<b>Delivery Infrastructure Mastery</b>"
+        description: "<b>Blueprint Storage Mastery</b>"
       },
       {
         n: 10,
@@ -819,7 +819,7 @@ let achievements = [
     ]
   },
   {
-    description: "Intergalactic Tax Haven Mastery", // 23
+    description: "Celestial Tax Haven Mastery", // 23
     value: 0,
     step: 0,
     formatNumbers: false,
@@ -829,7 +829,7 @@ let achievements = [
         unlocked: false,
         permanent: false,
         func: () => {},
-        description: "<b>Intergalactic Tax Haven Mastery</b>"
+        description: "<b>Celestial Tax Haven Mastery</b>"
       },
       {
         n: 10,
@@ -1183,8 +1183,10 @@ function init(saveData) {
         locked: true,
         func: n => {
           mpsMultiplier += n / 100;
+          buildata[9].specialData.statsDescription = `+${n}% $/s per building`;
         },
-        description: "Multiplies your $/s"
+        description: "Multiplies your $/s",
+        statsDescription: "+1% $/s per building"
       }
     },
     {
@@ -1211,11 +1213,12 @@ function init(saveData) {
           }
           updateAllBuilders();
         },
-        description: "Increases all builders' click per second."
+        description: "Increases all builders' click per second.",
+        statsDescription: "+1 robot click per building"
       }
     },
     {
-      name:"Delivery Infratructure",
+      name:"Blueprint Storage",
       cost: 50000,
       clicks: 100,
       mps: 0,
@@ -1239,11 +1242,12 @@ function init(saveData) {
           }
           window.setTimeout(updateAllBuildings, 10);
         },
-        description: "Lowers all buildings' cost."
+        description: "Lowers all buildings' cost.",
+        statsDescription: "-2% price per building"
       }
     },
     {
-      name:"Intergalactical Tax Haven",
+      name:"Celestial Tax Haven",
       cost: 50000,
       clicks: 100,
       mps: 0,
@@ -1262,7 +1266,8 @@ function init(saveData) {
         func: n => {
           mpsMultiplier += n / 100;
         },
-        description: "Increases $/s"
+        description: "Increases $/s",
+        statsDescription: "+1% $/s per building"
       }
     }
   ];
@@ -1291,7 +1296,6 @@ function init(saveData) {
   window.builderIndex = 0; // starting index for builders
   window.isPlacingBuilder = false; // wether the player is currently placing a builder or not
   window.currentPlacingBuilderIndex = -1; // the index of the builder that is currently being placed (-1 means no builder is currently being placed)
-  window.currentPlacingBuilderPlaceButton = undefined; // the HTML element reference to the builder's "Place" button
   window.builderData = [
     { // Builder 1
       cps: 2, // the base delay between clicks (100 is 1 second)
@@ -1616,8 +1620,8 @@ function build(i, e) {
 
         b.ownershipData.building = i; // place new builder
         buildata[i].hasbuilder = currentPlacingBuilderIndex;
+        getBuilderNode(currentPlacingBuilderIndex).classList.remove("pulse");
         currentPlacingBuilderIndex = -1;
-        currentPlacingBuilderPlaceButton.classList.remove("pulse");
         updateBuilding(e.parentNode, i);
         isPlacingBuilder = false;
       } else { // the building has a builder and the builder you are placing is on another building: swap
@@ -1628,8 +1632,8 @@ function build(i, e) {
           b.ownershipData.building = i;
           buildata[i].hasbuilder = currentPlacingBuilderIndex;
           
+          getBuilderNode(currentPlacingBuilderIndex).classList.remove("pulse");
           currentPlacingBuilderIndex = -1;
-          currentPlacingBuilderPlaceButton.classList.remove("pulse");
           updateAllBuildings();
           isPlacingBuilder = false;
         }
@@ -1647,8 +1651,8 @@ function build(i, e) {
       }
       b.ownershipData.building = i; // set builderdata building index to this building
       buildata[i].hasbuilder = currentPlacingBuilderIndex; // set buildingdata builder to this builder
+      getBuilderNode(currentPlacingBuilderIndex).classList.remove("pulse"); // remove pulse animation from builder button
       currentPlacingBuilderIndex = -1; // no builder is being placed
-      currentPlacingBuilderPlaceButton.classList.remove("pulse"); // remove pulse animation from builder button
       updateBuilding(e.parentNode, i);
       if (hadBuilding) updateBuilding(node, index);
     }
@@ -1725,7 +1729,25 @@ function increaseBuild(i, e, fromBuilder) {
 
 // update the building's HTML node when interacting whith it
 function updateBuilding(e, i) {
-  var b = buildata[i];
+  const b = buildata[i];
+  const statsTable = b.specialData ? `
+  <tr>
+    <td colspan="2">${b.specialData.statsDescription}</td>
+  </tr>
+  <tr>
+    <td>Clicks: ${formatNumber(b.clicks)}</td>
+    <td>Availability: ${b.specialData.curve.length}</td>
+  </tr>
+  ` : `
+    <tr>
+      <td>$/s: ${formatNumber(b.mps)}</td>
+      <td>$/click: ${formatNumber(round(b.mpc2,1))}</td>
+    </tr>
+    <tr>
+      <td>Clicks: ${formatNumber(b.clicks)}</td>
+      <td>Build Profit: ${formatNumber(b.mpc)}</td>
+    </tr>
+  `
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   e.innerHTML = `
     <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
@@ -1733,14 +1755,7 @@ function updateBuilding(e, i) {
     <div class="build-info-button" onmousedown="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
       <table>
-        <tr>
-          <td>$/s: ${formatNumber(b.mps)}</td>
-          <td>$/click: ${formatNumber(round(b.mpc2,1))}</td>
-        </tr>
-        <tr>
-          <td>Clicks: ${formatNumber(b.clicks)}</td>
-          <td>Build Profit: ${formatNumber(b.mpc)}</td>
-        </tr>
+        ${statsTable}
       </table>
     </div>
     <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${b.specialData?.disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
@@ -1820,9 +1835,9 @@ function updateAllBuilders() {
     let b = builderData[i];
     let maxedOut = b.ownershipData.level - 1 === b.upgradesCurve.length;
     n.innerHTML = `
-      <p style="border-bottom: var(--border-width) solid ${b.color}; grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name} (${maxedOut ? `Max lvl` : `lvl ${b.ownershipData.level}`} / `+ round(b.cps + b.bonus, 0) +`cps)</p>
+      <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.${b.ownershipData.level}</p>
       <br>
-      <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"></button>
+      <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
       <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">×</button>
       <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Upgrade"}</button>
     `
@@ -1858,9 +1873,9 @@ function buyBuilder() {
 
     document.getElementById("builders-container").innerHTML += `
       <div class="builder">
-        <p style="border-bottom: 4px solid `+ b.color +`; grid-area: name; margin: 0; margin-top: 7px;">`+ b.ownershipData.name +` (lvl 1 / `+ round(b.cps + b.bonus, 0) +`cps)</p>
+        <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.1</p>
         <br>
-        <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(`+ builderIndex +`, this)"></button>
+        <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
         <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(`+ builderIndex +`)">×</button>
         <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(`+ builderIndex +`, this)">
           Upgrade - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
@@ -1882,19 +1897,33 @@ function getBuildingNode(n) {
   return undefined;
 }
 
+function getBuilderNode(n) {
+  let buildings = document.querySelectorAll(".builder");
+  for (let i = 0; i < buildings.length; i++) {
+    const b = buildings[i];
+    if (n === i) {
+      return b.children[2];
+    }
+  }
+  return undefined;
+}
+
 // handle builder placement on buildings
 function placeBuilder(i, e) {
-  if (!isPlacingBuilder || currentPlacingBuilderPlaceButton === e) {
-    isPlacingBuilder = !isPlacingBuilder;
-    if (isPlacingBuilder) {
-      currentPlacingBuilderIndex = i;
-      e.classList.add("pulse");
-      currentPlacingBuilderPlaceButton = e;
-    } else {
+  if (isPlacingBuilder) {
+    if (getBuilderNode(currentPlacingBuilderIndex) === e) {
       e.classList.remove("pulse");
       currentPlacingBuilderIndex = -1;
-      currentPlacingBuilderPlaceButton = undefined;
+      isPlacingBuilder = false;
+    } else {
+      e.classList.add("pulse");
+      getBuilderNode(currentPlacingBuilderIndex).classList.remove("pulse");
+      currentPlacingBuilderIndex = i;
     }
+  } else {
+    isPlacingBuilder = true;
+    e.classList.add("pulse");
+    currentPlacingBuilderIndex = i;
   }
 }
 
@@ -1933,12 +1962,14 @@ function upgradeBuilder(i, e) {
     increaseAchievement(12 + i);
     b.ownershipData.level += 1;
     if (maxLevel) {
-      e.parentNode.children[0].innerHTML = "Builder "+ (i + 1) +" (Max lvl / "+ round(b.cps, 0) +"cps)";
+      //e.parentNode.children[0].innerHTML = builderNames[i] +" (Max lvl / "+ round(b.cps, 0) +"cps)";
+      e.parentNode.children[0].innerHTML = `${b.ownershipData.name}.${b.ownershipData.level}`;
       e.disabled = true;
       e.classList.remove("action");
       e.innerHTML = "Upgrade";
     } else {
-      e.parentNode.children[0].innerHTML = "Builder "+ (i + 1) +" (lvl "+ b.ownershipData.level +" / "+ round(b.cps, 0) +"cps)";
+      // e.parentNode.children[0].innerHTML = builderNames[i] +" (lvl "+ b.ownershipData.level +" / "+ round(b.cps, 0) +"cps)";
+      e.parentNode.children[0].innerHTML = `${b.ownershipData.name}.${b.ownershipData.level}`;
     }
   }
 
