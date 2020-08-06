@@ -1838,8 +1838,9 @@ function updateAllBuilders() {
       <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.${b.ownershipData.level}</p>
       <br>
       <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
-      <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">×</button>
-      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Upgrade"}</button>
+      <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">Remove</button>
+      <div class="builder-info"><span>${b.cps}</span> clicks/s</div>
+      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Upgrade"}</button>
     `
   }
   let el = document.getElementById("buyBuilder");
@@ -1876,9 +1877,10 @@ function buyBuilder() {
         <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.1</p>
         <br>
         <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
-        <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(`+ builderIndex +`)">×</button>
+        <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(`+ builderIndex +`)">Remove</button>
+        <div class="builder-info"><span>${b.cps}</span> clicks/s</div>
         <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(`+ builderIndex +`, this)">
-          Upgrade - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
+          Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
         </button>
       </div>
     `
@@ -1953,14 +1955,15 @@ function upgradeBuilder(i, e) {
       if (b.ownershipData.level === b.upgradesCurve.length) {
         maxLevel = true;
       } else {
-        e.innerHTML = `Upgrade - ${formatNumber(b.upgradesCurve[b.ownershipData.level].cost)}$`;
+        e.innerHTML = `Upgrade (+${b.upgradesCurve[b.ownershipData.level].value - b.cps}) - ${formatNumber(b.upgradesCurve[b.ownershipData.level].cost)}$`;
       }
     }
   }
 
   if (didUpgrade) {
     increaseAchievement(12 + i);
-    b.ownershipData.level += 1;
+    b.ownershipData.level++;
+    e.parentNode.children[4].children[0].innerHTML = b.cps;
     if (maxLevel) {
       //e.parentNode.children[0].innerHTML = builderNames[i] +" (Max lvl / "+ round(b.cps, 0) +"cps)";
       e.parentNode.children[0].innerHTML = `${b.ownershipData.name}.${b.ownershipData.level}`;
