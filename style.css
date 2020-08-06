@@ -6,13 +6,16 @@
 
 @media only screen and (max-width: 750px) {
   :root {
-    --width: 98%;
+    --width: 100%;
   }
   #auth-container {
     display: block !important;
   }
   .auth-method {
     width: 90% !important;
+  }
+  #game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
   }
 }
 
@@ -91,7 +94,7 @@ header img {
 }
 
 .page {
-  width: calc(var(--width) - 40px);
+  width: calc(var(--width) - 20px);
   margin: 20px auto 4px;
   padding: 20px;
   color: white;
