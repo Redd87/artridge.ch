@@ -16,6 +16,8 @@
   --font-size-smol: 20px;
   --font-size-medium: 32px;
   --font-size-big: 56px;
+
+  /* letter-spacing: 0.15em; */
 }
 
 /* POSSIBLE COLOR PALETTES
@@ -37,6 +39,11 @@
 @font-face {
   font-family: DoppioOne;
   src: url(fonts/DoppioOne-Regular.ttf);
+}
+
+@font-face {
+  font-family: Evil;
+  src: url(fonts/EvilEmpire-4BBVK.ttf);
 }
 
 body {
@@ -963,9 +970,20 @@ canvas {
   text-align: center;
 }
 
+#name-prompt h1 {
+  font-size: 100px;
+  white-space: nowrap;
+  /* letter-spacing: 0.15em; */
+  margin-top: 40px;
+}
+
 #name-prompt h3 {
   font-size: var(--font-size-big);
   white-space: nowrap;
+}
+
+#name-prompt span {
+  color: var(--col-progress);
 }
 
 #name-prompt input {
