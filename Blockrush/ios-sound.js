@@ -36,7 +36,7 @@
   b.id = "play-btn";
 
   let p = document.createElement("p");
-  p.innerHTML = "DODGE IS A FAST PACED REFLEX GAME. SURVIVE AS LONG AS POSSIBLE BY AVOIDING ENEMIES, PATTERNS, AND BOOST YOUR SCORE USING VARIOUS POWERUPS TO OBTAIN THE HIGHEST HIGHSCORE. CUSTOMIZE YOUR GAMES BY CHANGING THE GAME'S COLOR PALETTE, OR ITS GAMEPLAY SETTINGS, SUCH AS THE DIFFICULTY, DISABLING POWERUPS OR PATTERNS. EVERY GAMEPLAY SETTING COMBINATION HAS ITS OWN HIGHSCORE.";
+  p.innerHTML = "BLOCKRUSH WAS ONE OF OUR FIRST PROTOTYPES WHICH WAS NEVER COMPLETED. IN THIS PUZZLE GAME, YOU HAVE TO REACH THE CHEST IN VARIOUS LEVELS.";
   p.classList.add('description');
   p.style.cssText = `
     font-size: 30px;
@@ -89,11 +89,8 @@
     // dynamically load original script
     var s = document.createElement('script')
 
-	  if(navIsMobile) {
-	    file = "dodge-mobile.js"
-	  } else {
-	    file = "dodge.js"
-	  }
+    file = "blockrush.js";
+    
     s.setAttribute('src', file)
     document.body.appendChild(s)
 
