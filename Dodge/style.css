@@ -117,7 +117,6 @@ img {
 	bottom: 11px;
 	border: var(--border-size) solid #FFF1E8;
 	z-index: 200;
-  touch-action: none;
   float: left;
   overflow: hidden;
   margin: 0px;

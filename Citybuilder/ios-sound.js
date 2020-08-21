@@ -39,7 +39,7 @@
   });
 
   let d = document.createElement("p");
-  d.innerHTML = "DODGE IS A FAST PACED REFLEX GAME. SURVIVE AS LONG AS POSSIBLE BY AVOIDING ENEMIES, PATTERNS, AND BOOST YOUR SCORE USING VARIOUS POWERUPS TO OBTAIN THE HIGHEST HIGHSCORE. CUSTOMIZE YOUR GAMES BY CHANGING THE GAME'S COLOR PALETTE, OR ITS GAMEPLAY SETTINGS, SUCH AS THE DIFFICULTY, DISABLING POWERUPS OR PATTERNS. EVERY GAMEPLAY SETTING COMBINATION HAS ITS OWN HIGHSCORE.";
+  d.innerHTML = "ANOTHER PROTOTYPE WHERE YOU MANAGE A CITY THAT WAS NEVER GIVEN A NAME AND THUS REMAINED AS CITYBUILDER.";
   d.classList.add('description');
   d.style.cssText = `
     font-size: 30px;
@@ -93,11 +93,8 @@
     // dynamically load original script
     var s = document.createElement('script')
 
-	  if(navIsMobile) {
-	    file = "dodge-mobile.js"
-	  } else {
-	    file = "dodge.js"
-	  }
+    file = "citybuilder.js";
+    
     s.setAttribute('src', file)
     document.body.appendChild(s)
 
