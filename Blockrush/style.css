@@ -15,28 +15,31 @@
 button {
   font-family: "PICO-8";
 }
+button:focus {
+  outline: none;
+}
 canvas{
-    image-rendering: optimizeSpeed;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-contrast;
-    image-rendering: pixelated;
-    -ms-interpolation-mode: nearest-neighbor;
-    border-left: calc(var(--border-size) - 0px) solid #FFF1E8;
-    border-top: calc(var(--border-size) - 0px) solid #FFF1E8;
-    border-right: calc(var(--border-size) + 0.2px) solid #FFF1E8;
-    border-bottom: calc(var(--border-size) + 0.2px) solid #FFF1E8;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  border-left: calc(var(--border-size) - 0px) solid #FFF1E8;
+  border-top: calc(var(--border-size) - 0px) solid #FFF1E8;
+  border-right: calc(var(--border-size) + 0.2px) solid #FFF1E8;
+  border-bottom: calc(var(--border-size) + 0.2px) solid #FFF1E8;
 }
 
 body {
-    margin: 0;
-    touch-action: manipulation;
-    user-select: none; /* supported by Chrome and Opera */
-   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none; /* Internet Explorer/Edge */
-   position: relative;
+  margin: 0;
+  touch-action: manipulation;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  position: relative;
  }
   
  /*body br {
@@ -108,25 +111,46 @@ img {
   -webkit-touch-callout:none;
   pointer-events: none;
 }
-.trackpad {
-	background-color: #555;
+.gamepad {
 	width: 250px;
 	height: 250px;
-	position: fixed;
+	position: absolute;
 	right: 11px;
-	bottom: 10px;
-	border: var(--border-size) solid #FFF1E8;
+	bottom: 11px;
 	z-index: 200;
   touch-action: none;
-  float: left;
   overflow: hidden;
   margin: 0px;
   padding: 0px;
+  visibility: hidden;
 }
+.gamepad button {
+  position: absolute;
+  visibility: visible;
+  width: 34%;
+  height: 34%;
+  border: var(--border-size) solid #FFF1E8;
+  transform-origin: center center;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.gamepad .up, .gamepad .down {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gamepad .left, .gamepad .right {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.gamepad .up { top: 0px; background-image: url(./images/playUp.png); }
+.gamepad .right { right: 0px; background-image: url(./images/playRight.png); }
+.gamepad .down { bottom: 0px; background-image: url(./images/playDown.png); }
+.gamepad .left { left: 0px; background-image: url(./images/playLeft.png); }
+
 .touch-buttons {
-	position: fixed;
+	position: absolute;
 	left: 11px;
-	bottom: 10px;
+	bottom: 11px;
   padding: 0px;
   margin: 0px;
 	z-index: 200;
