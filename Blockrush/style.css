@@ -33,7 +33,7 @@ canvas{
 
 body {
   margin: 0;
-  touch-action: manipulation;
+  touch-action: none;
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -134,7 +134,7 @@ img {
   background-position: center center;
   box-sizing: border-box;
   background-size: auto;
-  touch-action: manipulation;
+  touch-action: none;
 }
 .gamepad .up, .gamepad .down {
   left: 50%;
