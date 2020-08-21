@@ -31,20 +31,28 @@
   ].map(function(p) { return p + ';' }).join('');
   o.id = "mobile-overlay";
   
-  let b = document.createElement("button");
-  b.innerHTML = "PLAY GAME";
-  b.id = "play-btn";
+  let p = document.createElement("button");
+  p.innerHTML = "PLAY GAME";
+  p.id = "play-btn";
 
-  let p = document.createElement("p");
-  p.innerHTML = "BLOCKRUSH WAS ONE OF OUR FIRST PROTOTYPES WHICH WAS NEVER COMPLETED. IN THIS PUZZLE GAME, YOU HAVE TO REACH THE CHEST IN VARIOUS LEVELS.";
-  p.classList.add('description');
-  p.style.cssText = `
+  let b = document.createElement("button");
+  b.innerHTML = "BACK";
+  b.id = "back-btn";
+  b.addEventListener('click', () => { 
+    window.location.href = 'https://artridge.ch';
+  });
+
+  let d = document.createElement("p");
+  d.innerHTML = "BLOCKRUSH WAS ONE OF OUR FIRST PROTOTYPES WHICH WAS NEVER COMPLETED. IN THIS PUZZLE GAME, YOU HAVE TO REACH THE CHEST IN VARIOUS LEVELS.";
+  d.classList.add('description');
+  d.style.cssText = `
     font-size: 30px;
     line-height: 50px;
   `
 
-  o.appendChild(b);
   o.appendChild(p);
+  o.appendChild(b);
+  o.appendChild(d);
   document.body.appendChild(o);
 
   // disable scrolling
@@ -67,7 +75,7 @@
   if (!navIsMobile) {
     startGame();
   } else {
-    b.onclick = startGame;
+    p.onclick = startGame;
   }
   
   function startGame() {

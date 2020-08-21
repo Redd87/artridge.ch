@@ -231,14 +231,23 @@ img {
   }
 }
 
-#play-btn {
+#play-btn, #back-btn {
   padding: 10px;
   background-color: white;
   color: black;
   border: none;
   font-size: 40px;
+  display: block;
+  margin: 20px auto;
+}
+
+#play-btn {
+  border-bottom: 20px solid #FF004D;
   margin-top: 200px;
-  border-bottom: 20px solid red;
+}
+
+#back-btn {
+  border-bottom: 20px solid #00E436;
 }
 
 .touch-not-supported .show-if-touch { display: none !important; }

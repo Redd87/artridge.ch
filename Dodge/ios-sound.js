@@ -31,20 +31,28 @@
   ].map(function(p) { return p + ';' }).join('');
   o.id = "mobile-overlay";
   
-  let b = document.createElement("button");
-  b.innerHTML = "PLAY GAME";
-  b.id = "play-btn";
+  let p = document.createElement("button");
+  p.innerHTML = "PLAY GAME";
+  p.id = "play-btn";
 
-  let p = document.createElement("p");
-  p.innerHTML = "DODGE IS A FAST PACED REFLEX GAME. SURVIVE AS LONG AS POSSIBLE BY AVOIDING ENEMIES, PATTERNS, AND BOOST YOUR SCORE USING VARIOUS POWERUPS TO OBTAIN THE HIGHEST HIGHSCORE. CUSTOMIZE YOUR GAMES BY CHANGING THE GAME'S COLOR PALETTE, OR ITS GAMEPLAY SETTINGS, SUCH AS THE DIFFICULTY, DISABLING POWERUPS OR PATTERNS. EVERY GAMEPLAY SETTING COMBINATION HAS ITS OWN HIGHSCORE.";
-  p.classList.add('description');
-  p.style.cssText = `
+  let b = document.createElement("button");
+  b.innerHTML = "BACK";
+  b.id = "back-btn";
+  b.addEventListener('click', () => { 
+    window.location.href = 'https://artridge.ch';
+  });
+
+  let d = document.createElement("p");
+  d.innerHTML = "DODGE IS A FAST PACED REFLEX GAME. SURVIVE AS LONG AS POSSIBLE BY AVOIDING ENEMIES, PATTERNS, AND BOOST YOUR SCORE USING VARIOUS POWERUPS TO OBTAIN THE HIGHEST HIGHSCORE. CUSTOMIZE YOUR GAMES BY CHANGING THE GAME'S COLOR PALETTE, OR ITS GAMEPLAY SETTINGS, SUCH AS THE DIFFICULTY, DISABLING POWERUPS OR PATTERNS. EVERY GAMEPLAY SETTING COMBINATION HAS ITS OWN HIGHSCORE.";
+  d.classList.add('description');
+  d.style.cssText = `
     font-size: 30px;
     line-height: 50px;
   `
 
-  o.appendChild(b);
   o.appendChild(p);
+  o.appendChild(b);
+  o.appendChild(d);
   document.body.appendChild(o);
 
   // disable scrolling
@@ -67,7 +75,7 @@
   if (!navIsMobile) {
     startGame();
   } else {
-    b.onclick = startGame;
+    p.onclick = startGame;
   }
   
   function startGame() {
