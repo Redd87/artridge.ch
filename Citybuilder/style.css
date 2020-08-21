@@ -122,6 +122,7 @@ img {
   margin: 0px;
   padding: 0px;
   visibility: hidden;
+  touch-action: none;
 }
 .gamepad div {
   position: absolute;
@@ -159,6 +160,7 @@ img {
   display: inline-block;
   border: var(--border-size) solid #FFF1E8;
   background-color: #292929;
+  touch-action: none;
 }
 .pico-btn {
 	font-family: "PICO-8" !important;
