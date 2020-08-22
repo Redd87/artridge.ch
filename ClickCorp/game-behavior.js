@@ -870,9 +870,9 @@ function displayAchievementIcons() {
     div.innerHTML = `
       <span>${a.value >= a.levels[0].n || i === 0 && refactorLevel > 0 ? a.description : "?"}</span>
     `;
-    div.addEventListener("mousedown",() => {
+    div.onmousedown = () => {
       openAchievement(i);
-    });
+    };
 
     achievementsContainer.appendChild(div);
   }
@@ -1017,7 +1017,12 @@ const randomName = () => {
   let names = ["Corporation", "Factory", "Empire", "Organization", "Business", "Firm", "Club", "Association", "Agency", "Realm", "Supremacy"];
   let n = names[Math.floor(Math.random() * names.length)]
 
-  let username = usr()?.displayName || 'Guest';
+  let username;
+  if (usr()) {
+    username = usr().displayName;
+  } else {
+    username = 'Guest';
+  }
   let lastChar = username[username.length - 1];
 
   return `${username}'${lastChar === "s" ? "" : "s"} ${a} ${n}`
@@ -1473,7 +1478,7 @@ function init(saveData) {
       const index = buildataCopy[i].index;
       const b = buildata[index];
 
-      if (b.specialData?.locked) continue;
+      if (b.specialData && b.specialData.locked) continue;
 
       // display in container
       const div = document.createElement("div");
@@ -1764,6 +1769,7 @@ function updateBuilding(e, i) {
     </tr>
   `
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
+  let disableBuy = b.specialData && b.specialData.disableBuy;
   e.innerHTML = `
     <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
@@ -1773,8 +1779,8 @@ function updateBuilding(e, i) {
         ${statsTable}
       </table>
     </div>
-    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${b.specialData?.disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
-      ${b.specialData?.disableBuy ? 'Max' : 'Buy'} ${b.specialData?.disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
+    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
+      ${disableBuy ? 'Max' : 'Buy'} ${disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
     </button><br>
     <p class="build-perc-counter">`+ Math.round(b.current) +`%</p>
     <progress class="build-perc" value="`+ b.current / 100 +`"></progress>
@@ -2472,3 +2478,13 @@ window.setInterval(() => {
     })
   }
 }, 2000);
+
+
+window.setInterval(() => {
+  if ('ontouchstart' in document.documentElement) {
+    document.querySelectorAll('*[onmousedown]').forEach((e) => {
+      e.setAttribute('ontouchstart', e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
+      e.removeAttribute('onmousedown');
+    });
+  }
+}, 3e3);
