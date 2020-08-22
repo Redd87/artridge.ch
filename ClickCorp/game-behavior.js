@@ -995,7 +995,7 @@ const updatePoorPeople = () => {
   }
 }
 
-Object.defineProperty(window, "money", {
+/*Object.defineProperty(window, "money", {
   get: function() {
     return this.internalMoney;
   },
@@ -1003,7 +1003,9 @@ Object.defineProperty(window, "money", {
     window.internalMoney = x;
     updatePoorPeople();
   }
-});
+});*/
+
+window.setInterval(updatePoorPeople, 1e3);
 
 window.onload = () => {
   updatePoorPeople();
