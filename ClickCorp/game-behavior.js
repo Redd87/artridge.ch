@@ -870,9 +870,11 @@ function displayAchievementIcons() {
     div.innerHTML = `
       <span>${a.value >= a.levels[0].n || i === 0 && refactorLevel > 0 ? a.description : "?"}</span>
     `;
-    div.onmousedown = () => {
-      openAchievement(i);
-    };
+    if ('ontouchstart' in document.documentElement) {
+      div.setAttribute('ontouchstart', `openAchievement(${i})`);
+    } else {
+      div.setAttribute('onmousedown', `openAchievement(${i})`);
+    }
 
     achievementsContainer.appendChild(div);
   }
@@ -2485,6 +2487,7 @@ window.setInterval(() => {
     document.querySelectorAll('*[onmousedown]').forEach((e) => {
       e.setAttribute('ontouchstart', e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
       e.removeAttribute('onmousedown');
+      e.onmousedown = undefined;
     });
   }
 }, 3e3);
