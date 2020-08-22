@@ -58,6 +58,7 @@ body {
 * {
   scrollbar-width: none;
   user-select: none;
+  touch-action: manipulation;
 }
 
 *:active {

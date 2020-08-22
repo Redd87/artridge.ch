@@ -10,6 +10,7 @@
 |*|                                                         |*|
 \*//*                                                     *\\*/
 
+let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
 let refactorLevel = 0;
 let refactorPrice = 7.5e9;
 let specialBuildings = [9];
@@ -870,11 +871,7 @@ function displayAchievementIcons() {
     div.innerHTML = `
       <span>${a.value >= a.levels[0].n || i === 0 && refactorLevel > 0 ? a.description : "?"}</span>
     `;
-    if ('ontouchstart' in document.documentElement) {
-      div.setAttribute('ontouchstart', `openAchievement(${i})`);
-    } else {
-      div.setAttribute('onmousedown', `openAchievement(${i})`);
-    }
+    div.setAttribute(evt, `openAchievement(${i})`);
 
     achievementsContainer.appendChild(div);
   }
@@ -925,7 +922,7 @@ function openAchievement(n) {
   }
 
   achievementsContainer.innerHTML = `
-    <button class="hover-btn building-action-btn" style="width: 30px; height: 30px;" onmousedown="closeAchievements()">×</button>
+    <button class="hover-btn building-action-btn" style="width: 30px; height: 30px;" ${evt}="closeAchievements()">×</button>
     <div class="achievement-progress-background" ${!!a.specialNames ? "" : `onmouseenter="showToolTip([${a.value}, ${a.maxLevel}, ${a.formatNumbers}],1);"`} onmouseleave="hideToolTip();"></div>
     <div ${maxedOut ? `style="background-color: var(--col-success);"`: ""} class="achievement-progress" data-height="${progress !== 0 && !progress ? 100 : progress}"></div>
     <!--<div style="height: calc((100% - 100px) * ${1 / a.levels.length});" class="achievement-progress-hider"></div>-->
@@ -1463,7 +1460,7 @@ function init(saveData) {
 
   // reset builders
   document.getElementById("builders").innerHTML += `
-    <button style="color: var(--col-invalid);" id="buyBuilder" class="hover-btn" onmousedown="buyBuilder();">Buy Robot - ${formatNumber(builderData[builderIndex].cost)}$</button>
+    <button style="color: var(--col-invalid);" id="buyBuilder" class="hover-btn" ${evt}="buyBuilder();">Buy Robot - ${formatNumber(builderData[builderIndex].cost)}$</button>
   `
   let purchaseContainer = document.getElementById("purchases");
   window.resetBuildingsContainer = () => {
@@ -1495,7 +1492,7 @@ function init(saveData) {
     // refactor button
     purchaseContainer.innerHTML += `
       <div style="height: 60px;" id="refactor-container">
-        <button onmousedown="refactor();" class="action hover-btn" id="refactor">
+        <button ${evt}="refactor();" class="action hover-btn" id="refactor">
           <span class="text">Refactor</span>
           <span class="data">${numberWithSpaces(refactorPrice)}$</span>
         </button>
@@ -1773,15 +1770,15 @@ function updateBuilding(e, i) {
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   let disableBuy = b.specialData && b.specialData.disableBuy;
   e.innerHTML = `
-    <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` onmousedown="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
+    <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` ${evt}="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
-    <div class="build-info-button" onmousedown="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
+    <div class="build-info-button" ${evt}="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
       <table>
         ${statsTable}
       </table>
     </div>
-    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${disableBuy ? "disabled" : ""} onmousedown="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
+    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${disableBuy ? "disabled" : ""} ${evt}="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
       ${disableBuy ? 'Max' : 'Buy'} ${disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
     </button><br>
     <p class="build-perc-counter">`+ Math.round(b.current) +`%</p>
@@ -1860,10 +1857,10 @@ function updateAllBuilders() {
     n.innerHTML = `
       <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.${b.ownershipData.level}</p>
       <br>
-      <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
-      <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(${i})">Remove</button>
+      <button class="hover-btn builderAction builder-place-btn" ${evt}="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
+      <button class="hover-btn builderAction builder-remove-btn" ${evt}="removeBuilder(${i})">Remove</button>
       <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
-      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Max"}</button>
+      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" ${evt}="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Max"}</button>
     `
   }
   let el = document.getElementById("buyBuilder");
@@ -1899,10 +1896,10 @@ function buyBuilder() {
       <div class="builder">
         <p style="grid-area: name; margin: 0; margin-top: 7px;">${b.ownershipData.name}.1</p>
         <br>
-        <button class="hover-btn builderAction builder-place-btn" onmousedown="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
-        <button class="hover-btn builderAction builder-remove-btn" onmousedown="removeBuilder(`+ builderIndex +`)">Remove</button>
+        <button class="hover-btn builderAction builder-place-btn" ${evt}="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
+        <button class="hover-btn builderAction builder-remove-btn" ${evt}="removeBuilder(`+ builderIndex +`)">Remove</button>
         <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
-        <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" onmousedown="upgradeBuilder(`+ builderIndex +`, this)">
+        <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" ${evt}="upgradeBuilder(`+ builderIndex +`, this)">
           Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
         </button>
       </div>
@@ -2190,7 +2187,7 @@ function confirmRefactor() {
     if (!b.specialData.locked) continue;
     options.innerHTML += `
       <div class="refactor-prompt-option">
-        <button class="hover-btn" onmousedown="setRefactorOption(${i},this)"></button>
+        <button class="hover-btn" ${evt}="setRefactorOption(${i},this)"></button>
         <br><br><b>${b.name}</b><br><br>${b.specialData.description}
       </div>
     `;
