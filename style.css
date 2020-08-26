@@ -159,6 +159,19 @@ a:hover {
   color: red;
 }
 
+.error-message button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  width: fit-content;
+}
+
+.error-message button:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 750px) {
   :root {
     --width: 100%;

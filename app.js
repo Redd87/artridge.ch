@@ -57,8 +57,19 @@ function login(e) {
   let password = e.children[2].value;
   let error = e.querySelector(".error-message");
   firebase.auth().signInWithEmailAndPassword(email, password).catch(function(e) {
-    error.innerHTML = e.message;
+    error.innerHTML = e.message + `<br><button onclick='resetPwd("${email}", this)'>Forgot your password?</button>`;
   });
+}
+
+function resetPwd(email, el) {
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => {
+      el.parentNode.style.color = "white";
+      el.parentNode.innerHTML = `Password reset email sent to ${email}.`;
+    })
+    .catch((e) => {
+      el.parentNode.innerHTML = `The email could not be sent.`;
+    });
 }
 
 // Signup function called from HTML
