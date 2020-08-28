@@ -131,6 +131,7 @@ a:hover {
 }
 
 .auth-method {
+  position: relative;
   display: inline-block;
   width: calc(50% - 45px);
   border-radius: 5px;
@@ -170,6 +171,15 @@ a:hover {
 
 .error-message button:hover {
   text-decoration: underline;
+}
+
+.pwd {
+  margin-left: -12px !important;
+}
+
+.eye {
+  margin-left: -40px;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 750px) {

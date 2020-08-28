@@ -311,6 +311,8 @@ a:visited { color: var(--col-success); }
   padding-bottom: 0px;
   background-color: var(--col-primary);
   grid-area: btn;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .buy-btn {

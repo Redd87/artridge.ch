@@ -13,7 +13,7 @@
 let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
 let refactorLevel = 0;
 let refactorPrice = 7.5e9;
-let specialBuildings = [9];
+let specialBuildings = [9, 10];
 let builderNames = [
   "Robot-Y01",
   "Robot-C02",
@@ -22,7 +22,7 @@ let builderNames = [
   "Robot-P05",
   "Robot-B06",
   "Robot-R07",
-  "Robot-D08",
+  "Robot-D08"
 ];
 
 for (let i=0; i<builderNames.length; i++) {
@@ -191,7 +191,7 @@ let achievements = [
     ]
   },
   {
-    description: "House Mastery", // 1
+    description: "<img src='images/Projects/House/finished.png' style='width: 100%; height: 100%;'>", // 1
     value: 0,
     step: 0,
     levels: [
@@ -1072,7 +1072,7 @@ function init(saveData) {
   }
 
   /* MONEY */
-  window.money = s ? saveData.money : 125; // starting money
+  window.money = s ? saveData.money : 125e9; // starting money
   window.mps = 0; // starting money per second
   window.mpsMultiplier = s ? saveData.mpsMultiplier : (refactorLevel / 100) * 20 + 1; // for bonuses
   window.numPurchases = 1; // how many buildings to buy
@@ -1467,6 +1467,7 @@ function init(saveData) {
   let purchaseContainer = document.getElementById("purchases");
   window.resetBuildingsContainer = () => {
     purchaseContainer.innerHTML = "";
+    let maxedSpecialBuildings = [];
     
     let buildataCopy = JSON.parse(JSON.stringify(buildata));
     for (let i = 0; i < buildataCopy.length; i++) {
@@ -1480,6 +1481,11 @@ function init(saveData) {
       const b = buildata[index];
 
       if (b.specialData && b.specialData.locked) continue;
+      //console.log(b.specialData ? b.built + ' ' + b.specialData.curve.length : undefined);
+      if (b.specialData && b.built === b.specialData.curve.length) {
+        maxedSpecialBuildings.push(index);
+        continue;
+      }
 
       // display in container
       const div = document.createElement("div");
@@ -1500,6 +1506,17 @@ function init(saveData) {
         </button>
       </div>
     `;
+    console.log(maxedSpecialBuildings);
+    for (let i = 0; i < maxedSpecialBuildings.length; i++) {
+      const index = maxedSpecialBuildings[i];
+      const div = document.createElement("div");
+      div.setAttribute("class", "building");
+      div.setAttribute("data-index", index);
+      
+      purchaseContainer.appendChild(div);
+
+      updateBuilding(div, index);
+    }
   }
   resetBuildingsContainer();
   
@@ -1740,6 +1757,7 @@ function increaseBuild(i, e, fromBuilder, bi) {
         b.specialData.func(b.specialData.curve[b.specialData.valueLevel].value)
         b.specialData.valueLevel++;
         increaseAchievement(i + 11);
+        resetBuildingsContainer();
       }
     } else {
       if (!fromBuilder) explode(mouse()[0], mouse()[1]);
@@ -1750,7 +1768,25 @@ function increaseBuild(i, e, fromBuilder, bi) {
 
 // update the building's HTML node when interacting whith it
 function updateBuilding(e, i) {
+
+  
   const b = buildata[i];
+
+  let img = `images/Projects/${b.name}/`;
+  if (b.current === 0) {
+    if (b.bought === 0 && b.built === 0) {
+      img += 'not-bought-not-built';
+    } else if (b.bought === 1 && b.built === 0) {
+      img += 'bought-not-built';
+    } else {
+      img += 'finished';
+    }
+  } else {
+    img += `click${Math.ceil(b.current / 10)}`;
+  }
+  img += '.png';
+  img = '';
+
   const statsTable = b.specialData ? `
   <tr>
     <td colspan="2">${b.specialData.statsDescription}</td>
@@ -1772,7 +1808,7 @@ function updateBuilding(e, i) {
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   let disableBuy = b.specialData && b.specialData.disableBuy;
   e.innerHTML = `
-    <button `+ ((b.hasbuilder!=-1) ? 'style="border: var(--border-width) solid '+ builderData[b.hasbuilder].color +';"' : '') +` ${evt}="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
+    <button `+ ((b.hasbuilder!=-1) ? `style="background-image: url(${img}); border: var(--border-width) solid `+ builderData[b.hasbuilder].color +';"' : `style="background-image: url(${img});"`) +` ${evt}="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
     <div class="build-info-button" ${evt}="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">

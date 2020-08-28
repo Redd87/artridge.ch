@@ -77,23 +77,30 @@ function signup(e) {
   let username = e.children[1].value;
   let email = e.children[2].value;
   let password = e.children[3].value;
+  let passwordRepeat = e.children[4].value;
   let error = e.querySelector(".error-message");
-  if (!!username.trim()) {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-      usr().updateProfile({
-        displayName: username
-      }).then(() => {
-        updateDatabaseUser();
-      }).catch((e) => {
-        error.innerHTML = e.message;
-      });
+
+  if (!username.trim()) {
+    error.style.color = "red";
+    error.innerHTML = "Invalid username.";
+    return;
+  }
+  if (password !== passwordRepeat) {
+    error.style.color = "red";
+    error.innerHTML = "Passwords do not match.";
+    return;
+  }
+  firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+    usr().updateProfile({
+      displayName: username
+    }).then(() => {
+      updateDatabaseUser();
     }).catch((e) => {
       error.innerHTML = e.message;
     });
-  } else {
-    error.style.color = "red";
-    error.innerHTML = "Invalid username.";
-  }
+  }).catch((e) => {
+    error.innerHTML = e.message;
+  });
 }
 
 // Changes the username of the current user. Called from the HTML.
@@ -135,5 +142,19 @@ function updateDatabaseUser() {
   if (usr().uid) {
     firebase.database().ref(`users/${usr().uid}/username`).set(usr().displayName);
     firebase.database().ref(`users/${usr().uid}/email`).set(usr().email);
+  }
+}
+
+function togglePwd(e) {
+  console.log(e);
+  let eye = e.nextElementSibling;
+  if (e.type === 'password') {
+    e.type = 'text';
+    eye.classList.remove('fa-eye');
+    eye.classList.add('fa-eye-slash');
+  } else {
+    e.type = 'password';
+    eye.classList.remove('fa-eye-slash');
+    eye.classList.add('fa-eye')
   }
 }
