@@ -13,7 +13,7 @@
 let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
 let refactorLevel = 0;
 let refactorPrice = 7.5e9;
-let specialBuildings = [9, 10];
+let specialBuildings = [9];
 let builderNames = [
   "Robot-Y01",
   "Robot-C02",
@@ -1072,7 +1072,7 @@ function init(saveData) {
   }
 
   /* MONEY */
-  window.money = s ? saveData.money : 125e9; // starting money
+  window.money = s ? saveData.money : 125; // starting money
   window.mps = 0; // starting money per second
   window.mpsMultiplier = s ? saveData.mpsMultiplier : (refactorLevel / 100) * 20 + 1; // for bonuses
   window.numPurchases = 1; // how many buildings to buy
