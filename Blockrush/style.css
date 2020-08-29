@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'PICO-8';
-  src: URL('https://artridgegames.github.io/assets/fonts/PICO-8.ttf') format('truetype');
+  src: URL('../fonts/PICO-8.ttf') format('truetype');
 }
 :root {
   --canvas-size: 0px;
