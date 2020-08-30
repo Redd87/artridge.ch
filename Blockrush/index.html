@@ -312,7 +312,7 @@
       /* KEY = { L: 1, R: 2, U: 4, D: 8, O: 16, X: 32, P: 64 }, */
       var picoButtons = document.getElementsByClassName("pico-btn")
       for (i=0; i<picoButtons.length; i++) {
-        picoButtons[i].ontouchstart = function() {
+        picoButtons[i].onmousedown = function() {
           let t = '';
           let c = this.classList.toString();
           if (c.includes('up') || c.includes('down')) t = 'translateX(-50%)';
