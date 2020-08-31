@@ -61,23 +61,12 @@ header img {
   vertical-align: top;
   font-weight: bold;
   border-radius: 5px;
+  border-bottom: 10px solid #ed2941;
 }
 
-#games {
-  border-bottom: 10px solid #FF004D !important;
-}
-
-#about {
-  border-bottom: 10px solid #00E436 !important;
-}
-
-#account {
-  border-bottom: 10px solid #29ADFF !important;
-}
-
-#nav button:active {
+.active {
   border-bottom: none !important;
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .page {
@@ -190,7 +179,7 @@ a:hover {
 }
 
 .pwd {
-  margin-left: -12px !important;
+  margin-left: -0.9em !important;
 }
 
 .eye {

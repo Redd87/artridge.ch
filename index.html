@@ -27,7 +27,7 @@
           <button id="account" onmousedown="app.tab = 2;">{{tabNames[2]}}</button>-->
 
 
-          <button v-for="(g, i) in tabNames" @mousedown="tab = i" :id="g.toLowerCase()">{{g}}</button>
+          <button v-for="(g, i) in tabNames" @mousedown="tab = i" :class="tab === i ? 'active' : 'null'">{{g}}</button>
         </div>
       </header>
       <div id="content">

@@ -8,216 +8,144 @@
     <link rel="apple-touch-startup-image" href="launch.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="manifest.json">
     <style>
+      @font-face {
+        font-family: TileSwap;
+        src: url(/assets/fonts/TileSwap.ttf);
+      }
 
-@font-face {
-  font-family: TileSwap;
-  src: url(/assets/fonts/TileSwap.ttf);
-}
+      * {
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        font-family: 'TileSwap';
+      }
 
-* {
-  user-select: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  font-family: 'TileSwap';
-}
+      body {
+        background-color: RGB(173,173,133);
+        overflow: hidden;
+      }
 
-body {
-  background-color: RGB(173,173,133);
-}
+      #container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
 
-#container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+      .tile {
+        width: 100px;
+        height: 100px;
+        background-color: #ffffff;
+        margin: 7px;
+        display: inline-block;
+        color: white;
+        border-radius: 7px;
+        border: none;
+        animation: show 0.3s;
+        cursor: pointer;
+      }
 
-.tile {
-  width: 100px;
-  height: 100px;
-  background-color: #ffffff;
-  margin: 7px;
-  display: inline-block;
-  color: white;
-  border-radius: 7px;
-  border: none;
-  animation: show 0.3s;
-  cursor: pointer;
-}
+      @media only screen and (orientation: portrait) {
+        .tile {
+          width: 180px;
+          height: 180px;
+        }
+        #container {
+          width: 600px;
+          top: 45%;
+        }
+        #controls {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%) translateY(500px);
+          width: 600px;
+        }
+        button {
+          width: 100%;
+        }
+        #share, #back {
+          width: 160px !important;
+          font-size: 60px;
+        }
+        #back {
+          top: 110px !important;
+        }
+        #randomize {
+          font-size: 60px;
+        }
+        #slider {
+          width: 90%;
+        }
+        #slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+        #numPresses {
+          text-align: right;
+        }
+      }
 
-@media only screen and (orientation: portrait) {
-  .tile {
-    width: 180px;
-    height: 180px;
-  }
-  #container {
-    width: 600px;
-    top: 45%;
-  }
-  #controls {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) translateY(500px);
-    width: 600px;
-  }
-  button {
-    width: 100%;
-  }
-  #share {
-    width: auto;
-    font-size: 60px;
-  }
-  #randomize {
-    font-size: 60px;
-  }
-  #slider {
-    width: 90%;
-  }
-  #slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-  }
-  #numPresses {
-    text-align: right;
-  }
-}
+      #numPresses {
+        display: inline;
+        color: #ffffff;
+        font-size: 30px;
+      }
 
-#numPresses {
-  display: inline;
-  color: #ffffff;
-  font-size: 30px;
-}
+      button {
+        padding: 15px;
+        border: none;
+        border-radius: 7px;
+        background-color: #ffffff;
+        font-size: 25px;
+        cursor: pointer;
+      }
 
-button {
-  padding: 15px;
-  border: none;
-  border-radius: 7px;
-  background-color: #ffffff;
-  font-size: 25px;
-  cursor: pointer;
-}
+      #share {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 100px;
+      }
 
-#share {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 100px;
-}
+      #back {
+        position: absolute;
+        top: 70px;
+        right: 5px;
+        width: 100px;
+      }
+            
+      @keyframes show {
+        from {
+          transform: scale(0);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
 
-#back {
-  position: absolute;
-  top: 70px;
-  right: 5px;
-  width: 100px;
-}
-      
-@keyframes show {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-      
-#byline {
-  position: absolute;
-  display: inline;
-  bottom: 10px;
-  left: 10px;
-  color: white;
-  font-size: 20px;
-  padding: 0px;
-  margin: 0px;
-}
+      .background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00000088;
+        pointer-events: none;
+        opacity: 0;
+        transform: opacity 0.1s ease-in-out;
+      }
 
-input[type=range].slider {
-  -webkit-appearance: none;
-  /* width: 100%; */
-  margin: 20px 0; /* 7.55px */
-  margin-top: 0px;
-}
-input[type=range].slider:focus {
-  outline: none;
-}
-input[type=range].slider::-webkit-slider-runnable-track {
-  /* width: 100%; */
-  height: 3.9px;
-  cursor: pointer;
-  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-  background: #fff5ff;
-  border-radius: 25px;
-  border: 0.1px solid #010101;
-}
-input[type=range].slider::-webkit-slider-thumb {
-  box-shadow: 0.8px 0.8px 1.9px rgba(0, 0, 62, 0.67), 0px 0px 0.8px rgba(0, 0, 88, 0.67);
-  border: 1.9px solid rgba(0, 0, 0, 0);
-  height: 19px;
-  width: 19px;
-  border-radius: 50px;
-  background: #ffffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -7.65px;
-}
-input[type=range].slider:focus::-webkit-slider-runnable-track {
-  background: #ffffff;
-}
-input[type=range].slider::-moz-range-track {
-  /* width: 100%; */
-  height: 3.9px;
-  cursor: pointer;
-  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-  background: #fff5ff;
-  border-radius: 25px;
-  border: 0.1px solid #010101;
-}
-input[type=range].slider::-moz-range-thumb {
-  box-shadow: 0.8px 0.8px 1.9px rgba(0, 0, 62, 0.67), 0px 0px 0.8px rgba(0, 0, 88, 0.67);
-  border: 1.9px solid rgba(0, 0, 0, 0);
-  height: 19px;
-  width: 19px;
-  border-radius: 50px;
-  background: #ffffff;
-  cursor: pointer;
-}
-input[type=range].slider::-ms-track {
-  /* width: 100%; */
-  height: 3.9px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range].slider::-ms-fill-lower {
-  background: #ffe6ff;
-  border: 0.1px solid #010101;
-  border-radius: 50px;
-  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-}
-input[type=range].slider::-ms-fill-upper {
-  background: #fff5ff;
-  border: 0.1px solid #010101;
-  border-radius: 50px;
-  box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
-}
-input[type=range].slider::-ms-thumb {
-  box-shadow: 0.8px 0.8px 1.9px rgba(0, 0, 62, 0.67), 0px 0px 0.8px rgba(0, 0, 88, 0.67);
-  border: 1.9px solid rgba(0, 0, 0, 0);
-  height: 19px;
-  width: 19px;
-  border-radius: 50px;
-  background: #ffffff;
-  cursor: pointer;
-  height: 3.9px;
-}
-input[type=range].slider:focus::-ms-fill-lower {
-  background: #fff5ff;
-}
-input[type=range].slider:focus::-ms-fill-upper {
-  background: #ffffff;
-}
+      .popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 20%;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        transition: transform 0.1s ease-in-out;
+      }
     </style>
   </head>
 
@@ -225,12 +153,12 @@ input[type=range].slider:focus::-ms-fill-upper {
 <button id="share" onclick="share();">Share</button>
 <button id="back" onclick="window.location.href = 'https://artridge.ch';">Back</button>
 <div id="controls">
+  <h1 style="color: white; margin: 0; padding: 0 15px;">Difficulty</h1>
   <input class="slider" id="slider" value="10" type="range" min="2" max="20" step="1"></input>
   <p id="numPresses"></p>
   <br>
   <button id="randomize" onclick="randomize()">Randomize!</button>
 </div>
-
 <div id="container">
   <div class="row">
     <button class="tile"></button>
@@ -258,7 +186,12 @@ input[type=range].slider:focus::-ms-fill-upper {
     <button class="tile"></button>
   </div>
 </div>
-<p id="byline">By Oskar Zanota</p>
+
+<div class="background"></div>
+<div class="popup">
+  <h1>You won in <span></span> moves!</h1>
+  <button onclick="closePopup();">OK</button>
+</div>
 <script>
 var counter = 0;
 var tiles = document.getElementsByClassName("tile");
@@ -279,18 +212,18 @@ for (var i=0; i<tiles.length; i++) {
 }
 
 function press(index,preventAnim,preventWin) {
-  dirx = [0,0,0,1,-1,-1,1,-1,1]
-  diry = [0,1,-1,0,0,-1,-1,1,1]
-  for (var i=0; i<dirx.length; i++) {
+  dirx = [0,0,0,1,-1,-1,1,-1,1];
+  diry = [0,1,-1,0,0,-1,-1,1,1];
+  for (var i=0; i < dirx.length; i++) {
     var tileX = (index % 3) + diry[i];
     var tileY = Math.floor(index / 3) + dirx[i];
     if (tileX >= 0 && tileX <= 2 && tileY >= 0 && tileY <= 4) {
       var tile = tiles[(tileY * 3) + tileX]
       var col = window.getComputedStyle(tile).getPropertyValue('background-color');
-      if (col == "rgb(0, 0, 0)") {
-        tile.style.backgroundColor = "#ffffff"
+      if (col === "rgb(0, 0, 0)") {
+        tile.style.backgroundColor = "#ffffff";
       } else {
-        tile.style.backgroundColor = "#000000"
+        tile.style.backgroundColor = "#000000";
       }
       if (!preventAnim) {
         var duration = 0.3;
@@ -309,14 +242,23 @@ function press(index,preventAnim,preventWin) {
   }
   if (won && !preventWin) {
     window.setTimeout(function() {
-      alert("You won in "+ counter +" moves!")
+      document.querySelector('.popup span').innerHTML = counter;
+
+      document.querySelector('.popup').style.transform = "translate(-50%,-50%) scale(1)";
+      document.querySelector('.background').style.opacity = "1";
+
       counter = 0;
       randomize(true);
-    },50);
+    }, 50);
   }
 }
 
-window.setInterval(function() {
+function closePopup() {
+  document.querySelector('.popup').style.transform = "translate(-50%,-50%) scale(0)";
+  document.querySelector('.background').style.opacity = "0";
+}
+
+window.setInterval(() => {
   var numPresses = document.getElementById("slider").value;
   document.getElementById("numPresses").innerHTML = numPresses;
 }, 50)
