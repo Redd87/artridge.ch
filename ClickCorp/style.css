@@ -18,6 +18,9 @@
   --font-size-big: 56px;
 
   /* letter-spacing: 0.15em; */
+
+  --hover-filter: brightness(0.7);
+  --hover-scale: scale(1.07);
 }
 
 /* POSSIBLE COLOR PALETTES
@@ -437,8 +440,8 @@ p {
 
 .hover-btn:hover {
   /* background-color: rgb(173, 173, 173) !important; */
-  filter: brightness(0.7);
-  transform: scale(1.07);
+  filter: var(--hover-filter);
+  transform: var(--hover-scale);
 }
 
 .hover-btn {

@@ -11,6 +11,11 @@
 \*//*                                                     *\\*/
 
 let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
+if ('ontouchstart' in document.documentElement) {
+  console.log('test');
+  document.documentElement.style.setProperty('--hover-filter', 'brightness(1)');
+  document.documentElement.style.setProperty('--hover-scale', 'scale(1)');
+}
 let refactorLevel = 0;
 let refactorPrice = 7.5e9;
 let specialBuildings = [9];
@@ -1506,7 +1511,7 @@ function init(saveData) {
         </button>
       </div>
     `;
-    console.log(maxedSpecialBuildings);
+
     for (let i = 0; i < maxedSpecialBuildings.length; i++) {
       const index = maxedSpecialBuildings[i];
       const div = document.createElement("div");
