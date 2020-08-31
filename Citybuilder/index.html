@@ -302,8 +302,8 @@
       var btnP = document.getElementById("btn-p");
       btnP.style.backgroundImage = "url(images/pause.png)"
       btnP.addEventListener("touchstart", (e)=>{
+        e.preventDefault()
 	      if (pico8_gpio[2] === 1) {
-          e.preventDefault()
           pico8_buttons[0] = 64
           setTimeout(()=>{
               pico8_buttons[0] = 0
@@ -344,7 +344,8 @@
       var gamepad = document.getElementById("gamepad");
       var buttons = document.getElementById("touch-buttons");
       var trackIsRight = true
-      function switchInput() {
+      function switchInput(e) {
+        e.preventDefault();
         if (isPaused) {
           document.querySelector("#mobile-overlay").style.display = "block";
         } else {
@@ -366,7 +367,8 @@
       /* KEY = { L: 1, R: 2, U: 4, D: 8, O: 16, X: 32, P: 64 }, */
       var picoButtons = document.getElementsByClassName("pico-btn")
       for (i=0; i<picoButtons.length; i++) {
-        picoButtons[i].onmousedown = function() {
+        picoButtons[i].ontouchstart = function(e) {
+          e.preventDefault();
           let t = '';
           let c = this.classList.toString();
           if (c.includes('up') || c.includes('down')) t = 'translateX(-50%)';
@@ -383,9 +385,6 @@
               pico8_buttons[0] = 0
             },100);
           }
-        }
-        picoButtons[i].ontouchstart = function() {
-          return;
         }
       }
   </script>

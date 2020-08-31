@@ -1640,7 +1640,8 @@ function updateMps() {
 window.setTimeout(updateMps, mpsUpdateDelay);
 
 // function executed on build
-function build(i, e) {
+function build(i, e, event) {
+  if (event) event.preventDefault();
   if (!isPlacingBuilder) {
     increaseBuild(i, e, false);
   } else {
@@ -1808,7 +1809,7 @@ function updateBuilding(e, i) {
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   let disableBuy = b.specialData && b.specialData.disableBuy;
   e.innerHTML = `
-    <button `+ ((b.hasbuilder!=-1) ? `style="background-image: url(${img}); border: var(--border-width) solid `+ builderData[b.hasbuilder].color +';"' : `style="background-image: url(${img});"`) +` ${evt}="build(`+ i +`, this)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
+    <button `+ ((b.hasbuilder!=-1) ? `style="background-image: url(${img}); border: var(--border-width) solid `+ builderData[b.hasbuilder].color +';"' : `style="background-image: url(${img});"`) +` ${evt}="build(`+ i +`, this, event)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
     <div class="build-info-button" ${evt}="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
