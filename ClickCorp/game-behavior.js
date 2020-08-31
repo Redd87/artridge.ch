@@ -191,7 +191,7 @@ let achievements = [
     ]
   },
   {
-    description: "<img src='images/Projects/House/finished.png' style='width: 100%; height: 100%;'>", // 1
+    description: "House Mastery", // 1 <img src='images/Projects/House/finished.png' style='width: 100%; height: 100%;'>
     value: 0,
     step: 0,
     levels: [

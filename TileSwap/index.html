@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Roboto:400" />
     <title>Tile Swap | Oskar Codes</title>
     <link rel="shortcut icon" type="image/png" href="apple-touch-icon.png"/>
     <link rel="apple-touch-icon" href="apple-touch-icon-tile-swap.png">
@@ -11,13 +10,20 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <style>
-     * {
+
+@font-face {
+  font-family: TileSwap;
+  src: url(/assets/fonts/TileSwap.ttf);
+}
+
+* {
   user-select: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  font-family: 'TileSwap';
 }
 
 body {
-  background-color: #3498db;
+  background-color: RGB(173,173,133);
 }
 
 #container {
@@ -79,7 +85,6 @@ body {
 
 #numPresses {
   display: inline;
-  font-family: "Roboto";
   color: #ffffff;
   font-size: 30px;
 }
@@ -89,7 +94,6 @@ button {
   border: none;
   border-radius: 7px;
   background-color: #ffffff;
-  font-family: "Roboto";
   font-size: 25px;
   cursor: pointer;
 }
@@ -123,7 +127,6 @@ button {
   bottom: 10px;
   left: 10px;
   color: white;
-  font-family: "Roboto";
   font-size: 20px;
   padding: 0px;
   margin: 0px;
@@ -219,7 +222,6 @@ input[type=range].slider:focus::-ms-fill-upper {
   </head>
 
   <body>
-<link rel="stylesheet" href="//brick.a.ssl.fastly.net/Roboto:400" />
 <button id="share" onclick="share();">Share</button>
 <button id="back" onclick="window.location.href = 'https://artridge.ch';">Back</button>
 <div id="controls">
@@ -350,12 +352,6 @@ randomize(true);
         location.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text + ' - ') + location.href
     }
 }
-</script>
-<script src="upup.min.js"></script>
-<script>
-  UpUp.start({
-      'content-url': 'index.html'
-    });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.12.1/TweenMax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
