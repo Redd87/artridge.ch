@@ -9,7 +9,12 @@
   <body>
     <div id="main-container">
       <div id="header">
-        <div style="text-align: right; grid-area: btn; margin: 0; padding: 0;"><button onmousedown="increaseDeck();" class="hover-btn" id="setNumPurchases">Buy 1</button></div>
+        <div style="text-align: right; grid-area: btn; margin: 0; padding: 0;">
+          <button onmousedown="increaseDeck();" class="hover-btn" id="setNumPurchases">Buy 1</button>
+        </div>
+        <div style="text-align: right; grid-area: back; margin: 0; padding: 0;">
+          <button onmousedown="window.location.href = 'https://artridge.ch'" class="hover-btn" id="go-back">Back</button>
+        </div>
         <h1 id="money" data-color="red"></h1>
         <h3 id="mps"></h3>
         <p></p>

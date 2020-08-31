@@ -124,7 +124,7 @@ a:visited { color: var(--col-success); }
   padding: 10px;
   display: grid;
   grid-template-areas: "money name btn"
-                       "mps   name d";
+                       "mps   name back";
   grid-template-columns: 1.5fr 2fr 1.5fr;
   grid-template-rows: 33% 33%;
   /*grid-column-start: settings;
@@ -138,7 +138,7 @@ a:visited { color: var(--col-success); }
   font-weight: bold;
 }
 
-#money, #mps, #setNumPurchases {
+#money, #mps, #setNumPurchases, #go-back {
   margin: 10px;
 }
 
@@ -146,12 +146,12 @@ a:visited { color: var(--col-success); }
   grid-area: money;
   font-size: var(--font-size-medium);
 }
-#mps { 
+#mps {
   grid-area: mps;
   font-size: var(--font-size-smol);
 }
 
-#setNumPurchases {
+#setNumPurchases, #go-back {
   float: right;
   border-radius: var(--smol-border-radius);
   border: none;

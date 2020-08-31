@@ -140,10 +140,12 @@ img {
 .gamepad .up, .gamepad .down {
   left: 50%;
   transform: translateX(-50%);
+  background-size: 50%;
 }
 .gamepad .left, .gamepad .right {
   top: 50%;
   transform: translateY(-50%);
+  background-size: 40%;
 }
 .gamepad .up { top: 0px; background-image: url(./images/playUp.png); }
 .gamepad .right { right: 0px; background-image: url(./images/playRight.png); }
