@@ -16,8 +16,8 @@
     </style>
   </head>
   <body>
-    <div onmousedown="increaseCount(this, 'a');" style="background-color: red;">0</div>
-    <div ontouchstart="increaseCount(this, 'b');" style="background-color: blue;">0</div>
+    <div onmousedown="increaseCount(this, 'a'); event.preventDefault();" style="background-color: red;">0</div>
+    <div ontouchstart="increaseCount(this, 'b'); event.preventDefault();" style="background-color: blue;">0</div>
     <script>
       var a = 0;
       var b = 0;

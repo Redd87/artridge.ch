@@ -214,7 +214,7 @@
     var btnS = document.getElementById("switch");
     btnS.style.backgroundImage = "url(images/switch.png)"
     btnO.style.backgroundImage = "url(images/oButton.png)"
-      btnO.addEventListener("touchstart", (e)=>{
+      btnO.addEventListener("mousedown", (e)=>{
         e.preventDefault()
         startedGame = true;
 				if (isPaused) {
@@ -229,7 +229,7 @@
 		
 		var btnX = document.getElementById("btn-x");
     btnX.style.backgroundImage = "url(images/xButton.png)"
-      btnX.addEventListener("touchstart", (e)=>{
+      btnX.addEventListener("mousedown", (e)=>{
         e.preventDefault()
         startedGame = true;
         if (!isPaused) {
@@ -247,7 +247,7 @@
       var isPaused = false;
       var btnP = document.getElementById("btn-p");
       btnP.style.backgroundImage = "url(images/pause.png)"
-      btnP.addEventListener("touchstart", (e)=>{
+      btnP.addEventListener("mousedown", (e)=>{
 	      if (pico8_gpio[2] === 1) {
           e.preventDefault()
           pico8_buttons[0] = 64
@@ -285,7 +285,7 @@
         }, 10);
       }
 
-      document.getElementById("switch").addEventListener("touchstart", switchInput);
+      document.getElementById("switch").addEventListener("mousedown", switchInput);
 
       var gamepad = document.getElementById("gamepad");
       var buttons = document.getElementById("touch-buttons");
