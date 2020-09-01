@@ -176,6 +176,9 @@ img {
 .fullscreen {
   transform: translateY(100px);
 }
+.share {
+  transform: translateY(150px);
+}
 #move-indicator {
   font-size: var(--move-indicator-size);
   position: absolute;

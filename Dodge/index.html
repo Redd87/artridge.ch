@@ -24,8 +24,9 @@
   <button onclick="window.location.href = `https://artridge.ch`" class="show-if-not-touch options"><img src="images/back.png" alt="Back Button"></button>
   <button onclick="toggleSound(this)" class="show-if-not-touch options mute"><img src="images/soundOn.png" alt="Sound Options"></button>
   <button onclick="goInFullscreen(this)" class="options fullscreen show-if-not-touch"><img src="images/fullscreenOn.png" alt="Fullscreen Options"></button>
+  <button onclick="share();" class="options share show-if-not-touch"><img src="images/share.png" alt="Share"></button>
   <div class="trackpad show-if-touch" id="trackpad"><img class="show-if-touch" id="touch-cursor" src="images/cursor.png"></img><span id="move-indicator">MOVE HERE</span></div>
-	<div id="touch-buttons" class="touch-buttons show-if-touch">
+  <div id="touch-buttons" class="touch-buttons show-if-touch">
     <button style="background-size: 17% !important; border-right-width: calc(var(--border-size) / 2); border-bottom-width: calc(var(--border-size) / 2);" class="pico-btn" id="btn-p"><b></b></button>
     <button style="border-left-width: calc(var(--border-size) / 2); border-bottom-width: calc(var(--border-size) / 2);" class="pico-btn" id="switch"></button><br>
 		<button style="border-right-width: calc(var(--border-size) / 2); border-top-width: calc(var(--border-size) / 2);"class="pico-btn" id="btn-x"></button>
@@ -482,6 +483,20 @@
       firebase.database().ref(`users/${usr().uid}/game-data/dodge`).set(pico8_gpio);
     }
   }, 3e3);
+
+  function share() {
+        let url = `https://twitter.com/intent/tweet?original_referer=http%3A%2F%2F127.0.0.1%3A5500%2FBlockrush%2Findex.html&ref_src=twsrc%5Etfw&text=Play%20Dodge&tw_p=tweetbutton&url=${encodeURIComponent(location.href)}`
+        
+        if ('share' in navigator) {
+          navigator.share({
+            title: 'Play Dodge',
+            text: '',
+            url: location.href,
+          });
+        } else {
+          window.open(url)
+        }
+      }
 </script>
 
   <!-- iOS Zoom on rotation bug fix -->
