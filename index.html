@@ -88,7 +88,7 @@
         
         <div v-if="tab === 2" class="page">
           <h1>Account</h1>
-          <p>An Artridge account lets you save your progress in any Artridge game.</p>
+          <p>An Artridge account lets you save your progress our games.</p>
           <div v-if="!isSignedIn" id="auth-container">
             
             <div class="auth-method">
@@ -112,6 +112,7 @@
           </div>
 
           <div v-if="isSignedIn">
+            <h3>Settings</h3><hr>
             <input type="text" v-bind:value="usr().displayName" placeholder="Username">
             <button onclick="changeUsername(this);">Change username</button><br>
             <label></label><br>
@@ -121,6 +122,18 @@
             <label></label><br><br>
             
             <button onclick="firebase.auth().signOut();" style="background-color: #FFA300;">Sign out</button>
+
+            <h3>Manage Game Saves</h3><hr>
+            <div>
+              <p v-if="gameSaves.length === 0">You do not have any game saves.</p>
+
+              <div v-if="gameSaves.length !== 0">
+                <div v-for="game in gameSaves">
+                  {{game.title}}
+                  <button @click="removeGameSave(game.identifier, game.index)">✕</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

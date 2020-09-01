@@ -45,46 +45,6 @@
         cursor: pointer;
       }
 
-      @media only screen and (orientation: portrait) {
-        .tile {
-          width: 180px;
-          height: 180px;
-        }
-        #container {
-          width: 600px;
-          top: 45%;
-        }
-        #controls {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%,-50%) translateY(500px);
-          width: 600px;
-        }
-        button {
-          width: 100%;
-        }
-        #share, #back {
-          width: 160px !important;
-          font-size: 60px;
-        }
-        #back {
-          top: 110px !important;
-        }
-        #randomize {
-          font-size: 60px;
-        }
-        #slider {
-          width: 90%;
-        }
-        #slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-        }
-        #numPresses {
-          text-align: right;
-        }
-      }
-
       #numPresses {
         display: inline;
         color: #ffffff;
@@ -132,7 +92,7 @@
         background-color: #00000088;
         pointer-events: none;
         opacity: 0;
-        transform: opacity 0.1s ease-in-out;
+        transform: opacity 0.3s ease-in-out;
       }
 
       .popup {
@@ -144,7 +104,62 @@
         background-color: white;
         padding: 20px;
         border-radius: 10px;
-        transition: transform 0.1s ease-in-out;
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .popup button {
+        background-color: black;
+        color: white;
+      }
+
+      @media only screen and (orientation: portrait) {
+        .tile {
+          width: 180px;
+          height: 180px;
+        }
+        #container {
+          width: 600px;
+          top: 45%;
+        }
+        #controls {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%) translateY(500px);
+          width: 600px;
+        }
+        button {
+          width: 100%;
+        }
+        #share, #back {
+          width: 160px !important;
+          font-size: 60px;
+        }
+        #back {
+          top: 110px !important;
+        }
+        #randomize {
+          font-size: 60px;
+        }
+        #slider {
+          width: 90%;
+        }
+        #slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+        #numPresses {
+          text-align: right;
+        }
+        .popup h1 {
+          font-size: 69px;
+        }
+        .popup button {
+          font-size: 60px;
+        }
+        .popup {
+          width: 60%;
+        }
       }
     </style>
   </head>
@@ -190,7 +205,7 @@
 <div class="background"></div>
 <div class="popup">
   <h1>You won in <span></span> moves!</h1>
-  <button onclick="closePopup();">OK</button>
+  <button onclick="closePopup();">yay!</button>
 </div>
 <script>
 var counter = 0;
@@ -248,7 +263,6 @@ function press(index,preventAnim,preventWin) {
       document.querySelector('.background').style.opacity = "1";
 
       counter = 0;
-      randomize(true);
     }, 50);
   }
 }
@@ -256,6 +270,8 @@ function press(index,preventAnim,preventWin) {
 function closePopup() {
   document.querySelector('.popup').style.transform = "translate(-50%,-50%) scale(0)";
   document.querySelector('.background').style.opacity = "0";
+
+  randomize(true);
 }
 
 window.setInterval(() => {

@@ -4,7 +4,8 @@ let app = new Vue({
   data: {
     tab: 0,
     tabNames: ["Games", "About", "Account"],
-    isSignedIn: false
+    isSignedIn: false,
+    gameSaves: []
   },
   watch: {
     tab: function (n) { // saves the current tab name in the window's location's hash
@@ -45,8 +46,43 @@ firebase.auth().onAuthStateChanged(function(user) {
   window.setTimeout(() => {
     if (user) {
       app.isSignedIn = true;
+      app.gameSaves = [];
+      firebase.database().ref(`users/${user.uid}/game-data`).once('value', (snap) => {
+        let data = snap.val();
+        let gameNames = {
+          'clicker': 'ClickCorp.',
+          'tileswap': 'TileSwap',
+          'dodge': 'Dodge',
+          'blockrush': 'Block Rush',
+          'citybuilder': 'City Builder'
+        }
+        if (data) {
+          let keys = Object.keys(data);
+          for (let i = 0; i < keys.length; i++) {
+            const game = keys[i];
+            app.gameSaves.push({
+              title: gameNames[game],
+              identifier: game
+            });
+          }
+          let result = [];
+          Object.keys(gameNames).forEach(function(key) {
+            var found = false;
+            app.gameSaves = app.gameSaves.filter(function(item) {
+                if(!found && item.identifier === key) {
+                    result.push(item);
+                    found = true;
+                    return false;
+                } else 
+                    return true;
+            });
+          });
+          app.gameSaves = JSON.parse(JSON.stringify(result));
+        }
+      });
     } else {
       app.isSignedIn = false;
+      app.gameSaves = [];
     }
   },200);
 });
@@ -157,4 +193,23 @@ function togglePwd(e) {
     eye.classList.remove('fa-eye-slash');
     eye.classList.add('fa-eye')
   }
+}
+
+function removeGameSave(id) {
+  if (usr()) {
+    firebase.database().ref(`users/${usr().uid}/game-data/${id}`).remove()
+      .then(() => {
+        for (let i = 0; i<app.gameSaves.length; i++) {
+          if (app.gameSaves[i].identifier === id) app.gameSaves.splice(i, 1);
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  }
+}
+
+function waitForDOMupdate(f) {
+  intermediate = () => { window.requestAnimationFrame(f) }
+  window.requestAnimationFrame(intermediate);
 }

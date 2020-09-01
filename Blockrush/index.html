@@ -60,7 +60,7 @@
 		
 		var Module = {};
 		Module.canvas = canvas;
-		var pico8_gpio = new Array(128);
+    var pico8_gpio = new Array(128);
 		
 	</script>
 	<script src="ios-sound.js"></script>
@@ -250,7 +250,7 @@
       btnP.style.backgroundImage = "url(images/pause.png)"
       btnP.addEventListener("touchstart", (e)=>{
         e.preventDefault()
-	      if (pico8_gpio[2] === 1) {
+	      if (pico8_gpio[0] === 1) {
           pico8_buttons[0] = 64
           setTimeout(()=>{
               pico8_buttons[0] = 0
@@ -349,6 +349,57 @@
         }
       }
   </script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-database.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAbUbveOjn6VMB1QaAZHIR2hYxFfEbQ2Qo",
+      authDomain: "artridge-website.firebaseapp.com",
+      databaseURL: "https://artridge-website.firebaseio.com",
+      projectId: "artridge-website",
+      storageBucket: "artridge-website.appspot.com",
+      messagingSenderId: "554359864126",
+      appId: "1:554359864126:web:56901925bba81278fb0a6f",
+      measurementId: "G-0KJBNGLJL4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    const usr = () => firebase.auth().currentUser;
+
+    let startSaving = false;
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase.database().ref(`users/${user.uid}/game-data/blockrush`).once('value', (snap) => {
+          let data = snap.val();
+          if (data) {
+            let keys = Object.keys(data);
+            for (let i = 0; i < keys.length; i++) {
+              let k = keys[i];
+              if (k !== 0) pico8_gpio[k] = data[k];
+            }
+          }
+          startSaving = true;
+        });
+      } else {
+        startSaving = true;
+      }
+    });
+
+    window.setInterval(() => {
+      if (usr() && startSaving) {
+        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(pico8_gpio);
+      }
+    }, 3e3);
+  </script>
+
   <!-- iOS Zoom on rotation bug fix -->
   <script>(function(a){function j(){c.setAttribute("content",f),document.body.innerHTML=document.body.innerHTML,g=!0}function k(){c.setAttribute("content",e),g=!1}function l(b){h=Math.abs(a.orientation),i=Math.abs(b.accelerationIncludingGravity.x),i>8&&h===0?g&&k():g||j()}var b=a.document;if(!b.querySelectorAll)return;var c=b.querySelectorAll("meta[name=viewport]")[0],d=c&&c.getAttribute("content"),e=d+", maximum-scale=1.0",f=d+", maximum-scale=10.0",g=!0,h=a.orientation,i=0;if(!c)return;a.addEventListener("orientationchange",j,!1),a.addEventListener("devicemotion",l,!1)})(this);</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
