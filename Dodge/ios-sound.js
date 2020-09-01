@@ -96,7 +96,7 @@
 	  if(navIsMobile) {
 	    file = "dodge-mobile.js"
 	  } else {
-	    file = "dodge.js"
+	    file = "dodge-gpio.js"
 	  }
     s.setAttribute('src', file)
     document.body.appendChild(s)
