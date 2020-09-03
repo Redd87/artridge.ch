@@ -204,6 +204,11 @@ a:hover {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
+  background-color: #2f3541;
+}
+
+.popup .buttons {
+  text-align: right;
 }
 
 .popup-background {
