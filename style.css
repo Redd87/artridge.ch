@@ -207,10 +207,7 @@ a:hover {
   background-color: #2f3541;
   padding: 10px;
   border-radius: 5px;
-}
-
-.popup .buttons {
-  text-align: right;
+  text-align: center;
 }
 
 .popup-background {
