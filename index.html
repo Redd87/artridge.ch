@@ -133,7 +133,7 @@
               <div v-if="gameSaves.length !== 0">
                 <div v-for="game in gameSaves">
                   {{game.title}}
-                  <button @click="removeGameSave(game.identifier, game.index)">✕</button>
+                  <button @click="removeGameSave(game.identifier)">✕</button>
                 </div>
               </div>
             </div>
