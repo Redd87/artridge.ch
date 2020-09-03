@@ -193,6 +193,10 @@ a:hover {
   font-size: 14px;
 }
 
+.game-saves button {
+  background-color: #ed2941;
+}
+
 @media only screen and (max-width: 750px) {
   :root {
     --width: 100%;
