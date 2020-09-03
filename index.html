@@ -93,7 +93,7 @@
             
             <div class="auth-method">
               <h2>Log in</h2>
-              <input type="text" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
+              <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
               <input type="password" class="pwd" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
               <button onclick="login(this.parentNode);">Log in</button>
               <p class="error-message"></p>
@@ -102,7 +102,7 @@
             <div class="auth-method">
               <h2>Sign up</h2>
               <input type="text" placeholder="Username">
-              <input type="text" placeholder="Email">
+              <input type="email" placeholder="Email">
               <input type="password" class="pwd" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
               <input type="password" class="pwd" placeholder="Confirm password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
               <button onclick="signup(this.parentNode);">Sign up</button>
