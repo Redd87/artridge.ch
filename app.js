@@ -195,13 +195,31 @@ function togglePwd(e) {
   }
 }
 
+let popupDiv = document.querySelector(".popup");
+let bgDiv = document.querySelector(".popup-background");
+
 function removeGameSave(id) {
+  bgDiv.style.display = "block";
+  popupDiv.style.display = "block";
+  app.removeId = id;
+}
+
+function cancelSaveRemoval() {
+  bgDiv.style.display = "none";
+  popupDiv.style.display = "none";
+  app.removeId = undefined;
+}
+
+function confirmSaveRemoval() {
   if (usr()) {
-    firebase.database().ref(`users/${usr().uid}/game-data/${id}`).remove()
+    firebase.database().ref(`users/${usr().uid}/game-data/${app.removeId}`).remove()
       .then(() => {
         for (let i = 0; i<app.gameSaves.length; i++) {
-          if (app.gameSaves[i].identifier === id) app.gameSaves.splice(i, 1);
+          if (app.gameSaves[i].identifier === app.removeId) app.gameSaves.splice(i, 1);
         }
+        bgDiv.style.display = "none";
+        popupDiv.style.display = "none";
+        app.removeId = undefined;
       })
       .catch(e => {
         console.error(e);
