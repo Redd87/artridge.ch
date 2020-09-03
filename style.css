@@ -198,6 +198,7 @@ a:hover {
 }
 
 .popup {
+  display: none;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -206,6 +207,7 @@ a:hover {
 }
 
 .popup-background {
+  display: none;
   width: 100%;
   height: 100%;
   background-color: #00000088;
