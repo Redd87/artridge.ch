@@ -205,6 +205,8 @@ a:hover {
   transform: translate(-50%, -50%);
   width: 50%;
   background-color: #2f3541;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .popup .buttons {
