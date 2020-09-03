@@ -127,7 +127,7 @@
             <button onclick="firebase.auth().signOut();" style="background-color: #FFA300;">Sign out</button>
 
             <h3>Manage Game Saves</h3><hr>
-            <div>
+            <div class="game-saves">
               <p v-if="gameSaves.length === 0">You do not have any game saves.</p>
 
               <div v-if="gameSaves.length !== 0">
