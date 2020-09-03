@@ -187,6 +187,12 @@ a:hover {
   cursor: pointer;
 }
 
+.copyright {
+  color: grey;
+  text-align: center;
+  font-size: 14px;
+}
+
 @media only screen and (max-width: 750px) {
   :root {
     --width: 100%;
