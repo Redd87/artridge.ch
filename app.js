@@ -113,7 +113,7 @@ function signup(e) {
   let username = e.children[1].value;
   let email = e.children[2].value;
   let password = e.children[3].value;
-  let passwordRepeat = e.children[5].value;
+  let passwordRepeat = e.children[6].value;
   let error = e.querySelector(".error-message");
 
   if (!username.trim()) {
