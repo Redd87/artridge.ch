@@ -197,6 +197,24 @@ a:hover {
   background-color: #ed2941;
 }
 
+.popup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+}
+
+.popup-background {
+  width: 100%;
+  height: 100%;
+  background-color: #00000088;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 @media only screen and (max-width: 750px) {
   :root {
     --width: 100%;
@@ -224,5 +242,8 @@ a:hover {
   }
   header img {
     width: 98%;
+  }
+  .popup {
+    width: 90%;
   }
 }
