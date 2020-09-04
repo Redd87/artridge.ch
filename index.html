@@ -97,7 +97,7 @@
             <div class="auth-method">
               <h2>Log in</h2>
               <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
-              <input type="password" class="pwd" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
+              <input type="password" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
               <button onclick="login(this.parentNode);">Log in</button>
               <p class="error-message"></p>
             </div>
@@ -106,8 +106,8 @@
               <h2>Sign up</h2>
               <input type="text" placeholder="Username">
               <input type="email" placeholder="Email">
-              <input type="password" class="pwd" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
-              <input type="password" class="pwd" placeholder="Confirm password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i><br>
+              <input type="password" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
+              <input type="password" placeholder="Confirm password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
               <button onclick="signup(this.parentNode);">Sign up</button>
               <p class="error-message"></p>
             </div>
@@ -116,12 +116,12 @@
 
           <div v-if="isSignedIn">
             <h3>Settings</h3><hr>
-            <input type="text" v-bind:value="usr().displayName" placeholder="Username">
+            <input class="settings-input" type="text" :value="usr().displayName" placeholder="Username">
             <button onclick="changeUsername(this);">Change username</button><br>
             <label></label><br>
             
-            <input style="margin-left: 4px !important;" type="password" class="pwd" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" style="margin-left: -32px;" class="fas fa-eye eye"></i>
-            <button style="margin-left: 18px;" onclick="changePassword(this);">Change password</button><br>
+            <input class="settings-input" type="password" placeholder="Password"><i style="position: absolute; margin: 12px; transform: translateX(-45px);" onclick="togglePwd(this.previousElementSibling);" style="margin-left: -32px;" class="fas fa-eye eye"></i>
+            <button onclick="changePassword(this);">Change password</button><br>
             <label></label><br><br>
             
             <button onclick="firebase.auth().signOut();" style="background-color: #FFA300;">Sign out</button>

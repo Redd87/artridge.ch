@@ -133,6 +133,7 @@ a:hover {
 #auth-container {
   text-align: center;
   display: flex;
+  font-size: 0;
 }
 
 .auth-method {
@@ -145,7 +146,12 @@ a:hover {
   vertical-align: top;
   padding: 10px;
   text-align: center;
+  font-size: 0;
   flex: 1;
+}
+
+.auth-method h2 {
+  font-size: 20px;
 }
 
 .auth-method input {
@@ -159,6 +165,10 @@ a:hover {
   cursor: pointer;
   background-color: #2f3541;
   margin: 10px;
+}
+
+.settings-input {
+  width: 300px;
 }
 
 .error-message {
@@ -178,13 +188,15 @@ a:hover {
   text-decoration: underline;
 }
 
-.pwd {
-  margin-left: -0.9em !important;
+.eye {
+  position: absolute;
+  cursor: pointer;
+  font-size: 18px;
+  transform: translate(-40px, 17px);
 }
 
-.eye {
-  margin-left: -40px;
-  cursor: pointer;
+.fa-eye-slash {
+  margin-right: 2px;
 }
 
 .copyright {
