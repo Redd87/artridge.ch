@@ -97,7 +97,8 @@
             <div class="auth-method">
               <h2>Log in</h2>
               <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
-              <input type="password" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
+              <input type="password" placeholder="Password">
+              <i onclick="togglePwd(this.previousElementSibling);" onmousedown="event.preventDefault();" class="fas fa-eye eye"></i>
               <button onclick="login(this.parentNode);">Log in</button>
               <p class="error-message"></p>
             </div>
@@ -106,8 +107,10 @@
               <h2>Sign up</h2>
               <input type="text" placeholder="Username">
               <input type="email" placeholder="Email">
-              <input type="password" placeholder="Password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
-              <input type="password" placeholder="Confirm password"><i onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
+              <input type="password" placeholder="Password">
+              <i onclick="togglePwd(this.previousElementSibling);" onmousedown="event.preventDefault();" class="fas fa-eye eye"></i>
+              <input type="password" placeholder="Confirm password">
+              <i onclick="togglePwd(this.previousElementSibling);" onmousedown="event.preventDefault();" class="fas fa-eye eye"></i>
               <button onclick="signup(this.parentNode);">Sign up</button>
               <p class="error-message"></p>
             </div>
@@ -120,7 +123,8 @@
             <button onclick="changeUsername(this);">Change username</button><br>
             <label></label><br>
             
-            <input class="settings-input" type="password" placeholder="Password"><i style="position: absolute; margin: 12px; transform: translateX(-45px);" onclick="togglePwd(this.previousElementSibling);" style="margin-left: -32px;" class="fas fa-eye eye"></i>
+            <input class="settings-input" type="password" placeholder="Password">
+            <i style="position: absolute; margin: 12px; transform: translateX(-45px);" onmousedown="event.preventDefault();" onclick="togglePwd(this.previousElementSibling);" style="margin-left: -32px;" class="fas fa-eye eye"></i>
             <button onclick="changePassword(this);">Change password</button><br>
             <label></label><br><br>
             
