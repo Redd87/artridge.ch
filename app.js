@@ -5,7 +5,8 @@ let app = new Vue({
     tab: 0,
     tabNames: ["Games", "About", "Account"],
     isSignedIn: false,
-    gameSaves: []
+    gameSaves: [],
+    copyright: '© Artridge 2020 - All Rights Reserved'
   },
   watch: {
     tab: function (n) { // saves the current tab name in the window's location's hash
