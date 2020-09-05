@@ -16,7 +16,7 @@ for (var i=0; i<tiles.length; i++) {
   };
 }
 
-function press(index,preventAnim,preventWin) {
+function press(index, preventAnim, preventWin) {
   dirx = [0,0,0,1,-1,-1,1,-1,1];
   diry = [0,1,-1,0,0,-1,-1,1,1];
   for (var i=0; i < dirx.length; i++) {
@@ -24,11 +24,13 @@ function press(index,preventAnim,preventWin) {
     var tileY = Math.floor(index / 3) + dirx[i];
     if (tileX >= 0 && tileX <= 2 && tileY >= 0 && tileY <= 4) {
       var tile = tiles[(tileY * 3) + tileX]
-      var col = window.getComputedStyle(tile).getPropertyValue('background-color');
-      if (col === "rgb(0, 0, 0)") {
+      var col = tile.getAttribute('data-col');
+      if (col === "black") {
         tile.style.backgroundColor = "#ffffff";
+        tile.setAttribute('data-col', 'white');
       } else {
         tile.style.backgroundColor = "#000000";
+        tile.setAttribute('data-col', 'black');
       }
       if (!preventAnim) {
         var duration = 0.3;
@@ -41,7 +43,7 @@ function press(index,preventAnim,preventWin) {
   }
   var won = true;
   for (var i=0; i<tiles.length; i++) {
-    if (window.getComputedStyle(tiles[i]).getPropertyValue('background-color') == "rgb(0, 0, 0)") {
+    if (tiles[i].getAttribute('data-col') === "black") {
       won = false;
     }
   }
@@ -72,9 +74,10 @@ window.setInterval(() => {
 function randomize(preventAnim) {
   for (var i=0; i<tiles.length; i++) {
     tiles[i].style.backgroundColor = "#ffffff";
+    tiles[i].setAttribute('data-col', 'white');
   }
   for (var i=0; i<document.getElementById("slider").value; i++) {
-    press(Math.floor(Math.random() * Math.floor(15)),preventAnim,true);
+    press(Math.floor(Math.random() * 15), preventAnim, true);
   }
   counter = 0;
 }
