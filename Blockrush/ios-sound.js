@@ -54,6 +54,9 @@
   // disable scrolling
   // document.body.style.overflow = 'hidden'
 
+  let isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) ||
+(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) &&
+!window.MSStream
   if(
        navigator.userAgent.match(/Android/i)
     || navigator.userAgent.match(/webOS/i)
@@ -62,6 +65,7 @@
     || navigator.userAgent.match(/iPod/i)
     || navigator.userAgent.match(/BlackBerry/i)
     || navigator.userAgent.match(/Windows Phone/i)
+    || isIOS
   ) {
     var navIsMobile = true;
   } else {

@@ -270,4 +270,7 @@ a:hover {
   .popup {
     width: 90%;
   }
+  .settings-input {
+    width: 200px;
+  }
 }

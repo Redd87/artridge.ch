@@ -61,6 +61,7 @@
 		var Module = {};
 		Module.canvas = canvas;
     var pico8_gpio = new Array(128);
+    pico8_gpio[0] = 0;
 		
 	</script>
 	<script src="ios-sound.js"></script>
@@ -101,6 +102,9 @@
     }
 
     function isDevMobile() {
+      let isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) &&
+      !window.MSStream
       return navigator.userAgent.match(/Android/i)
 	    || navigator.userAgent.match(/webOS/i)
 	    || navigator.userAgent.match(/iPhone/i)
@@ -108,6 +112,7 @@
 	    || navigator.userAgent.match(/iPod/i)
 	    || navigator.userAgent.match(/BlackBerry/i)
 	    || navigator.userAgent.match(/Windows Phone/i)
+      || isIOS
     }
 		
 		var canvasContainer = document.getElementById("canvas");
@@ -383,7 +388,9 @@
             let keys = Object.keys(data);
             for (let i = 0; i < keys.length; i++) {
               let k = keys[i];
-              if (k !== 0) pico8_gpio[k] = data[k];
+              if (k !== "0") {
+                pico8_gpio[k] = data[k];
+              }
             }
           }
           startSaving = true;
