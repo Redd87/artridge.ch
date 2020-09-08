@@ -388,16 +388,12 @@
           }
           startSaving = true;
         });
-      } else {
-        startSaving = true;
       }
     });
 
     window.setInterval(() => {
       if (usr() && startSaving) {
-	let copy = [...pico8_gpio];
-	copy[0] = 0;
-        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(copy);
+        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(pico8_gpio);
       }
     }, 3e3);
   </script>
