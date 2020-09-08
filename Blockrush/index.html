@@ -393,7 +393,7 @@
 
     window.setInterval(() => {
       if (usr() && startSaving) {
-        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(pico8_gpio);
+        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(pico8_gpio).catch(alert);
       }
     }, 3e3);
   </script>
