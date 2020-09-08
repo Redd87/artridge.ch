@@ -395,7 +395,9 @@
 
     window.setInterval(() => {
       if (usr() && startSaving) {
-        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(pico8_gpio);
+	let copy = [...pico8_gpio];
+	copy[0] = 0;
+        firebase.database().ref(`users/${usr().uid}/game-data/blockrush`).set(copy);
       }
     }, 3e3);
   </script>
