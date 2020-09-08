@@ -237,6 +237,9 @@ a:hover {
   #game-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+  :root {
+    --width: 90%;
+  }
 }
 
 @media only screen and (max-width: 750px) {
