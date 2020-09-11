@@ -6,20 +6,20 @@ if ('ontouchstart' in document.documentElement) {
 
 var counter = 0;
 var tiles = document.getElementsByClassName("tile");
-for (var i=0; i<tiles.length; i++) {
-  var tile = tiles[i]
+for (let i=0; i<tiles.length; i++) {
+  let tile = tiles[i]
   tile.ontouchstart = function(e) {
     e.preventDefault();
     var arr = Array.prototype.slice.call(tiles);
-    press(arr.indexOf(this))
-    counter++
-  };
+    press(arr.indexOf(this));
+    counter++;
+  }
   tile.onclick = function(e) {
     e.preventDefault();
     var arr = Array.prototype.slice.call(tiles);
-    press(arr.indexOf(this))
+    press(arr.indexOf(this));
     counter++;
-  };
+  }
 }
 
 function press(index, preventAnim, preventWin) {
