@@ -31,6 +31,11 @@ let app = new Vue({
         img.setAttribute("draggable", "false");
       }
     })();
+  },
+  mounted: function() {
+    document.querySelectorAll('button').forEach((e) => {
+      if ('ontouchstart' in document.documentElement) e.addEventListener('touchstart', (e) => e.preventDefault);
+    })
   }
 });
 
