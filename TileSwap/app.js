@@ -1,3 +1,9 @@
+if ('ontouchstart' in document.documentElement) {
+  document.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+  });
+}
+
 var counter = 0;
 var tiles = document.getElementsByClassName("tile");
 for (var i=0; i<tiles.length; i++) {

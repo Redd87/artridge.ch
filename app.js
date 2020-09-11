@@ -33,9 +33,11 @@ let app = new Vue({
     })();
   },
   mounted: function() {
-    document.querySelectorAll('button').forEach((e) => {
-      if ('ontouchstart' in document.documentElement) e.addEventListener('touchstart', (e) => e.preventDefault);
-    })
+    if ('ontouchstart' in document.documentElement) {
+      document.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+      });
+    }
   }
 });
 
