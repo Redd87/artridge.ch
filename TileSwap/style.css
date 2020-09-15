@@ -16,11 +16,25 @@ body {
   overflow: hidden;
 }
 
-#container {
+#main {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: fit-content;
+}
+
+#container {
+  margin: 0 auto;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+#controls {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: -1;
 }
 
 .tile {
@@ -42,6 +56,11 @@ body {
   font-size: 30px;
 }
 
+#randomize, #layout {
+  width: 150px;
+  margin: 5px;
+}
+
 button {
   padding: 15px;
   border: none;
@@ -49,6 +68,10 @@ button {
   background-color: #ffffff;
   font-size: 25px;
   cursor: pointer;
+}
+
+button:focus {
+  outline: none;
 }
 
 #share {
@@ -102,6 +125,7 @@ button {
 .popup button {
   background-color: black;
   color: white;
+  margin: 5px;
 }
 
 ::-webkit-slider-thumb {
@@ -113,20 +137,8 @@ button {
 }
 
 @media only screen and (orientation: portrait) {
-  .tile {
-    width: 180px;
-    height: 180px;
-  }
-  #container {
-    width: 600px;
-    top: 45%;
-  }
   #controls {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) translateY(500px);
-    width: 600px;
+    position: static;
   }
   button {
     width: 100%;
@@ -138,8 +150,9 @@ button {
   #back {
     top: 110px !important;
   }
-  #randomize {
+  #randomize, #layout {
     font-size: 60px;
+    width: 100%;
   }
   #slider {
     width: 90%;
@@ -158,5 +171,9 @@ button {
   }
   .popup {
     width: 60%;
+  }
+  h2 {
+    text-align: center;
+    font-size: 40px;
   }
 }

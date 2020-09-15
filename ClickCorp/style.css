@@ -21,6 +21,8 @@
 
   --hover-filter: brightness(0.7);
   --hover-scale: scale(1.07);
+
+  --main-grid-columns: 1fr 2fr 5fr 2fr 1fr;
 }
 
 /* POSSIBLE COLOR PALETTES
@@ -85,7 +87,7 @@ a:visited { color: var(--col-success); }
     "settings   topbar     topbar      topbar         stats"
     "builders-t builders-t buildings-t achievements-t achievements-t"
     "builders   builders   buildings   achievements   achievements";
-  grid-template-columns: 1fr 2fr 5fr 2fr 1fr;
+  grid-template-columns: var(--main-grid-columns);
   grid-template-rows: 150px 50px calc(100vh - 280px);
   grid-gap: 20px;
   height: calc(100vh - 40px);
@@ -263,14 +265,13 @@ a:visited { color: var(--col-success); }
 }
 
 #purchases-wrapper {
-  /*position: absolute;
-  top: var(--global-y-offset);
-  left: 50%;
-  transform: translate(-50%, -50%);*/
   background-color: var(--col-panel);
   border-radius: var(--big-border-radius);
   padding: 10px;
   grid-area: buildings;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 #purchases {

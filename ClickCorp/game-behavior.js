@@ -12,7 +12,6 @@
 
 let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
 if ('ontouchstart' in document.documentElement) {
-  console.log('test');
   document.documentElement.style.setProperty('--hover-filter', 'brightness(1)');
   document.documentElement.style.setProperty('--hover-scale', 'scale(1)');
 }
@@ -2522,13 +2521,34 @@ window.setInterval(() => {
   }
 }, 2000);
 
-
-window.setInterval(() => {
-  if ('ontouchstart' in document.documentElement) {
-    document.querySelectorAll('*[onmousedown]').forEach((e) => {
-      e.setAttribute('ontouchstart', e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
-      e.removeAttribute('onmousedown');
-      e.onmousedown = undefined;
-    });
+(() => {
+  const func = () => {
+    if ('ontouchstart' in document.documentElement) {
+      document.querySelectorAll('*[onmousedown]').forEach((e) => {
+        e.setAttribute('ontouchstart', e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
+        e.removeAttribute('onmousedown');
+        e.onmousedown = undefined;
+      });
+    }
   }
-}, 3e3);
+  window.addEventListener('load', func);
+  window.setInterval(func, 3e3);
+})();
+
+(() => {
+  const func = (e) => {
+    let isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream
+    console.log(isIOS);
+    if (isIOS || navigator.userAgent.match(/Android/i)) {
+      document.documentElement.style.setProperty('--main-grid-columns', '8% 13.5% 49% 13.5% 8%');
+      document.documentElement.style.setProperty('--font-size-veri-smol', '12px');
+      document.documentElement.style.setProperty('--font-size-smol', '16px');
+      document.documentElement.style.setProperty('--font-size-medium', '28px');
+      document.documentElement.style.setProperty('--font-size-big', '52px');
+    } else {
+      document.documentElement.style.setProperty('--main-grid-columns', '1fr 2fr 5fr 2fr 1fr');
+    }
+  }
+  window.addEventListener('resize', func);
+  window.addEventListener('load', func);
+})();
