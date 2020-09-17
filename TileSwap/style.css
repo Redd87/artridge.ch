@@ -1,3 +1,8 @@
+:root {
+  --text-size-desktop: 25px;
+  --text-size-mobile: 60px;
+}
+
 @font-face {
   font-family: TileSwap;
   src: url(/assets/fonts/TileSwap.ttf);
@@ -35,6 +40,14 @@ body {
   top: 5px;
   left: 5px;
   z-index: -1;
+  text-align: center;
+  width: 220px;
+}
+
+.difficulty h2 {
+  color: white;
+  margin: 20px 0;
+  white-space: nowrap;
 }
 
 .tile {
@@ -50,14 +63,8 @@ body {
   cursor: pointer;
 }
 
-#numPresses {
-  display: inline;
-  color: #ffffff;
-  font-size: 30px;
-}
-
 #randomize, #layout {
-  width: 150px;
+  width: 210px;
   margin: 5px;
 }
 
@@ -66,7 +73,7 @@ button {
   border: none;
   border-radius: 7px;
   background-color: #ffffff;
-  font-size: 25px;
+  font-size: var(--text-size-desktop);
   cursor: pointer;
 }
 
@@ -74,18 +81,24 @@ button:focus {
   outline: none;
 }
 
+h2 {
+  font-size: var(--text-size-desktop);
+}
+
 #share {
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 100px;
+  width: 210px;
+  margin: 5px;
 }
 
 #back {
   position: absolute;
   top: 70px;
   right: 5px;
-  width: 100px;
+  width: 210px;
+  margin: 5px;
 }
       
 @keyframes show {
@@ -120,60 +133,84 @@ button:focus {
   border-radius: 10px;
   text-align: center;
   transition: transform 0.3s ease-in-out;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .popup button {
   background-color: black;
   color: white;
+}
+
+.popup .button {
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  color: white;
   margin: 5px;
+  padding: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
 }
 
-::-webkit-slider-thumb {
-  background-color: red;
+.popup .button div {
+  background-color: white;
+  width: 10px;
+  height: 10px;
+  position: absolute;
 }
 
-::-webkit-slider-runnable-track {
-  background-color: red;
+#slider {
+  width: 210px;
 }
 
 @media only screen and (orientation: portrait) {
   #controls {
-    position: static;
+    top: unset;
+    bottom: 10px;
+    width: calc(100vw - 10px);
   }
   button {
     width: 100%;
   }
   #share, #back {
     width: 160px !important;
-    font-size: 60px;
+    font-size: var(--text-size-mobile);
   }
   #back {
     top: 110px !important;
   }
   #randomize, #layout {
-    font-size: 60px;
-    width: 100%;
+    font-size: var(--text-size-mobile);
+    width: calc(50% - 13px);
+    display: inline-block;
+    margin: 5px;
+    margin-top: 20px;
+  }
+  #controls br {
+    display: none;
   }
   #slider {
-    width: 90%;
+    width: 100%;
   }
   #slider::-webkit-slider-thumb {
     -webkit-appearance: none;
   }
-  #numPresses {
-    text-align: right;
-  }
   .popup h1 {
-    font-size: 69px;
+    font-size: var(--text-size-mobile);
   }
-  .popup button {
-    font-size: 60px;
+  .popup .button {
+    font-size: var(--text-size-mobile);
   }
   .popup {
     width: 60%;
   }
   h2 {
     text-align: center;
-    font-size: 40px;
+    font-size: var(--text-size-mobile);
+  }
+  button {
+    font-size: var(--text-size-mobile);
   }
 }

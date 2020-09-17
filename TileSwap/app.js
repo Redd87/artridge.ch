@@ -1,15 +1,89 @@
 const layouts = [
   {
-    width: 3,
-    height: 5,
+    dimensions: "3x3",
     exclude: []
   },
   {
-    width: 7,
-    height: 7,
-    exclude: [17,23,25,31]
+    dimensions: "4x4",
+    exclude: []
+  },
+  {
+    dimensions: "5x5",
+    exclude: []
+  },
+  {
+    dimensions: "6x6",
+    exclude: []
+  },
+  {
+    dimensions: "7x7",
+    exclude: []
+  },
+  {
+    dimensions: "8x8",
+    exclude: []
+  },
+  {
+    dimensions: "3x5",
+    exclude: []
+  },
+  {
+    dimensions: "3x6",
+    exclude: []
+  },
+  {
+    dimensions: "5x5",
+    exclude: [0,4,20,24]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [0,4,20,24,7,11,12,13,17]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [2,10,14,22]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [12]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [1,3,5,7,9,11,13,15,17,19,21,23]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [0,2,4,6,8,10,12,14,16,18,20,22,24]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [7,12,17]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [7,11,13,17]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [1,3,5,9,11,13,15,19,21,23]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [1,2,3,7,17,21,22,23]
+  },
+  {
+    dimensions: "5x5",
+    exclude: [0,1,3,4,5,6,8,9,15,16,18,19,20,21,23,24]
+  },
+  {
+    dimensions: "4x7",
+    exclude: [0,1,2,4,5,8,16,20,21,24,25,26]
   }
 ];
+layouts.forEach(e => {
+  e.width = e.dimensions[0];
+  e.height = e.dimensions[2];
+});
 
 let currentLayout = JSON.parse(JSON.stringify(layouts[0]));
 let currentLayoutIndex = 0;
@@ -66,16 +140,16 @@ function press(index, preventAnim, preventWin) {
         tile.setAttribute('data-col', 'black');
       }
       if (!preventAnim) {
-        var duration = 0.3;
-        var delay = 0.08;
+        const duration = 0.3;
+        const delay = 0.08;
         TweenMax.to(tile, duration, {scaleY: 1.6, ease: Expo.easeOut});
         TweenMax.to(tile, duration, {scaleX: 1.2, scaleY: 1, ease: Back.easeOut, easeParams: [3], delay: delay});
         TweenMax.to(tile, duration * 1.25, {scaleX: 1, scaleY: 1, ease: Back.easeOut, easeParams: [6], delay: delay * 3 });
       }
     }
   }
-  var won = true;
-  for (var i=0; i<tiles.length; i++) {
+  let won = true;
+  for (let i=0; i<tiles.length; i++) {
     if (tiles[i].getAttribute('data-col') === "black" && tiles[i].getAttribute('data-disabled') === "false") {
       won = false;
     }
@@ -100,8 +174,9 @@ function closePopup(i, r) {
 }
 
 window.setInterval(() => {
-  var numPresses = document.getElementById("slider").value;
-  document.getElementById("numPresses").innerHTML = numPresses;
+  const slider = document.getElementById("slider");
+  const difficulties = ['very easy', 'easy', 'normal', 'hard', 'very hard'];
+  document.getElementById("difficulty").innerHTML = difficulties[Math.floor((slider.value - 1) / (slider.max/difficulties.length))];
 }, 50)
 
 function randomize(preventAnim) {
@@ -111,11 +186,34 @@ function randomize(preventAnim) {
     tiles[i].style.backgroundColor = "#ffffff";
     tiles[i].setAttribute('data-col', 'white');
   }
+
+  console.log('START');
+  let previousTiles = [];
   for (var i=0; i<document.getElementById("slider").value; i++) {
-    let index = Math.floor(Math.random() * currentLayout.width * currentLayout.height);
-    if (!currentLayout.exclude.includes(index)) press(index, preventAnim, true);
+    let index;
+    while (true) {
+      index = Math.floor(Math.random() * currentLayout.width * currentLayout.height);
+      if (!currentLayout.exclude.includes(index) && !previousTiles.includes(index)) {
+        press(index, preventAnim, true);
+        previousTiles.push(index);
+        console.log(index);
+        if (previousTiles.length > 3) previousTiles.splice(0,1);
+        break;
+      }
+    }
   }
+  console.log(previousTiles);
+  console.log('END');
   counter = 0;
+
+  let allWhite = true;
+  let allBlack = true;
+  for (let i = 0; i < tiles.length; i++) {
+    const t = tiles[i];
+    if (t.getAttribute('data-col') === 'white') allBlack = false;
+    if (t.getAttribute('data-col') === 'black') allWhite = false;
+  }
+  if (allWhite || allBlack) randomize();
 }
 
 function setLayout(i) {
@@ -154,11 +252,13 @@ if ('ontouchstart' in document.documentElement) {
 
 (() => {
   const func = (e) => {
-    let controls = document.querySelector('#controls');
+    let parent = document.querySelector('#controls');
+    let buttons = parent.querySelector('.buttons');
+    let difficulty = parent.querySelector('.difficulty');
     if (window.innerWidth > window.innerHeight) {
-      document.body.appendChild(controls);
+      parent.insertBefore(buttons, difficulty);
     } else {
-      document.querySelector('#main').appendChild(controls);
+      parent.insertBefore(difficulty, buttons);
     }
   }
   window.addEventListener('resize', func);
@@ -172,8 +272,26 @@ if ('ontouchstart' in document.documentElement) {
   for (let i = 0; i < layouts.length; i++) {
     const layout = layouts[i];
     
-    let el = document.createElement('button');
-    el.innerHTML = `${layout.width}x${layout.height}`;
+    let el = document.createElement('div');
+    el.classList.add('button');
+    
+    let index = 0;
+    for (let y = 0; y < layout.height; y++) {
+      for (let x = 0; x < layout.width; x++) {
+        if (!layout.exclude.includes(index)) {
+          let square = document.createElement('div');
+
+          let xPos = x * 10 + 50 - layout.width * 5;
+          let yPos = y * 10 + 50 - layout.height * 5;
+
+          square.style.transform = `translate(${xPos}px, ${yPos}px)`;
+
+          el.appendChild(square);
+        }
+        index++;
+      }
+    }
+
     el.addEventListener('click', () => {
       setLayout(i);
       randomize(true);

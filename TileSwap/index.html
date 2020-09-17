@@ -19,13 +19,15 @@
   <div id="container">
     
   </div>
-  <div id="controls">
-    <h2 style="color: white; margin: 0; padding: 0 15px;">Difficulty</h2>
-    <input class="slider" id="slider" value="10" type="range" min="2" max="20" step="1"></input>
-    <p id="numPresses"></p>
-    <br>
-    <button id="randomize" onclick="randomize(true);">Randomize!</button><br>
-    <button id="layout" onclick="changeLayout();">change layout</button>
+</div>
+<div id="controls">
+  <div class="buttons">
+    <button id="randomize" onclick="randomize(true);">randomize</button><br>
+    <button id="layout" onclick="changeLayout();">layout</button>
+  </div>
+  <div class="difficulty">
+    <h2>Difficulty - <span id="difficulty"></span></h2>
+    <input class="slider" id="slider" value="10" type="range" min="2" max="30" step="1"></input>
   </div>
 </div>
 
