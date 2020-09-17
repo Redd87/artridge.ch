@@ -159,7 +159,11 @@ function press(index, preventAnim, preventWin) {
       document.querySelectorAll('.popup span')[0].innerHTML = counter;
 
       document.querySelectorAll('.popup')[0].style.transform = "translate(-50%,-50%) scale(1)";
-      document.querySelectorAll('.background')[0].style.opacity = "1";
+      document.querySelectorAll('.background')[0].style.display = "block";
+
+      window.setTimeout(() => {
+        document.querySelectorAll('.background')[0].style.opacity = "1";
+      }, 10);
 
       counter = 0;
     }, 50);
@@ -169,6 +173,9 @@ function press(index, preventAnim, preventWin) {
 function closePopup(i, r) {
   document.querySelectorAll('.popup')[i].style.transform = "translate(-50%,-50%) scale(0)";
   document.querySelectorAll('.background')[i].style.opacity = "0";
+  window.setTimeout(() => {
+    document.querySelectorAll('.background')[i].style.display = "none";
+  }, 300);
 
   if (r) randomize(true);
 }
@@ -223,7 +230,10 @@ function setLayout(i) {
 
 function changeLayout() {
   document.querySelectorAll('.popup')[1].style.transform = "translate(-50%,-50%) scale(1)";
-  document.querySelectorAll('.background')[1].style.opacity = "1";
+  document.querySelectorAll('.background')[1].style.display = "block";
+  window.setTimeout(() => {
+    document.querySelectorAll('.background')[1].style.opacity = "1";
+  },10);
 }
 
 updateLayout();
