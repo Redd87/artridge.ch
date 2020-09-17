@@ -194,7 +194,6 @@ function randomize(preventAnim) {
     tiles[i].setAttribute('data-col', 'white');
   }
 
-  console.log('START');
   let previousTiles = [];
   for (var i=0; i<document.getElementById("slider").value; i++) {
     let index;
@@ -203,14 +202,11 @@ function randomize(preventAnim) {
       if (!currentLayout.exclude.includes(index) && !previousTiles.includes(index)) {
         press(index, preventAnim, true);
         previousTiles.push(index);
-        console.log(index);
         if (previousTiles.length > 3) previousTiles.splice(0,1);
         break;
       }
     }
   }
-  console.log(previousTiles);
-  console.log('END');
   counter = 0;
 
   let allWhite = true;
@@ -286,13 +282,14 @@ if ('ontouchstart' in document.documentElement) {
     el.classList.add('button');
     
     let index = 0;
+    const tileSize = 11;
     for (let y = 0; y < layout.height; y++) {
       for (let x = 0; x < layout.width; x++) {
         if (!layout.exclude.includes(index)) {
           let square = document.createElement('div');
 
-          let xPos = x * 10 + 50 - layout.width * 5;
-          let yPos = y * 10 + 50 - layout.height * 5;
+          let xPos = x * tileSize + 50 - layout.width * tileSize / 2;
+          let yPos = y * tileSize + 50 - layout.height * tileSize / 2;
 
           square.style.transform = `translate(${xPos}px, ${yPos}px)`;
 

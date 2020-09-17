@@ -2538,7 +2538,6 @@ window.setInterval(() => {
 (() => {
   const func = (e) => {
     let isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream
-    console.log(isIOS);
     if (isIOS || navigator.userAgent.match(/Android/i)) {
       document.documentElement.style.setProperty('--main-grid-columns', '8% 13.5% 49% 13.5% 8%');
       document.documentElement.style.setProperty('--font-size-veri-smol', '12px');

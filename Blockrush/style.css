@@ -65,9 +65,10 @@ center > div > canvas#canvas {
   position: absolute;
   top: calc(100vh - var(--canvas-size) + var(--canvas-offset));
   left: 50%;
-  text-align: justify;
+  text-align: center;
   transform: translateX(-50%);
   width: calc(100vh - var(--canvas-size));
+  margin-bottom: 50px;
 }
 .fullscreen-only:fullscreen {
 		display: block;
