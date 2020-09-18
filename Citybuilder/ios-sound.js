@@ -24,6 +24,7 @@
     'color: white',
     'background-color: black',
     'text-align: center',
+    'overflow-y: scroll'
   ].map(function(p) { return p + ';' }).join('');
   o.id = "mobile-overlay";
   
