@@ -1,6 +1,7 @@
 :root {
   --text-size-desktop: 25px;
   --text-size-mobile: 60px;
+  --tile-size: 100px;
 }
 
 @font-face {
@@ -51,8 +52,8 @@ body {
 }
 
 .tile {
-  width: 100px;
-  height: 100px;
+  width: var(--tile-size);
+  height: var(--tile-size);
   background-color: #ffffff;
   margin: 7px;
   display: inline-block;

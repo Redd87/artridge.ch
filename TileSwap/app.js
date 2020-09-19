@@ -91,6 +91,8 @@ let tiles = [];
 let counter = 0;
 
 function updateLayout() {
+  updateTileSize();
+
   let tileIndex = 0;
   let container = document.querySelector('#container');
   container.innerHTML = "";
@@ -266,10 +268,19 @@ if ('ontouchstart' in document.documentElement) {
     } else {
       parent.insertBefore(difficulty, buttons);
     }
+
+    updateTileSize();
   }
   window.addEventListener('resize', func);
   window.addEventListener('load', func);
 })();
+
+function updateTileSize() {
+  if (window.innerWidth > window.innerHeight) {
+    const width = 1 / Math.max(currentLayout.width, 6) * 450 * Math.max(window.innerWidth / 1500, 1);
+    document.documentElement.style.setProperty('--tile-size', width + 'px');
+  }
+}
 
 (() => {
   let layoutsContainer = document.querySelector('#layouts');

@@ -10,7 +10,8 @@
 |*|                                                         |*|
 \*//*                                                     *\\*/
 
-let evt = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
+let evt = 'ontouchstart' in document.documentElement ? 'onclick' : 'onmousedown';
+let evtSpam = 'ontouchstart' in document.documentElement ? 'ontouchstart' : 'onmousedown';
 if ('ontouchstart' in document.documentElement) {
   document.documentElement.style.setProperty('--hover-filter', 'brightness(1)');
   document.documentElement.style.setProperty('--hover-scale', 'scale(1)');
@@ -1813,7 +1814,7 @@ function updateBuilding(e, i) {
   if (b.specialData) e.style.backgroundColor = "var(--col-background)";
   let disableBuy = b.specialData && b.specialData.disableBuy;
   e.innerHTML = `
-    <button `+ ((b.hasbuilder!=-1) ? `style="background-image: url(${img}); border: var(--border-width) solid `+ builderData[b.hasbuilder].color +';"' : `style="background-image: url(${img});"`) +` ${evt}="build(`+ i +`, this, event)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
+    <button `+ ((b.hasbuilder!=-1) ? `style="background-image: url(${img}); border: var(--border-width) solid `+ builderData[b.hasbuilder].color +';"' : `style="background-image: url(${img});"`) +` ${evtSpam}="build(`+ i +`, this, event)" class="build-btn`+ ((b.hasbuilder!=-1) ? " border" : "") +`"></button>
     <p class="building-name">${b.name} ${b.built}<i class="fas fa-store-alt"></i> ${b.bought}<i class="fas fa-store-alt-slash"></i></p>
     <div class="build-info-button" ${evt}="openBuildInfo(this, ${i})">${b.infoOpen ? "×" : "?"}</div>
     <div class="build-info-wrapper ${b.infoOpen ? 'open-build-info-wrapper' : ''}">
@@ -1821,7 +1822,7 @@ function updateBuilding(e, i) {
         ${statsTable}
       </table>
     </div>
-    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${disableBuy ? "disabled" : ""} ${evt}="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
+    <button style="color: var(--col-${money >= b.cost ? "text-bg": "invalid"});" ${disableBuy ? "disabled" : ""} ${evtSpam}="buyBuilding(`+ i +`, this)" class="build-buttons building-action-btn hover-btn buy-btn">
       ${disableBuy ? 'Max' : 'Buy'} ${disableBuy ? "" : `${b.specialData ? 1 : formatNumber(numPurchases)} - ${formatNumber(round(b.cost * (b.specialData ? 1 : numPurchases),2))}$`}
     </button><br>
     <p class="build-perc-counter">`+ Math.round(b.current) +`%</p>
@@ -1903,7 +1904,7 @@ function updateAllBuilders() {
       <button class="hover-btn builderAction builder-place-btn" ${evt}="placeBuilder(${i}, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
       <button class="hover-btn builderAction builder-remove-btn" ${evt}="removeBuilder(${i})">Remove</button>
       <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
-      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" ${evt}="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Max"}</button>
+      <button ${maxedOut ? "" : `style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});"`} class="hover-btn builderAction builder-upgrade-btn" ${evtSpam}="upgradeBuilder(${i}, this)" ${maxedOut ? "disabled" : ""}>${!maxedOut ? `Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[b.ownershipData.level - 1].cost : b.upgradesCurve.cost)}$` : "Max"}</button>
     `
   }
   let el = document.getElementById("buyBuilder");
@@ -1942,7 +1943,7 @@ function buyBuilder() {
         <button class="hover-btn builderAction builder-place-btn" ${evt}="placeBuilder(`+ builderIndex +`, this)"><div style="background-color: ${b.color};"><i class="fas fa-robot"></i></div></button>
         <button class="hover-btn builderAction builder-remove-btn" ${evt}="removeBuilder(`+ builderIndex +`)">Remove</button>
         <div class="builder-info"><span>${b.cps + b.bonus}</span> clicks/s</div>
-        <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" ${evt}="upgradeBuilder(`+ builderIndex +`, this)">
+        <button style="color: var(--col-${money >= b.upgradesCurve[b.ownershipData.level - 1].cost ? "text-bg": "invalid"});" class="hover-btn builderAction builder-upgrade-btn" ${evtSpam}="upgradeBuilder(`+ builderIndex +`, this)">
           Upgrade (+${b.upgradesCurve[b.ownershipData.level - 1].value - b.cps}) - ${formatNumber(b.type === 0 ? b.upgradesCurve[0].cost : b.upgradesCurve.cost)}$
         </button>
       </div>
@@ -2525,14 +2526,19 @@ window.setInterval(() => {
   const func = () => {
     if ('ontouchstart' in document.documentElement) {
       document.querySelectorAll('*[onmousedown]').forEach((e) => {
-        e.setAttribute('ontouchstart', e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
+        let attr = 'ontouchstart';
+        if (e.classList.toString().includes('achievement')) {
+          console.log('test');
+          attr = 'onclick';
+        }
+        e.setAttribute(attr, e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
         e.removeAttribute('onmousedown');
         e.onmousedown = undefined;
       });
     }
   }
-  window.addEventListener('load', func);
-  window.setInterval(func, 3e3);
+  //window.addEventListener('load', func);
+  //window.setInterval(func, 3e3);
 })();
 
 (() => {
