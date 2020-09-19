@@ -1766,7 +1766,15 @@ function increaseBuild(i, e, fromBuilder, bi) {
         resetBuildingsContainer();
       }
     } else {
-      if (!fromBuilder) explode(mouse()[0], mouse()[1]);
+      if (!fromBuilder) {
+        if ('ontouchstart' in document.documentElement) {
+          let coords = e.getBoundingClientRect();
+          explode(coords.x + coords.width / 2, coords.y + coords.height / 2);
+          console.log('test');
+        } else {
+          explode(mouse()[0], mouse()[1]);
+        }
+      }
     }
   }
   updateBuilding(e.parentNode, i);
@@ -2526,7 +2534,11 @@ window.setInterval(() => {
   const func = () => {
     if ('ontouchstart' in document.documentElement) {
       document.querySelectorAll('*[onmousedown]').forEach((e) => {
-        e.setAttribute(evt, e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
+        let attr = evt;
+        if (e.id === 'setNumPurchases') {
+          attr = evtSpam;
+        }
+        e.setAttribute(attr, e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
         e.removeAttribute('onmousedown');
         e.onmousedown = undefined;
       });
