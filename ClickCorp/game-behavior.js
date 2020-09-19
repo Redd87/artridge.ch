@@ -2526,19 +2526,13 @@ window.setInterval(() => {
   const func = () => {
     if ('ontouchstart' in document.documentElement) {
       document.querySelectorAll('*[onmousedown]').forEach((e) => {
-        let attr = 'ontouchstart';
-        if (e.classList.toString().includes('achievement')) {
-          console.log('test');
-          attr = 'onclick';
-        }
-        e.setAttribute(attr, e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
+        e.setAttribute(evt, e.onmousedown.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]);
         e.removeAttribute('onmousedown');
         e.onmousedown = undefined;
       });
     }
   }
-  //window.addEventListener('load', func);
-  //window.setInterval(func, 3e3);
+  window.addEventListener('load', func);
 })();
 
 (() => {
