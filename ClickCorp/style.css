@@ -1006,3 +1006,28 @@ canvas {
 #name-prompt button {
   font-size: var(--font-size-medium);
 }
+
+#rotate-alert {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--col-background);
+  z-index: 10;
+  display: none;
+}
+
+#rotate-alert h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+@media only screen and (orientation: portrait) {
+  #rotate-alert {
+    display: block;
+  }
+}
