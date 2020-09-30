@@ -1312,7 +1312,15 @@ function init(saveData) {
     b.infoOpen = false;
   }
 
-  if (s) window.buildata = JSON.parse(saveData.buildata);
+  if (s) {
+    window.buildata = JSON.parse(saveData.buildata);
+    for (let i = 0; i < buildata.length; i++) {
+      const b = buildata[i];
+      if (b.specialData) {
+        if (typeof b.specialData.func === 'string') b.specialData.func = eval("(" + b.specialData.func + ")");
+      }
+    }
+  }
 
   /* BUILDERS */
   window.builderIndex = 0; // starting index for builders
@@ -1466,9 +1474,11 @@ function init(saveData) {
   }
 
   // reset builders
-  document.getElementById("builders").innerHTML += `
-    <button style="color: var(--col-invalid);" id="buyBuilder" class="hover-btn" ${evt}="buyBuilder();">Buy Robot - ${formatNumber(builderData[builderIndex].cost)}$</button>
-  `
+  if (builderIndex < 8) {
+    document.getElementById("builders").innerHTML += `
+      <button style="color: var(--col-invalid);" id="buyBuilder" class="hover-btn" ${evt}="buyBuilder();">Buy Robot - ${formatNumber(builderData[builderIndex].cost)}$</button>
+    `;
+  }
   let purchaseContainer = document.getElementById("purchases");
   window.resetBuildingsContainer = () => {
     purchaseContainer.innerHTML = "";
@@ -1486,7 +1496,6 @@ function init(saveData) {
       const b = buildata[index];
 
       if (b.specialData && b.specialData.locked) continue;
-      //console.log(b.specialData ? b.built + ' ' + b.specialData.curve.length : undefined);
       if (b.specialData && b.built === b.specialData.curve.length) {
         maxedSpecialBuildings.push(index);
         continue;
@@ -1760,7 +1769,7 @@ function increaseBuild(i, e, fromBuilder, bi) {
       statsAllTime.totalBuildingsBuilt += 1;
 
       if (b.specialData) {
-        b.specialData.func(b.specialData.curve[b.specialData.valueLevel].value)
+        b.specialData.func(b.specialData.curve[b.specialData.valueLevel].value);
         b.specialData.valueLevel++;
         increaseAchievement(i + 11);
         resetBuildingsContainer();
@@ -1770,7 +1779,6 @@ function increaseBuild(i, e, fromBuilder, bi) {
         if ('ontouchstart' in document.documentElement) {
           let coords = e.getBoundingClientRect();
           explode(coords.x + coords.width / 2, coords.y + coords.height / 2);
-          console.log('test');
         } else {
           explode(mouse()[0], mouse()[1]);
         }
@@ -2514,7 +2522,12 @@ window.setInterval(() => {
       mpsMultiplier: mpsMultiplier,
       clickStrength: clickStrength,
       builderIndex: builderIndex,
-      buildata: JSON.stringify(buildata),
+      buildata: JSON.stringify(buildata, (_k, v) => {
+        if (typeof v === 'function') {
+          return v.toString();
+        }
+        return v;
+      }),
       builderData: JSON.stringify(builderData),
       achievements: JSON.stringify(achievements, (_k, v) => {
         if (typeof v === 'function') {
