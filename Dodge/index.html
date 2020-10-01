@@ -487,7 +487,11 @@
 
   window.setInterval(() => {
     if (usr() && startSaving) {
-      firebase.database().ref(`users/${usr().uid}/game-data/dodge`).set(pico8_gpio);
+      firebase.database().ref(`users/${usr().uid}/game-data/dodge`).set(pico8_gpio)
+        .then(() => {
+          console.log('saved');
+        })
+        .catch(console.error);
     }
   }, 3e3);
 
