@@ -11,7 +11,7 @@
   --big-border-radius: 5px;
   --smol-border-radius: 5px;
   --border-width: 5px;
-  --font-family: "Courier Prime", monospace;
+  --font-family: /*"Courier Prime", monospace*/ SlimJim;
   --font-size-veri-smol: 16px;
   --font-size-smol: 20px;
   --font-size-medium: 32px;
@@ -49,6 +49,11 @@
 @font-face {
   font-family: Evil;
   src: url(fonts/EvilEmpire-4BBVK.ttf);
+}
+
+@font-face {
+  font-family: SlimJim;
+  src: url(fonts/SlimJim.ttf);
 }
 
 body {
