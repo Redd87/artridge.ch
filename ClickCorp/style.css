@@ -12,10 +12,12 @@
   --smol-border-radius: 5px;
   --border-width: 5px;
   --font-family: "Courier Prime", monospace;
-  --font-size-veri-smol: 16px;
-  --font-size-smol: 20px;
-  --font-size-medium: 32px;
-  --font-size-big: 56px;
+  --font-size-veri-smol: 0.9vw; /* 16px */
+  --font-size-smol: 1.25vw; /* 20px */
+  --font-size-medium: 1.5vw; /* 32px */
+  --font-size-big: 1.75vw; /* 56px */
+
+  --square-size: 6vw;
 
   /* letter-spacing: 0.15em; */
 
@@ -198,10 +200,11 @@ a:visited { color: var(--col-success); }
     "place name name"
     "place remove info"
     "place upgrade upgrade";
-  grid-template-columns: 100px 1fr 1fr;
-  grid-template-rows: 26px 27px 27px;
+  grid-template-columns: var(--square-size) 1fr 1fr;
+  grid-template-rows: repeat(3, calc(33% - 10px));
   grid-auto-rows: 0;
   padding-bottom: 0;
+  height: calc(var(--square-size) + 20px);
   grid-gap: 10px;
   overflow-y: hidden;
 }
@@ -220,8 +223,8 @@ a:visited { color: var(--col-success); }
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) translateY(10px);
-  width: 50px;
-  height: 30px;
+  width: 50%;
+  height: 35%;
 }
 
 .builder-place-btn i {
@@ -231,6 +234,7 @@ a:visited { color: var(--col-success); }
   transform: translate(-50%, -50%) translateY(-10px);
   color: var(--col-background);
   transition: color 0.2s;
+  font-size: 4vw;
 }
 
 .builder-remove-btn {
@@ -247,6 +251,8 @@ a:visited { color: var(--col-success); }
 }
 
 .builder-info {
+  white-space: nowrap;
+  overflow: scroll;
   grid-area: info;
   background-color: var(--col-panel);
   border-radius: var(--smol-border-radius);
@@ -292,10 +298,10 @@ a:visited { color: var(--col-success); }
     "btn name name info  info"
     "btn buy  buy  info  info"
     "btn perc perc perc  perc";
-  grid-template-columns: 100px repeat(4, calc(25% - 35px));
+  grid-template-columns: var(--square-size) repeat(4, 1fr);
   grid-template-rows: 33% 33% 33%;
   grid-gap: 10px;
-  height: 80.8px;
+  height: calc(var(--square-size) - 20px + 1px);
   overflow: hidden;
   white-space: nowrap;
 }
@@ -439,16 +445,19 @@ p {
   display: none;
 }
 
+.hover-btn {
+  transition: transform 0.07s;
+  background-color: var(--col-primary);
+  white-space: nowrap;
+  overflow: scroll  ;
+}
+
 .hover-btn:hover {
   /* background-color: rgb(173, 173, 173) !important; */
   filter: var(--hover-filter);
   transform: var(--hover-scale);
 }
 
-.hover-btn {
-  transition: transform 0.07s;
-  background-color: var(--col-primary);
-}
 
 .pulse i {
   color: var(--col-card);
@@ -552,9 +561,9 @@ h1 {
   position: relative;
   overflow-y: scroll;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--square-size), 1fr));
   grid-gap: 10px;
-  grid-auto-rows: 100px;
+  grid-auto-rows: var(--square-size);
   overflow-x: hidden;
 }
 
@@ -586,8 +595,8 @@ h1 {
 
 .achievement {
   display: inline-block;
-  width: 100px;
-  height: 100px;
+  width: var(--square-size);
+  height: var(--square-size);
   margin: 7px;
   border-radius: var(--smol-border-radius);
   background-color: var(--col-primary);
@@ -599,8 +608,8 @@ h1 {
 
 .achievement-border {
   border: var(--border-width) solid var(--col-progress);
-  width: calc(100px - var(--border-width) * 2);
-  height: calc(100px - var(--border-width) * 2);
+  width: calc(var(--square-size) - var(--border-width) * 2);
+  height: calc(var(--square-size) - var(--border-width) * 2);
 }
 
 #settings-container {
@@ -852,8 +861,8 @@ li {
 }
 
 .refactor-prompt-option button {
-  width: 100px;
-  height: 100px !important;
+  width: var(--square-size);
+  height: var(--square-size) !important;
   border-radius: var(--smol-border-radius);
   background-color: var(--col-primary);
   font-size: var(--font-size-smol);
@@ -1031,4 +1040,8 @@ canvas {
   #rotate-alert {
     display: block;
   }
+}
+
+@media only screen and (max-width: 1000px) {
+  
 }
