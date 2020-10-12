@@ -17,7 +17,7 @@
   --font-size-medium: 1.5vw; /* 32px */
   --font-size-big: 1.75vw; /* 56px */
 
-  --square-size: 6vw;
+  --square-size: 5.6vw;
 
   /* letter-spacing: 0.15em; */
 
@@ -989,6 +989,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  width: 50%;
 }
 
 #name-prompt h1 {
