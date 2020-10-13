@@ -22,12 +22,7 @@
     <div id="app">
       <header>
         <img src="assets/images/Branding/Artridge Logo/PNG/02 Artridge color on black.png" alt="Artridge Logo">
-        <div id="nav">
-          <!--<button id="games" onmousedown="app.tab = 0;" style="float: left;">{{tabNames[0]}}</button>
-          <button id="about" onmousedown="app.tab = 1;">{{tabNames[1]}}</button>
-          <button id="account" onmousedown="app.tab = 2;">{{tabNames[2]}}</button>-->
-
-
+        <div class="nav">
           <button v-for="(g, i) in tabNames" @mousedown="tab = i" :class="tab === i ? 'active' : 'null'">{{g}}</button>
         </div>
       </header>
@@ -67,26 +62,40 @@
         </div>
         
         <div v-if="tab === 1" class="page">
-          <h1>About Artridge</h1>
-          
-          We are two amateur game developers based in Zürich creating small indie games. Follow our journey on:
-          <ul>
-            <li><a href="https://twitter.com/artridgegames">Twitter</a></li>
-            <li><a href="https://instagram.com/artridgegames">Instagram</a></li>
-          </ul>
-          
-          Or contact us for anything at:
-          <ul>
-            <li><a href="mailto:eddy.rashed@artridge.ch">eddy.rashed@artridge.ch</a> (game designer)</li>
-            <li><a href="mailto:oskar.zanota@artridge.ch">oskar.zanota@artridge.ch</a> (programmer)</li>
-          </ul>
 
-          Our games are mainly available on the following platforms:
-          <ul>
-            <li><a href="https://artridge.itch.io/">itch.io</a></li>
-            <li><a href="https://artridge.newgrounds.com/">Newgrounds</a></li>
-          </ul>
-          
+          <div class="nav">
+            <button @mousedown="aboutTab = 0" :class="(aboutTab === 0 ? 'active' : 'null') + ' aboutBtn'">Info</button>
+            <button @mousedown="aboutTab = 1" :class="(aboutTab === 1 ? 'active' : 'null') + ' aboutBtn'">News</button>
+          </div>
+
+          <div v-if="aboutTab === 0">
+            <h1>About Artridge</h1>
+            
+            We are two amateur game developers based in Zürich creating small indie games. Follow our journey on:
+            <ul>
+              <li><a href="https://twitter.com/artridgegames">Twitter</a></li>
+              <li><a href="https://instagram.com/artridgegames">Instagram</a></li>
+            </ul>
+            
+            Or contact us for anything at:
+            <ul>
+              <li><a href="mailto:eddy.rashed@artridge.ch">eddy.rashed@artridge.ch</a> (game designer)</li>
+              <li><a href="mailto:oskar.zanota@artridge.ch">oskar.zanota@artridge.ch</a> (programmer)</li>
+            </ul>
+  
+            Our games are mainly available on the following platforms:
+            <ul>
+              <li><a href="https://artridge.itch.io/">itch.io</a></li>
+              <li><a href="https://artridge.newgrounds.com/">Newgrounds</a></li>
+            </ul>
+          </div>
+
+          <div v-if="aboutTab === 1">
+            <h1>News</h1>
+            Check back soon for devlogs and game updates!
+          </div>
+
+            
           <p class="copyright">{{copyright}}</p>
         </div>
         

@@ -12,6 +12,8 @@ body, html {
   background-color: black;
   color: white;
   font-family: "Courier Prime", monospace;
+  width: 100%;
+  height: 100%;
 }
 
 input, button {
@@ -32,7 +34,7 @@ button {
   cursor: pointer;
 }
 
-#nav button:focus {
+.nav button:focus {
   outline: none;
 }
 
@@ -48,12 +50,12 @@ header img {
   image-rendering: pixelated;
 }
 
-#nav {
+.nav {
   width: 100%;
   margin: 20px auto;
 }
 
-#nav button {
+.nav button {
   width: calc(33% - 10px);
   margin: 0 5px;
   padding: 0;
@@ -65,6 +67,10 @@ header img {
   font-weight: bold;
   border-radius: 5px;
   border-bottom: 10px solid #ed2941;
+}
+
+.aboutBtn {
+  width: calc(50% - 15px) !important;
 }
 
 .active {
