@@ -383,7 +383,8 @@ p {
   grid-area: perc;
   z-index:  0;
   text-align: right;
-  margin-top: 0.05px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .build-info-button {
@@ -746,6 +747,7 @@ li {
 
 #n-refactors {
   text-align: center;
+  width: 100%;
   color: var(--col-text-nobg);
   font-size: var(--font-size-medium);
 }

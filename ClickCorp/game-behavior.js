@@ -1807,7 +1807,6 @@ function updateBuilding(e, i) {
     img += `click${Math.ceil(b.current / 10)}`;
   }
   img += '.png';
-  img = '';
 
   const statsTable = b.specialData ? `
   <tr>

@@ -271,7 +271,7 @@
 		var pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0];
 		var btnO = document.getElementById("btn-o");
     var btnS = document.getElementById("switch");
-    btnS.style.backgroundImage = "url(images/switch.png)"
+    btnS.style.backgroundImage = "url(images/back.png)"
     btnO.style.backgroundImage = "url(images/oButton.png)"
       btnO.addEventListener("touchstart", (e)=>{
         e.preventDefault()
@@ -318,12 +318,12 @@
           if (isPaused) {
             btnX.style.backgroundImage = isMuted && "url(images/soundOff.png)" || "url(images/soundOn.png)"
             btnO.style.backgroundImage = "url(images/down.png)"
-            btnS.style.backgroundImage = "url(images/back.png)"
+            btnS.style.backgroundImage = "url(images/switch.png)"
             btnP.style.backgroundImage = "url(images/play.png)"
           } else {
             btnX.style.backgroundImage = "url(images/xButton.png)"
             btnO.style.backgroundImage = "url(images/oButton.png)"
-            btnS.style.backgroundImage = "url(images/switch.png)"
+            btnS.style.backgroundImage = "url(images/back.png)"
             btnP.style.backgroundImage = "url(images/pause.png)"
           }
         }
@@ -351,7 +351,7 @@
       var trackIsRight = true
       function switchInput(e) {
         e.preventDefault();
-        if (isPaused) {
+        if (!isPaused) {
           document.querySelector("#mobile-overlay").style.display = "block";
         } else {
           trackIsRight = !trackIsRight;
