@@ -1807,6 +1807,7 @@ function updateBuilding(e, i) {
     img += `click${Math.ceil(b.current / 10)}`;
   }
   img += '.png';
+  img = '';
 
   const statsTable = b.specialData ? `
   <tr>
@@ -2563,7 +2564,7 @@ window.setInterval(() => {
   const func = (e) => {
     let isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream
     if (isIOS || navigator.userAgent.match(/Android/i)) {
-      document.documentElement.style.setProperty('--main-grid-columns', '8% 13.5% 49% 13.5% 8%');
+      document.documentElement.style.setProperty('--main-grid-columns', '10% 12.5% 47% 12.5% 10%');
       document.documentElement.style.setProperty('--font-size-veri-smol', '12px');
       document.documentElement.style.setProperty('--font-size-smol', '16px');
       document.documentElement.style.setProperty('--font-size-medium', '28px');

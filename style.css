@@ -261,10 +261,10 @@ a:hover {
   .auth-method {
     width: 90%;
   }
-  #nav button {
+  .nav button {
     font-size: 24px;
   }
-  #nav {
+  .nav {
     margin: 5px auto;
   }
   .page {

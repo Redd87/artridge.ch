@@ -25,7 +25,7 @@
       <header>
         <img src="assets/images/Branding/Artridge Logo/PNG/02 Artridge color on black.png" alt="Artridge Logo">
         <div class="nav">
-          <button v-for="(g, i) in tabNames" @mousedown="tab = i" :class="tab === i ? 'active' : 'null'">{{g}}</button>
+          <button v-for="(g, i) in tabNames" @mousedown="tab = i" :class="tab === i ? 'active' : null">{{g}}</button>
         </div>
       </header>
       <div id="content">
@@ -107,15 +107,6 @@
           <div v-if="!isSignedIn" id="auth-container">
             
             <div class="auth-method">
-              <h2>Log in</h2>
-              <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
-              <input type="password" placeholder="Password">
-              <i onclick="togglePwd(this.previousElementSibling);" onmousedown="event.preventDefault();" class="fas fa-eye eye"></i>
-              <button onclick="login(this.parentNode);">Log in</button>
-              <p class="error-message"></p>
-            </div>
-
-            <div class="auth-method">
               <h2>Sign up</h2>
               <input type="text" placeholder="Username">
               <input type="email" placeholder="Email">
@@ -126,6 +117,16 @@
               <button onclick="signup(this.parentNode);">Sign up</button>
               <p class="error-message"></p>
             </div>
+
+            <div class="auth-method">
+              <h2>Log in</h2>
+              <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
+              <input type="password" placeholder="Password">
+              <i onclick="togglePwd(this.previousElementSibling);" onmousedown="event.preventDefault();" class="fas fa-eye eye"></i>
+              <button onclick="login(this.parentNode);">Log in</button>
+              <p class="error-message"></p>
+            </div>
+
 
           </div>
 
@@ -140,7 +141,7 @@
             <button onclick="changePassword(this);">Change password</button><br>
             <label></label><br><br>
             
-            <button onclick="firebase.auth().signOut();" style="background-color: #FFA300;">Sign out</button>
+            <button onclick="firebase.auth().signOut();" style="background-color: #ed2941;">Sign out</button>
 
             <h3>Manage Game Saves</h3><hr>
             <div class="game-saves">

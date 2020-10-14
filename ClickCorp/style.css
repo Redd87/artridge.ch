@@ -65,6 +65,7 @@ body {
   overflow-x: hidden;
   overflow-y: hidden;
   margin: 0;
+  min-height: -webkit-fill-available;
 }
 
 * {
@@ -328,6 +329,7 @@ a:visited { color: var(--col-success); }
   grid-area: btn;
   background-repeat: no-repeat;
   background-position: center center;
+  background-size: 5.6vw;
 }
 
 .buy-btn {
@@ -675,7 +677,7 @@ input {
   background-color: #00000077;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   opacity: 0;
@@ -781,7 +783,7 @@ li {
   background-color: #00000077;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   opacity: 0;
@@ -842,7 +844,7 @@ li {
   background-color: #00000077;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   opacity: 0;
@@ -954,7 +956,7 @@ canvas {
 #loading {
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: var(--col-background);
@@ -973,6 +975,7 @@ canvas {
 }
 
 #name-prompt {
+  display: block;
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -1023,7 +1026,7 @@ canvas {
 }
 
 #rotate-alert {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
@@ -1045,6 +1048,12 @@ canvas {
   #rotate-alert {
     display: block;
   }
+  #main-container {
+    display: none;
+  }
+  #name-prompt {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -1054,6 +1063,9 @@ canvas {
     --font-size-medium: 16px; /* 32px */
     --font-size-big: 2.5vw; /* 56px */
     --square-size: 9vw;
+  }
+  .build-btn {
+    background-size: 8.5vw;
   }
   #main-container {
     grid-template-rows: 80px 30px 1fr;
@@ -1087,12 +1099,12 @@ canvas {
   }
   .builder {
     grid-template-areas: 
-    "place"
-    "name"
-    "remove"
-    "upgrade";
-    grid-template-columns: 100%;
-    grid-template-rows: var(--square-size) 0.1fr 1fr 1fr;
+    "name    info"
+    "place   place"
+    "remove  remove"
+    "upgrade upgrade";
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 0.1fr var(--square-size) 1fr 1fr;
     height: calc(var(--square-size) + 100px);
     overflow-x: hidden;
     gap: 5px;
@@ -1104,5 +1116,16 @@ canvas {
   }
   .builder-place-btn i {
     transform: translate(-50%, -50%) translateY(-1px);
+  }
+  .builder > p {
+    margin-top: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  button, .builder-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
