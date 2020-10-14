@@ -151,7 +151,7 @@ function signup(e) {
 // Changes the username of the current user. Called from the HTML.
 function changeUsername(e) {
   let username = e.previousElementSibling.value;
-  let msg = e.nextElementSibling.nextElementSibling;
+  let msg = e.parentNode.querySelector('label');
   if (!!username.trim()) {
     usr().updateProfile({
       displayName: username
@@ -171,12 +171,14 @@ function changeUsername(e) {
 
 // Changes the password of the current user. Called from the HTML.
 function changePassword(e) {
-  let password = e.previousElementSibling.value;
-  let msg = e.nextElementSibling.nextElementSibling;
-  usr().updatePassword(password).then(() => {
+  let password = e.parentNode.querySelector('input[type="password"]').value;
+  let msg = e.parentNode.querySelector('label');
+  usr().updatePassword(password)
+  .then(() => {
     msg.style.color = "white";
     msg.innerHTML = "Password successfully updated!";
-  }).catch((e) => {
+  }).catch(e => {
+    console.log(e.message);
     msg.style.color = "red";
     msg.innerHTML = e.message;
   });
@@ -191,7 +193,6 @@ function updateDatabaseUser() {
 }
 
 function togglePwd(e) {
-  console.log(e);
   let eye = e.nextElementSibling;
   if (e.type === 'password') {
     e.type = 'text';

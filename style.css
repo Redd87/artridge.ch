@@ -139,13 +139,13 @@ a:hover {
   display: none;
 }
 
-#auth-container {
+.card-container {
   text-align: center;
   display: flex;
   font-size: 0;
 }
 
-.auth-method {
+.card {
   position: relative;
   display: inline-block;
   width: calc(50% - 45px);
@@ -159,17 +159,17 @@ a:hover {
   flex: 1;
 }
 
-.auth-method h2 {
+.card h2 {
   font-size: 20px;
 }
 
-.auth-method input {
+.card input {
   width: 80%;
   background-color: #2f3541;
   margin: 10px;
 }
 
-.auth-method button {
+.card button {
   width: 80%;
   cursor: pointer;
   background-color: #2f3541;
@@ -216,6 +216,11 @@ a:hover {
 
 .game-saves button {
   background-color: #ed2941;
+  width: 30px;
+}
+
+.game-saves span {
+  font-size: 18px;
 }
 
 .popup {
@@ -242,6 +247,11 @@ a:hover {
   left: 0;
 }
 
+.center {
+  width: 100%;
+  text-align: center;
+}
+
 @media only screen and (max-width: 1300px) {
   #game-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -255,10 +265,10 @@ a:hover {
   :root {
     --width: 100%;
   }
-  #auth-container {
+  .card-container {
     display: block;
   }
-  .auth-method {
+  .card {
     width: 90%;
   }
   .nav button {

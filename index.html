@@ -104,9 +104,9 @@
         <div v-if="tab === 2" class="page">
           <h1>Account</h1>
           <p>An Artridge account lets you save your progress in our games.</p>
-          <div v-if="!isSignedIn" id="auth-container">
+          <div v-if="!isSignedIn" class="card-container">
             
-            <div class="auth-method">
+            <div class="card">
               <h2>Sign up</h2>
               <input type="text" placeholder="Username">
               <input type="email" placeholder="Email">
@@ -118,7 +118,7 @@
               <p class="error-message"></p>
             </div>
 
-            <div class="auth-method">
+            <div class="card">
               <h2>Log in</h2>
               <input type="email" placeholder="Email" onkeyup="if (event.key === 'Enter') login(this.parentNode);">
               <input type="password" placeholder="Password">
@@ -130,30 +130,39 @@
 
           </div>
 
-          <div v-if="isSignedIn">
-            <h3>Settings</h3><hr>
-            <input class="settings-input" type="text" :value="usr().displayName" placeholder="Username">
-            <button onclick="changeUsername(this);">Change username</button><br>
-            <label></label><br>
-            
-            <input class="settings-input" type="password" placeholder="Password">
-            <i style="position: absolute; margin: 12px; transform: translateX(-45px);" onmousedown="event.preventDefault();" onclick="togglePwd(this.previousElementSibling);" style="margin-left: -32px;" class="fas fa-eye eye"></i>
-            <button onclick="changePassword(this);">Change password</button><br>
-            <label></label><br><br>
-            
-            <button onclick="firebase.auth().signOut();" style="background-color: #ed2941;">Sign out</button>
+          <div v-if="isSignedIn" class="card-container">
 
-            <h3>Manage Game Saves</h3><hr>
-            <div class="game-saves">
-              <p v-if="gameSaves.length === 0">You do not have any game saves.</p>
+            <div class="card">
+              <h2>Settings</h2>
 
-              <div v-if="gameSaves.length !== 0">
-                <div v-for="game in gameSaves">
-                  {{game.title}}
-                  <button @click="removeGameSave(game.identifier)">✕</button>
+              <input class="settings-input" type="text" :value="usr().displayName" placeholder="Username">
+              <button onclick="changeUsername(this);">Change username</button><br>
+            
+              <input class="settings-input" type="password" placeholder="Password">
+              <i onmousedown="event.preventDefault();" onclick="togglePwd(this.previousElementSibling);" class="fas fa-eye eye"></i>
+              <button onclick="changePassword(this);">Change password</button><br>
+              <label style="font-size: 14px;"></label>
+            </div>
+
+            <div class="card">
+              <h2>Game Saves</h2>
+              <div class="game-saves">
+                <p v-if="gameSaves.length === 0">You do not have any game saves.</p>
+  
+                <div v-if="gameSaves.length !== 0">
+                  <div v-for="game in gameSaves">
+                    <span>{{game.title}}</span>
+                    <button @click="removeGameSave(game.identifier)">✕</button>
+                  </div>
                 </div>
               </div>
             </div>
+
+            
+          </div>
+
+          <div class="center">
+            <button onclick="firebase.auth().signOut();" style="background-color: #ed2941;">Sign out</button>
           </div>
           <p class="copyright">{{copyright}}</p>
         </div>
