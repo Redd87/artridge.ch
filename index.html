@@ -161,7 +161,7 @@
             
           </div>
 
-          <div class="center">
+          <div class="center" v-if="isSignedIn">
             <button onclick="firebase.auth().signOut();" style="background-color: #ed2941;">Sign out</button>
           </div>
           <p class="copyright">{{copyright}}</p>
