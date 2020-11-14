@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <img src="" alt="" style="image-rendering: pixelated;">
+    <canvas width="94" height="62"></canvas>
+
+    <script>
+
+      const width = 94;
+      const height = 62;
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = document.querySelector('img');
+
+      const colors = [
+        [0,0,0],
+        [29,43,83],
+        [126, 37, 83],
+        [0, 135, 81],
+        [171, 82, 54],
+        [95, 87, 79],
+        [194, 195, 199],
+        [255, 241, 232],
+        [255, 0, 77],
+        [255, 163, 0],
+        [255, 236, 39],
+        [0, 228, 54],
+        [41, 173, 255],
+        [131, 118, 156],
+        [255, 119, 168],
+        [255, 204, 170]
+      ]
+
+      img.addEventListener('load', _ => {
+        ctx.drawImage(img, 0, 0);
+        let finalString = ''
+
+        const pixels = ctx.getImageData(0, 0, 94, 62);
+        for (let i = 0; i < pixels.data.length; i+=4) {
+          let found = false;
+          for (let j = 0; j < colors.length; j++) {
+            const col = colors[j];
+            if (pixels.data[i] === col[0] && pixels.data[i+1] === col[1] && pixels.data[i+2] === col[2]) {
+              const c = j.toString();
+              finalString += c.padStart(2, '0')
+              found = true;
+            }
+          }
+          if (!found) console.error('NOT FOUND');
+        }
+
+        console.log(finalString)
+      });
+    </script>
+  </body>
+</html>
