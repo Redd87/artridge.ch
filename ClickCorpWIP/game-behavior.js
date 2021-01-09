@@ -1816,7 +1816,9 @@ function updateBuilding(e, i) {
       img += 'finished';
     }
   } else {
-    img += `click${Math.ceil(b.current / 10)}`;
+    let val = b.current / 10;
+    if (val > 9) val = 9;
+    img += `click${Math.ceil(val)}`;
   }
   img += '.png';
 

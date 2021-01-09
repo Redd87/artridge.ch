@@ -1595,7 +1595,7 @@ window.setInterval(function() {
     // update money and money per second display
     document.getElementById("money").innerHTML = numberWithSpaces(Math.round(money)) + "$";
     document.getElementById("mps").innerHTML = numberWithSpaces(Math.round(mps * (combineMpsDisplay ? mpsMultiplier : 1))) + `$/s${combineMpsDisplay ? "" : " × " + round(mpsMultiplier, 2)}`;
-    
+
     mps *= mpsMultiplier;
     // update builders
     for (let i=0; i<builderData.length; i++) {
@@ -1804,7 +1804,9 @@ function updateBuilding(e, i) {
       img += 'finished';
     }
   } else {
-    img += `click${Math.ceil(b.current / 10)}`;
+    let val = b.current / 10;
+    if (val > 9) val = 9;
+    img += `click${Math.ceil(val)}`;
   }
   img += '.png';
   img = '';
