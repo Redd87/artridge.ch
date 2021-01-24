@@ -135,10 +135,8 @@ function press(index, preventAnim, preventWin) {
       const tile = tiles[(tileY * currentLayout.width) + tileX];
       const col = tile.getAttribute('data-col');
       if (col === "black") {
-        tile.style.backgroundColor = "#ffffff";
         tile.setAttribute('data-col', 'white');
       } else {
-        tile.style.backgroundColor = "#000000";
         tile.setAttribute('data-col', 'black');
       }
       if (!preventAnim) {
@@ -192,7 +190,6 @@ function randomize(preventAnim) {
   updateLayout();
 
   for (var i=0; i<tiles.length; i++) {
-    tiles[i].style.backgroundColor = "#ffffff";
     tiles[i].setAttribute('data-col', 'white');
   }
 

@@ -64,6 +64,14 @@ body {
   cursor: pointer;
 }
 
+.tile[data-col='white'] {
+  background-color: white;
+}
+
+.tile[data-col='black'] {
+  background-color: black;
+}
+
 #randomize, #layout {
   width: 210px;
   margin: 5px;
