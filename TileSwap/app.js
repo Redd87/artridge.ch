@@ -487,6 +487,7 @@ function getHardestLayout() {
   const allLayouts = getAllStates();
   const allMoves = [];
   let sum = 0;
+  let longest = 0;
   for (let i = 0; i < allLayouts.length; i++) {
     let layout = allLayouts[i];
     layout = stringToGrid(layout)
@@ -498,9 +499,11 @@ function getHardestLayout() {
     for (solution of solutions) {
       if (solution.length < min) min = solution.length;
     }
+    if (min > longest) longest = min;
     allMoves.push(min);
     sum += min;
   }
-  console.log(sum / allMoves.length);
+  console.log('LONGEST: ', longest);
+  console.log('AVERAGE: ', sum / allMoves.length);
   return allMoves;
 }
