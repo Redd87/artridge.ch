@@ -109,8 +109,8 @@ const layouts = [
   }
 ];
 layouts.forEach(e => {
-  e.width = e.dimensions[0];
-  e.height = e.dimensions[2];
+  e.width = parseInt(e.dimensions[0]);
+  e.height = parseInt(e.dimensions[2]);
 });
 
 let currentLayout = JSON.parse(JSON.stringify(layouts[0]));
@@ -368,9 +368,9 @@ function solve() {
     array.push(i);
   }
   
-  let moves = []
+  let movePatterns = []
   const tiles = document.querySelectorAll('.tile');
-  for (let i = size; i >= 0; i--) {
+  for (let i = 1; i <= size; i++) {
     const perm = getPermutations(array, i);
     for (pattern of perm) {
       setState(grid);
@@ -380,23 +380,28 @@ function solve() {
           press(index, true, true);
           moves.push(index);
         }
-        if (isSolved()) break;
+        if (isSolved()) {
+          movePatterns.push(moves);
+          moves = [];
+        }
       }
-      if (isSolved()) break;
     }
-    if (isSolved()) break;
   }
   setState(grid);
-  return moves;
+  return movePatterns;
 }
 
 function setState(grid) {
-  const tiles = document.querySelectorAll('.tile');
-  let index = 0;
-  for (row of grid) {
-    for (cell of row) {
-      tiles[index].setAttribute('data-col', cell ? 'white' : 'black')
-      index++;
+  if (typeof grid === 'string') {
+    setState(stringToGrid(grid));
+  } else {
+    const tiles = document.querySelectorAll('.tile');
+    let index = 0;
+    for (row of grid) {
+      for (cell of row) {
+        tiles[index].setAttribute('data-col', cell ? 'white' : 'black')
+        index++;
+      }
     }
   }
 }
@@ -447,4 +452,55 @@ function getGrid() {
     grid.push(arr);
   }
   return grid;
+}
+
+function getAllStates() {
+  const size = currentLayout.width * currentLayout.height;
+  const max = parseInt("1".repeat(size), 2);
+  const states = [];
+  for (let i = 0; i < max; i++) {
+    states.push(i.toString(2).padStart(size, '0'))
+  }
+  return states;
+}
+
+function stringToGrid(str) {
+  const grid = [];
+  const w = currentLayout.width;
+  for (let i = 0; i < str.length; i += w) {
+    grid.push(str.slice(i, i + w).split('').map(e => parseInt(e)));
+  }
+  return grid;
+}
+
+function gridToString(grid) {
+  let str = '';
+  for (row of grid) {
+    for (cell of row) {
+      str += cell;
+    }
+  }
+  return str;
+}
+
+function getHardestLayout() {
+  const allLayouts = getAllStates();
+  const allMoves = [];
+  let sum = 0;
+  for (let i = 0; i < allLayouts.length; i++) {
+    let layout = allLayouts[i];
+    layout = stringToGrid(layout)
+
+    setState(layout);
+
+    const solutions = solve();
+    let min = solutions[0]?.length;
+    for (solution of solutions) {
+      if (solution.length < min) min = solution.length;
+    }
+    allMoves.push(min);
+    sum += min;
+  }
+  console.log(sum / allMoves.length);
+  return allMoves;
 }
