@@ -243,7 +243,7 @@ function randomize(preventAnim) {
     if (t.getAttribute('data-col') === 'white') allBlack = false;
     if (t.getAttribute('data-col') === 'black') allWhite = false;
   }
-  if (allWhite || allBlack) randomize();
+  if (allWhite || allBlack) randomize(preventAnim);
 }
 
 function setLayout(i) {
@@ -344,3 +344,107 @@ function updateTileSize() {
     layoutsContainer.appendChild(el);
   }
 })();
+
+function setAll(white) {
+  document.querySelectorAll('.tile').forEach(e => {
+    e.setAttribute('data-col', white ? 'white' : 'black')
+  });
+}
+
+function pressAll() {
+  document.querySelectorAll('.tile').forEach((e, i) => {
+    if (e.getAttribute('data-disabled') === 'false') {
+      press(i, true, true);
+    }
+  });
+}
+
+function solve() {
+  const size = currentLayout.width * currentLayout.height;
+  const grid = getGrid();
+
+  const array = [];
+  for (let i = 0; i < size; i++) {
+    array.push(i);
+  }
+  
+  let moves = []
+  const tiles = document.querySelectorAll('.tile');
+  for (let i = size; i >= 0; i--) {
+    const perm = getPermutations(array, i);
+    for (pattern of perm) {
+      setState(grid);
+      moves = [];
+      for (index of pattern) {
+        if (tiles[index].getAttribute('data-disabled') === 'false') {
+          press(index, true, true);
+          moves.push(index);
+        }
+        if (isSolved()) break;
+      }
+      if (isSolved()) break;
+    }
+    if (isSolved()) break;
+  }
+  setState(grid);
+  return moves;
+}
+
+function setState(grid) {
+  const tiles = document.querySelectorAll('.tile');
+  let index = 0;
+  for (row of grid) {
+    for (cell of row) {
+      tiles[index].setAttribute('data-col', cell ? 'white' : 'black')
+      index++;
+    }
+  }
+}
+
+function isSolved() {
+  let allWhite = true;
+  const tiles = document.querySelectorAll('.tile');
+  for (tile of tiles) {
+    if (tile.getAttribute('data-col') === 'black') allWhite = false;
+  }
+  return allWhite;
+}
+
+function getPermutations(array, size) {
+
+  function p(t, i) {
+      if (t.length === size) {
+          result.push(t);
+          return;
+      }
+      if (i + 1 > array.length) {
+          return;
+      }
+      p(t.concat(array[i]), i + 1);
+      p(t, i + 1);
+  }
+
+  var result = [];
+  p([], 0);
+  return result;
+}
+
+function getGrid() {
+  const rows = document.querySelectorAll('.row');
+  const grid = [];
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const tiles = row.querySelectorAll('.tile');
+    const arr = [];
+    for (let j = 0; j < tiles.length; j++) {
+      const tile = tiles[j];
+      if (tile.getAttribute('data-col') === 'white') {
+        arr.push(1)
+      } else {
+        arr.push(0)
+      }
+    }
+    grid.push(arr);
+  }
+  return grid;
+}
