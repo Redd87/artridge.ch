@@ -113,10 +113,41 @@ layouts.forEach(e => {
   e.height = parseInt(e.dimensions[2]);
 });
 
-let currentLayout = JSON.parse(JSON.stringify(layouts[0]));
+const dirx = [0,0,0,1,-1,-1,1,-1,1];
+const diry = [0,1,-1,0,0,-1,-1,1,1];
+const copy = (val) => JSON.parse(JSON.stringify(val));
+
+let currentLayout = copy(layouts[0]);
 let currentLayoutIndex = 0;
 let tiles = []; 
 let counter = 0;
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    screen: 'freeplay',
+    gameModes: [
+      {
+        title: 'freeplay',
+        fn: () => {
+          app.screen = 'freeplay'
+        }
+      },
+      {
+        title: 'puzzles',
+        fn: () => {
+          app.screen = 'puzzles'
+        }
+      },
+      {
+        title: 'challenges',
+        fn: () => {
+          app.screen = 'challenges'
+        }
+      }
+    ]
+  }
+});
 
 function updateLayout() {
   updateTileSize();
@@ -133,7 +164,6 @@ function updateLayout() {
       tile.setAttribute('data-index', tileIndex);
 
       if (currentLayout.exclude.includes(tileIndex)) {
-        tile.style.visibility = 'hidden';
         tile.setAttribute('data-disabled', true);
       } else {
         const func = (e) => {
@@ -154,8 +184,6 @@ function updateLayout() {
 }
 
 function press(index, preventAnim, preventWin) {
-  dirx = [0,0,0,1,-1,-1,1,-1,1];
-  diry = [0,1,-1,0,0,-1,-1,1,1];
   for (let i = 0; i < dirx.length; i++) {
     var tileX = (index % currentLayout.width) + diry[i];
     var tileY = Math.floor(index / currentLayout.width) + dirx[i];
@@ -247,7 +275,7 @@ function randomize(preventAnim) {
 }
 
 function setLayout(i) {
-  currentLayout = JSON.parse(JSON.stringify(layouts[i === undefined ? Math.floor(Math.random() * layouts.length) : i]))
+  currentLayout = copy(layouts[i === undefined ? Math.floor(Math.random() * layouts.length) : i])
   updateLayout();
 }
 
@@ -262,7 +290,7 @@ function changeLayout() {
 updateLayout();
 randomize(true);
   
-  
+
 function share() {
   var text = 'Play Tile Swap!';
   if ('share' in navigator) {
@@ -359,35 +387,63 @@ function pressAll() {
   });
 }
 
-function solve() {
-  const size = currentLayout.width * currentLayout.height;
-  const grid = getGrid();
+function pressOnGrid(grid, index) {
+  grid = copy(grid);
+  
+  const width = grid[0].length;
+  const height = grid.length;
+
+  for (let i = 0; i < dirx.length; i++) {
+    const tileX = (index % width) + diry[i];
+    const tileY = Math.floor(index / width) + dirx[i];
+    if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+      if (grid[tileY][tileX] === 0) {
+        grid[tileY][tileX] = 1;
+      } else {
+        grid[tileY][tileX] = 0;
+      }
+    }
+  }
+
+  return grid;
+}
+
+function solveCurrentGrid() {
+  return solveGrid(getGrid());
+}
+
+function solveGrid(grid) {
+  originalGrid = copy(grid);
+
+  const width = grid[0].length;
+  const height = grid.length;
+  const size = width * height;
 
   const array = [];
   for (let i = 0; i < size; i++) {
     array.push(i);
   }
-  
+
   let movePatterns = []
-  const tiles = document.querySelectorAll('.tile');
   for (let i = 1; i <= size; i++) {
     const perm = getPermutations(array, i);
     for (pattern of perm) {
-      setState(grid);
+      grid = copy(originalGrid);
       moves = [];
       for (index of pattern) {
-        if (tiles[index].getAttribute('data-disabled') === 'false') {
-          press(index, true, true);
+        const tileX = (index % width);
+        const tileY = Math.floor(index / width);
+        if (grid[tileY][tileX] !== 2) {
+          grid = pressOnGrid(grid, index);
           moves.push(index);
         }
-        if (isSolved()) {
+        if (isGridSolved(grid)) {
           movePatterns.push(moves);
           moves = [];
         }
       }
     }
   }
-  setState(grid);
   return movePatterns;
 }
 
@@ -399,6 +455,11 @@ function setState(grid) {
     let index = 0;
     for (row of grid) {
       for (cell of row) {
+        if (cell === 2) {
+          tiles[index].setAttribute('data-disabled', 'true');
+        } else {
+          tiles[index].removeAttribute('data-disabled');
+        }
         tiles[index].setAttribute('data-col', cell ? 'white' : 'black')
         index++;
       }
@@ -407,10 +468,15 @@ function setState(grid) {
 }
 
 function isSolved() {
+  return isGridSolved(getGrid());
+}
+
+function isGridSolved(grid) {
   let allWhite = true;
-  const tiles = document.querySelectorAll('.tile');
-  for (tile of tiles) {
-    if (tile.getAttribute('data-col') === 'black') allWhite = false;
+  for (row of grid) {
+    for (tile of row) {
+      if (tile !== 1) allWhite = false;
+    }
   }
   return allWhite;
 }
@@ -443,10 +509,14 @@ function getGrid() {
     const arr = [];
     for (let j = 0; j < tiles.length; j++) {
       const tile = tiles[j];
-      if (tile.getAttribute('data-col') === 'white') {
-        arr.push(1)
+      if (tile.getAttribute('data-disabled') === 'true') {
+        arr.push(2);
       } else {
-        arr.push(0)
+        if (tile.getAttribute('data-col') === 'white') {
+          arr.push(1);
+        } else {
+          arr.push(0);
+        }
       }
     }
     grid.push(arr);
@@ -494,7 +564,7 @@ function getHardestLayout() {
 
     setState(layout);
 
-    const solutions = solve();
+    const solutions = solveCurrentGrid();
     let min = solutions[0]?.length;
     for (solution of solutions) {
       if (solution.length < min) min = solution.length;
@@ -506,4 +576,18 @@ function getHardestLayout() {
   console.log('LONGEST: ', longest);
   console.log('AVERAGE: ', sum / allMoves.length);
   return allMoves;
+}
+
+function help() {
+  console.table({
+    'setAll(white)': 'sets all the tiles of the current layout to black, or white if the first parameter is truthy',
+    'getGrid()': 'returns a bidimentional representation of the current grid',
+    'setState()': 'sets the state of the current layout to the grid passed as the first parameter',
+    'isGridSolved(grid)': 'checks if the grid passed as the first parameter is solved',
+    'isSolved()': 'checks if the current layout is solved',
+    'solveGrid(grid)': 'returns an array of possible move combinations that can solve the grid passed as parameter',
+    'solveCurrentGrid()': 'executes solveGrid on the current layout',
+    'pressOnGrid(grid, index)': 'returns a copy of the grid passed as parameter after performing a press at the given index',
+    'pressAll()': 'presses each tile of the current layout'
+  })
 }
