@@ -277,6 +277,28 @@ a:hover {
   text-align: center;
 }
 
+.post {
+  background-color: #4b5466;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.post h3 {
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+
+.post .date {
+  margin-top: 3px;
+  font-style: italic;
+  color: grey;
+}
+
+.post .content {
+  margin-bottom: 3px;
+}
+
 @media only screen and (max-width: 1300px) {
   #game-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
