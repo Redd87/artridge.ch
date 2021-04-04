@@ -6,7 +6,7 @@ let app = new Vue({
     tabNames: ["Games", "About", "Account"],
     isSignedIn: false,
     gameSaves: [],
-    copyright: '© Artridge 2020 - All Rights Reserved',
+    copyright: '© Artridge 2021 - All Rights Reserved',
     aboutTab: 0
   },
   watch: {
