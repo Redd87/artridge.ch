@@ -24,6 +24,22 @@ const layouts = [
     exclude: []
   },
   {
+    dimensions: '9x9',
+    exclude: []
+  },
+  {
+    dimensions: '10x10',
+    exclude: []
+  },
+  {
+    dimensions: '11x11',
+    exclude: []
+  },
+  {
+    dimensions: '12x12',
+    exclude: []
+  },
+  {
     dimensions: '3x5',
     exclude: []
   },
