@@ -107,6 +107,114 @@ const layouts = [
     dimensions: '9x9',
     exclude: [0,1,2,9,10,11,18,19,20,6,7,8,15,16,17,24,25,26,54,55,56,63,64,65,72,73,74,60,61,62,69,70,71,78,79,80,3,5,21,23,27,29,45,47,33,35,51,53,57,59,75,77]
   }
+  {
+    dimensions: '3x3',
+    exclude: [3,5,6,8]
+  },
+  {
+    dimensions: '3x3',
+    exclude: [4]
+  },
+  {
+    dimensions: '3x3',
+    exclude: [1,3,5,7]
+  },
+  {
+    dimensions: '3x3',
+    exclude: [0,2,6,8]
+  },
+  {
+    dimensions: '3x3',
+    exclude: [4,7]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [5,10]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [3,12]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [3,6,9,12]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [0,3,12,15]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [2,3,7,8,12,13]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [0,3,6,8,12,13,15]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [0,3,5,6,9,10,12,15]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [0,1,4,5,10,11,14,15]
+  },
+  {
+    dimensions: '4x4',
+    exclude: [1,2,3,4,6,7,8,9,11,12,13,14]
+  },
+  {
+    dimensions: '3x5',
+    exclude: [0,2,12,14]
+  },
+  {
+    dimensions: '5x2',
+    exclude: [2,5,9]
+  },
+  {
+    dimensions: '3x4',
+    exclude: [4,6,8]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,2,4,10,14,20,22,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,2,4,10,12,14,20,22,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [6,8,16,18]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [6,8,11,13,16,18]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [5,7,9,10,12,14,15,17,19]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,2,4,7,10,11,13,14,17,20,22,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,2,4,5,7,9,15,17,19,20,22,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,4,5,6,8,9,15,16,18,19,20,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [2,4,6,8,10,12,16,19,20,23,24]
+  },
+  {
+    dimensions: '5x5',
+    exclude: [0,1,5,6,7,9,10,14,15,17,18,19,23,24]
+  }
 ];
 layouts.forEach(e => {
   e.width = parseInt(e.dimensions[0]);
