@@ -27,7 +27,6 @@ const layouts = [
     dimensions: '9x9',
     exclude: []
   },
-  /*
   {
     dimensions: '10x10',
     exclude: []
@@ -40,7 +39,6 @@ const layouts = [
     dimensions: '12x12',
     exclude: []
   },
-  */
   {
     dimensions: '3x5',
     exclude: []
@@ -309,20 +307,19 @@ const layouts = [
     dimensions: '9x9',
     exclude: [0,1,2,3,4,5,7,8,9,10,11,12,13,14,17,18,19,20,21,22,23,24,26,27,28,29,30,31,32,33,36,37,38,39,40,41,45,46,47,48,49,56,57,62,63,71,72,73,74,78,79,80]
   },
-  /*
   {
     dimensions: '11x8',
     exclude: [0,1,3,4,5,6,7,9,10,11,12,13,15,16,17,19,20,21,22,23,31,32,33,36,40,43,56,64,67,69,70,71,72,73,75,77,78,79,82,85,86,87]
   },
-  */
   {
     dimensions: '9x9',
     exclude: [0,1,2,9,10,11,18,19,20,6,7,8,15,16,17,24,25,26,54,55,56,63,64,65,72,73,74,60,61,62,69,70,71,78,79,80,3,5,21,23,27,29,45,47,33,35,51,53,57,59,75,77]
   }
 ];
 layouts.forEach(e => {
-  e.width = parseInt(e.dimensions[0]);
-  e.height = parseInt(e.dimensions[2]);
+  const dimensions = e.dimensions.split('x');
+  e.width = parseInt(dimensions[0]);
+  e.height = parseInt(dimensions[1]);
 });
 
 const dirx = [0,0,0,1,-1,-1,1,-1,1];
