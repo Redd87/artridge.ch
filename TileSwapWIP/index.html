@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" type="image/png" href="apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" href="apple-touch-icon-tile-swap.png">
+    <link rel="apple-touch-startup-image" href="launch.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="slider.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- Primary Meta Tags -->
+    <title>Tile Swap | Artridge</title>
+    <meta name="title" content="Tile Swap | Artridge">
+    <meta name="description" content="TileSwap is a procedurally generated puzzle game, for an infinite amount of fun!">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://artridge.ch/TileSwap/">
+    <meta property="og:title" content="Tile Swap | Artridge">
+    <meta property="og:description" content="TileSwap is a procedurally generated puzzle game, for an infinite amount of fun!">
+    <meta property="og:image" content="https://artridge.ch/assets/images/GameLogos/TileSwap.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="https://artridge.ch/assets/images/GameLogos/TileSwap.png">
+    <meta property="twitter:url" content="https://artridge.ch/TileSwap/">
+    <meta property="twitter:title" content="Tile Swap | Artridge">
+    <meta property="twitter:description" content="TileSwap is a procedurally generated puzzle game, for an infinite amount of fun!">
+    <meta property="twitter:image" content="https://artridge.ch/assets/images/GameLogos/TileSwap.png">
+  </head>
+
+  <body>
+    <div id="app">
+
+      <div class="splash-screen">
+        <h1 class="title">
+          <span>tile</span><span>swap</span>
+        </h1>
+      </div>
+
+      <div class="screen menu" v-show="screen === 'menu'">
+        <h1 class="title">
+          <span>tile</span><span>swap</span>
+        </h1>
+
+        <div id="buttons">
+          <button v-for="btn in gameModes" :data-title="btn.title" @click="btn.fn()">
+            <img :src="'images/' + btn.title + '.png'" alt="">
+          </button>
+        </div>
+
+        <div class="bottom-bar">
+          
+          <div class="left"></div>
+
+          <div class="right">
+
+            <button @click="openScreen('settings')"></button>
+            <button @click="openScreen('help')"></button>
+            <button @click="openScreen('stats')"></button>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="screen layouts" v-show="screen === 'layouts'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Select Layout</h1>
+        <div class='layout-container'>
+
+        </div>
+      </div>
+
+      <div class="screen freeplay" v-show="screen === 'freeplay' || screen === 'puzzles'">
+        <button class='back' @click='openScreen(screen === "freeplay" ? "layouts" : "puzzles-selection")'>Back</button>
+        <div id="main">
+          <div id="container">
+            
+          </div>
+        </div>
+        <div id="controls" v-show="screen === 'freeplay'">
+          <div class="buttons">
+            <button id="randomize" onclick="randomize(true);">randomize</button>
+          </div>
+          <div class="difficulty">
+            <h2>Difficulty - <span id="difficulty"></span></h2>
+            <input class="slider" id="slider" value="10" type="range" min="2" max="30" step="1"></input>
+          </div>
+        </div>
+
+        <div class="background" onclick="closePopup(0, true);"></div>
+        <div class="popup">
+          <h1>You won in <span></span> moves!</h1>
+          <button onclick="closePopup(0, true);">yay!</button>
+        </div>
+      </div>
+
+      <div class="screen puzzles" v-show="screen === 'puzzles-selection'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Puzzles</h1>
+
+        <div class="layout-container">
+
+        </div>
+      </div>
+
+      <div class="screen challenges" v-show="screen === 'challenges'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Challenges</h1>
+      </div>
+
+      <div class="screen settings" v-show="screen === 'settings'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Settings</h1>
+      </div>
+
+      <div class="screen help" v-show="screen === 'help'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Help</h1>
+      </div>
+
+      <div class="screen stats" v-show="screen === 'stats'">
+        <button class='back' @click='openScreen("menu")'>Back</button>
+        <h1 class="screen-header">Stats</h1>
+      </div>
+
+    </div>
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.12.1/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://artridge.ch/icon.js"></script>
+  </body>
+</html>
