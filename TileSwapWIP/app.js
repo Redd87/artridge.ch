@@ -472,6 +472,7 @@ const app = new Vue({
   el: '#app',
   data: {
     screen: 'menu',
+    currentChallenge: '',
     gameModes: [
       {
         title: 'freeplay',
@@ -851,6 +852,10 @@ function retryPuzzle() {
   counter = 0;
 
   updateMovesRemaining();
+}
+
+function selectChallenge(challenge) {
+  app.currentChallenge = challenge;
 }
 
 function setAll(white) {
