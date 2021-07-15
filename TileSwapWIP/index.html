@@ -67,15 +67,25 @@
       </div>
 
       <div class="screen layouts" v-show="screen === 'layouts'">
-        <button class='back' @click='openScreen("menu")'>Back</button>
-        <h1 class="screen-header">Select Layout</h1>
+        <button class='back' @click='openScreen("menu")'>back</button>
+        <h1 class="screen-header">select layout</h1>
         <div class='layout-container'>
 
         </div>
       </div>
 
       <div class="screen freeplay" v-show="screen === 'freeplay' || screen === 'puzzles'">
-        <button class='back' @click='openScreen(screen === "freeplay" ? "layouts" : "puzzles-selection")'>Back</button>
+        <button class='back' @click='openScreen(screen === "freeplay" ? "layouts" : "puzzles-selection")'>back</button>
+        
+        <div class="puzzle-target" v-show="screen === 'puzzles'">
+
+        </div>
+
+        <div class="puzzle-info" v-show="screen === 'puzzles'">
+          <h1></h1>
+          <button class="retry" @click="retryPuzzle();">retry</button>
+        </div>
+        
         <div id="main">
           <div id="container">
             
@@ -91,10 +101,17 @@
           </div>
         </div>
 
-        <div class="background" onclick="closePopup(0, true);"></div>
+        <div class="background" @click="closePopup(0);"></div>
         <div class="popup">
           <h1>You won in <span></span> moves!</h1>
-          <button onclick="closePopup(0, true);">yay!</button>
+          <button @click="closePopup(0);">yay!</button>
+        </div>
+
+        <div class="background" @click="closePopup(1);"></div>
+        <div class="popup">
+          <h1>no moves remaining!</h1>
+          <button @click="closePopup(1); retryPuzzle();">retry</button>
+          <button @click="closePopup(1); openScreen('puzzles-selection');">back</button>
         </div>
       </div>
 

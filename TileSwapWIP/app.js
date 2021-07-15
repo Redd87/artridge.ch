@@ -324,27 +324,138 @@ layouts.forEach(e => {
 
 const puzzles = [
   {
-    moves: 2,
+    moves: 20,
+    base: [
+      [0,1,1,1],
+      [1,0,1,1],
+      [1,1,0,1],
+      [1,1,1,0]
+    ],
+    target: [
+      [1,1,1,0],
+      [1,1,0,1],
+      [1,0,1,1],
+      [0,1,1,1]
+    ]
+  },
+  {
+    moves: 12,
+    base: [
+      [2,1,1,2],
+      [0,2,2,0],
+      [0,2,2,0],
+      [2,1,1,2]
+    ],
+    target: [
+      [2,0,0,2],
+      [1,2,2,1],
+      [1,2,2,1],
+      [2,0,0,2]
+    ]
+  },
+  {
+    moves: 4,
+    base: [
+      [1,2,2,2],
+      [2,0,2,2],
+      [2,2,1,2],
+      [2,2,2,1]
+    ],
+    target: [
+      [1,2,2,2],
+      [2,1,2,2],
+      [2,2,0,2],
+      [2,2,2,1]
+    ]
+  },
+  {
+    moves: 10,
+    base: [
+      [2,1,2],
+      [0,0,0],
+      [0,1,0],
+      [0,0,0],
+      [2,1,2]
+    ],
+    target: [
+      [2,1,2],
+      [0,0,0],
+      [0,0,0],
+      [0,0,0],
+      [2,1,2]
+    ]
+  },
+  {
+    moves: 20,
     base: [
       [0,1,0],
-      [0,1,0],
+      [0,2,0],
+      [2,1,2],
+      [0,1,0]
+    ],
+    target: [
+      [1,1,1],
+      [0,2,0],
+      [2,0,2],
       [0,1,0]
     ]
   },
   {
-    moves: 2,
+    moves: 4,
     base: [
-      [0,1,0],
-      [0,1,0],
-      [0,1,0]
+      [1,2,1],
+      [2,0,2],
+      [1,2,1]
+    ],
+    target: [
+      [0,2,0],
+      [2,0,2],
+      [0,2,0]
     ]
   },
   {
-    moves: 2,
+    moves: 30,
     base: [
-      [0,1,0],
-      [0,1,0],
-      [0,1,0]
+      [2,0,2,1,2],
+      [2,1,2,0,2],
+      [1,1,1,1,0],
+      [2,0,2,1,2],
+      [2,1,2,1,2]
+    ],
+    target: [
+      [2,1,2,1,2],
+      [2,1,2,1,2],
+      [0,0,0,0,0],
+      [2,1,2,1,2],
+      [2,1,2,1,2]
+    ]
+  },
+  {
+    moves: 3,
+    base: [
+      [0,1,2],
+      [1,2,0],
+      [2,0,0]
+    ],
+    target: [
+      [1,1,2],
+      [1,2,0],
+      [2,0,0]
+    ]
+  },
+  {
+    moves: 8,
+    base: [
+      [1,1,1,2],
+      [1,0,0,1],
+      [1,0,0,1],
+      [2,1,1,1]
+    ],
+    target: [
+      [1,1,1,2],
+      [1,1,0,1],
+      [1,0,1,1],
+      [2,1,1,1]
     ]
   }
 ]
@@ -355,7 +466,6 @@ const copy = (val) => JSON.parse(JSON.stringify(val));
 
 let currentLayout = copy(layouts[0]);
 let currentLayoutIndex = 0;
-let tiles = []; 
 let counter = 0;
 
 const app = new Vue({
@@ -394,7 +504,7 @@ const app = new Vue({
 (() => {
   window.addEventListener('load', () => {
     const splashScreen = document.querySelector('.splash-screen');
-    // splashScreen.style.display = 'none';
+    splashScreen.style.display = 'none';
     window.setTimeout(() => {
       splashScreen.style.opacity = '0';
       window.setTimeout(() => {
@@ -404,14 +514,19 @@ const app = new Vue({
   });
 })();
 
-function updateLayout() {
+function updateLayout(layout) {
+
+  currentLayout = layout || currentLayout;
+
   updateTileSize();
 
+  const tiles = document.querySelectorAll('button.tile');
+
   let tileIndex = 0;
-  let container = document.querySelector('#container');
+  const container = document.querySelector('#container');
   container.innerHTML = '';
   for (let i = 0; i < currentLayout.height; i++) {
-    let row = document.createElement('div');
+    const row = document.createElement('div');
     row.classList.add('row');
     for (let j = 0; j < currentLayout.width; j++) {
       let tile = document.createElement('button');
@@ -421,24 +536,25 @@ function updateLayout() {
       if (currentLayout.exclude.includes(tileIndex)) {
         tile.setAttribute('data-disabled', true);
       } else {
-        const func = (e) => {
+        const index = tileIndex
+        tile.addEventListener('ontouchstart' in document.documentElement ? 'touchstart' : 'click', (e) => {
           e.preventDefault();
-          press(Array.from(tiles).indexOf(e.target));
           counter++;
-        }
-        tile.addEventListener('ontouchstart' in document.documentElement ? 'touchstart' : 'click', func);
+          press(index);
+        });
         tile.setAttribute('data-disabled', false);
       }
-
       row.appendChild(tile);
       tileIndex++;
     }
     container.appendChild(row);
   }
-  tiles = document.querySelectorAll('.tile');
 }
 
 function press(index, preventAnim, preventWin) {
+
+  const tiles = document.querySelectorAll('button.tile');
+
   for (let i = 0; i < dirx.length; i++) {
     var tileX = (index % currentLayout.width) + diry[i];
     var tileY = Math.floor(index / currentLayout.width) + dirx[i];
@@ -460,9 +576,17 @@ function press(index, preventAnim, preventWin) {
     }
   }
   let won = true;
-  for (let i=0; i<tiles.length; i++) {
-    if (tiles[i].getAttribute('data-col') === 'black' && tiles[i].getAttribute('data-disabled') === 'false') {
-      won = false;
+  if (app.screen === 'puzzles') {
+
+    won = JSON.stringify(getGrid()) === JSON.stringify(currentLayout.target);
+    
+    updateMovesRemaining(won);
+    
+  } else {
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i].getAttribute('data-col') === 'black' && tiles[i].getAttribute('data-disabled') === 'false') {
+        won = false;
+      }
     }
   }
   if (won && !preventWin) {
@@ -481,14 +605,19 @@ function press(index, preventAnim, preventWin) {
   }
 }
 
-function closePopup(i, r) {
+function closePopup(i) {
   document.querySelectorAll('.popup')[i].style.transform = 'translate(-50%,-50%) scale(0)';
   document.querySelectorAll('.background')[i].style.opacity = '0';
   window.setTimeout(() => {
     document.querySelectorAll('.background')[i].style.display = 'none';
   }, 300);
 
-  if (r) randomize(true);
+  if (i === 0) {
+    randomize(true);
+    if (app.screen === 'puzzles') {
+      app.openScreen('puzzles-selection');
+    }
+  }
 }
 
 window.setInterval(() => {
@@ -499,6 +628,8 @@ window.setInterval(() => {
 
 function randomize(preventAnim) {
   updateLayout();
+
+  const tiles = document.querySelectorAll('button.tile');
 
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].setAttribute('data-col', 'white');
@@ -660,21 +791,67 @@ function updateTileSize() {
     el.addEventListener('click', () => {
       app.openScreen('puzzles');
       
-      currentLayout = {
+      const layout = {
         width,
         height,
         exclude
       }
+      layout.target = puzzle.target;
+      layout.base = puzzle.base;
+      layout.moves = puzzle.moves;
       
-      updateLayout();
+      updateLayout(layout);
       setState(puzzle.base);
 
-      console.log(puzzle.base);
-    })
+      const targetContainer = document.querySelector('.puzzle-target');
+      targetContainer.innerHTML = '';
+      for (const row of puzzle.target) {
+        const rowEl = document.createElement('div');
+        rowEl.classList.add('row');
+        for (const tile of row) {
+          const tileEl = document.createElement('div');
+          tileEl.classList.add('tile');
+          if (tile === 2) {
+            tileEl.setAttribute('data-disabled', 'true');
+          } else {
+            tileEl.setAttribute('data-disabled', 'false');
+            tileEl.setAttribute('data-col', tile === 1 ? 'white' : 'black')
+          }
+          rowEl.append(tileEl);
+        }
+        targetContainer.append(rowEl);
+      }
+
+      counter = 0;
+
+      updateMovesRemaining();
+    });
 
     container.appendChild(el);
   }
-})()
+})();
+
+function updateMovesRemaining(won) {
+  const h1 = document.querySelector('.puzzle-info h1');
+  const movesRemaining = currentLayout.moves - counter;
+
+  if (movesRemaining === 0 && !won) {
+    document.querySelectorAll('.popup')[1].style.transform = 'translate(-50%,-50%) scale(1)';
+    document.querySelectorAll('.background')[1].style.display = 'block';
+
+    window.setTimeout(() => {
+      document.querySelectorAll('.background')[1].style.opacity = '1';
+    }, 10);
+  }
+  h1.textContent = `${movesRemaining} moves remaining`;
+}
+
+function retryPuzzle() {
+  setState(currentLayout.base);
+  counter = 0;
+
+  updateMovesRemaining();
+}
 
 function setAll(white) {
   document.querySelectorAll('.tile').forEach(e => {
@@ -754,22 +931,20 @@ function setState(grid) {
   if (typeof grid === 'string') {
     setState(stringToGrid(grid));
   } else {
-    const tiles = document.querySelectorAll('.tile');
+    const tiles = document.querySelectorAll('button.tile');
     let index = 0;
     for (row of grid) {
       for (cell of row) {
         if (cell === 2) {
           tiles[index].setAttribute('data-disabled', 'true');
         } else {
-          tiles[index].removeAttribute('data-disabled');
+          tiles[index].setAttribute('data-disabled', 'false');
         }
         tiles[index].setAttribute('data-col', cell ? 'white' : 'black')
         index++;
       }
     }
   }
-
-  updateLayout();
 }
 
 function isSolved() {
@@ -806,11 +981,11 @@ function getPermutations(array, size) {
 }
 
 function getGrid() {
-  const rows = document.querySelectorAll('.row');
+  const rows = document.querySelectorAll('#main .row');
   const grid = [];
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
-    const tiles = row.querySelectorAll('.tile');
+    const tiles = row.querySelectorAll('button.tile');
     const arr = [];
     for (let j = 0; j < tiles.length; j++) {
       const tile = tiles[j];

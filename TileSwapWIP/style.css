@@ -68,6 +68,27 @@ body {
   cursor: pointer;
 }
 
+.puzzle-target {
+  position: absolute;
+  left: 100px; top: 50%;
+  transform: translateY(-50%);
+}
+
+.puzzle-target .tile {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+}
+
+.puzzle-target .row {
+  height: 50px;
+}
+
+.puzzle-info {
+  text-align: center;
+  color: white;
+}
+
 .tile[data-col='white'] {
   background-color: white;
 }
